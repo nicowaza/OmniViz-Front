@@ -1,8 +1,9 @@
 <template>
-    <div id="container1">
-      <div class="btnContainer">
+<v-container fill-height>
+  <v-layout align-center justify-center>
+    <div class="btnContainer">
       <div class="btnRow1">
-        <v-btn id="btnGreen" class="button btnGreen"><span class="text-wrap">GOT IT</span></v-btn>
+        <v-btn id="btnGreen" round light class="button btnGreen"><span class="text-wrap">GOT IT</span></v-btn>
         <v-btn id="btnRed" class="button btnRed"><span class="text-wrap">NOT UNDERSTOOD</span></v-btn>
       </div>
       <div class="btnRow2">
@@ -10,12 +11,17 @@
         <v-btn id="btnYellow" class="button btnYellow"><span class="text-wrap">INTERESTING</span></v-btn>
       </div>
     </div>
-    </div>
+  </v-layout>
+  <!-- <div id="container1"> -->
+
+    <!-- </div> -->
+</v-container>
+
 </template>
 
 <script>
 export default {
-  name: 'HelloWorld',
+  name: 'StudentBtn',
   props: {
 
   },
@@ -35,15 +41,17 @@ export default {
     border: 1px solid red;
     display: inline-block;
     text-align: center;
+    min-width: 350px;
   }
   .text-wrap{
   white-space: normal;
   }
   #btnGreen {
+    color: rgb(51, 255, 0);
     background-color: green;
   }
 .btnGreen {
-  color: #fff;
+  color: rgb(51, 255, 0);
   background-color: green;
 }
   #btnRed {
@@ -64,7 +72,7 @@ export default {
     background-color: yellow;
   }
 .btnYellow {
-  color: #fff;
+  color: rgb(195, 182, 0);
   background-color: yellow;
 }
 // .btnGreen:hover {
@@ -75,8 +83,8 @@ export default {
 // }
 
 .button {
-  width: 200px;
-  height: 200px;
+  width: 250px;
+  height: 250px;
   padding: 0px 25px;
   font-size: 14px;
   text-align: center;
@@ -88,6 +96,12 @@ export default {
   white-space: pre-wrap;
 }
 
+@media (min-width: 400px) {
+  .button {
+    width: 180px;
+    height: 180px;
+  }
+}
 // .button:active {
 
 //   box-shadow: 0 5px #666;

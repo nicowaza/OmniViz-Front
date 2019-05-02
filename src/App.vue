@@ -1,29 +1,40 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <v-app >
+    <div id="app">
+      <Header/>
+      <v-content class="pa-0 contentStyle">
+        <v-container fill-height class="background_color">
+          <v-layout align-center justify-center>
+            <router-view/>
+          </v-layout>
+
+        </v-container>
+
+      </v-content>
+      <BottomNav class="hidden-sm-and-up"/>
+      </div>
+  </v-app>
 </template>
 
+<script>
+import Header from './components/Header.vue';
+import BottomNav from './components/BottomNav.vue';
+
+export default {
+  components: {
+    Header,
+    BottomNav,
+  },
+};
+</script>
+
 <style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+.contentStyle {
+  height: 100vh;
+  background-color: black;
 }
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+.background_color {
+  background-color: aquamarine;
 }
+
 </style>
