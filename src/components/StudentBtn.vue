@@ -1,6 +1,6 @@
 <template>
-<v-container fill-height>
-  <v-layout align-center justify-center>
+<div fill-height>
+  <!-- <v-layout align-center justify-center> -->
     <div class="btnContainer">
       <div class="btnRow1">
         <v-btn id="btnGreen" round light class="button btnGreen"><span class="text-wrap">GOT IT</span></v-btn>
@@ -11,11 +11,11 @@
         <v-btn id="btnYellow" class="button btnYellow"><span class="text-wrap">INTERESTING</span></v-btn>
       </div>
     </div>
-  </v-layout>
+  <!-- </v-layout> -->
   <!-- <div id="container1"> -->
 
     <!-- </div> -->
-</v-container>
+</div>
 
 </template>
 
@@ -83,8 +83,8 @@ export default {
 // }
 
 .button {
-  width: 250px;
-  height: 250px;
+  width: 150px;
+  height: 150px;
   padding: 0px 25px;
   font-size: 14px;
   text-align: center;
@@ -96,12 +96,21 @@ export default {
   white-space: pre-wrap;
 }
 
-@media (min-width: 400px) {
+@media (min-width: 450px) {
   .button {
     width: 180px;
     height: 180px;
   }
 }
+
+@media (min-width: 900px) {
+  .button {
+    width: 250px;
+    height: 250px;
+  }
+}
+
+
 // .button:active {
 
 //   box-shadow: 0 5px #666;

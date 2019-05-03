@@ -1,23 +1,23 @@
 <template>
   <div>
-    <v-layout row>
+    <!-- <v-layout row> -->
       <!-- <v-flex class="hidden-xs-only">
         <Panel/>
       </v-flex> -->
       <!-- <v-flex xs12 md6> -->
-        <v-container fill-height>
-          <v-layout align-center justify-center>
+        <div fill-height>
+          <!-- <v-layout align-center justify-center> -->
             <v-flex>
               <studentBtn/>
             </v-flex>
 
-          </v-layout>
-        </v-container>
+          <!-- </v-layout> -->
+        </div>
       <!-- </v-flex> -->
       <!-- <v-flex  class="hidden-xs-only">
         <Panel/>
       </v-flex> -->
-    </v-layout>
+    <!-- </v-layout> -->
   </div>
 </template>
 

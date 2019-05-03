@@ -3,12 +3,12 @@
     <div id="app">
       <Header/>
       <v-content class="pa-0 contentStyle">
-        <v-container fill-height class="background_color">
+        <div class="containerBtnStyle">
           <v-layout align-center justify-center>
             <router-view/>
           </v-layout>
 
-        </v-container>
+        </div>
 
       </v-content>
       <BottomNav class="hidden-sm-and-up"/>
@@ -33,8 +33,23 @@ export default {
   height: 100vh;
   background-color: black;
 }
-.background_color {
+.containerBtnStyle {
   background-color: aquamarine;
+  height: 100vh;
+  width: 100vw;
+  margin: auto;
+}
+
+@media (min-width: 600px) {
+  .containerBtnStyle {
+    width: 70vw;
+  }
+}
+
+@media (min-width: 1020px) {
+ .containerBtnStyle {
+    width: 60vw;
+  }
 }
 
 </style>
