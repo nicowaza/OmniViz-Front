@@ -1,28 +1,20 @@
 <template>
   <v-app >
-    <div id="app">
-      <Header/>
-      <v-content class="pa-0 contentStyle">
-        <div class="containerBtnStyle">
-          <v-layout align-center justify-center>
-            <router-view/>
-          </v-layout>
-
-        </div>
-
-      </v-content>
-      <BottomNav class="hidden-sm-and-up"/>
-      </div>
+    <HeaderBar/>
+    <div id="app" class="pa-0 contentStyle">
+      <router-view class="containerMain"/>
+    </div>
+    <BottomNav class="hidden-sm-and-up"/>
   </v-app>
 </template>
 
 <script>
-import Header from './components/Header.vue';
+import HeaderBar from './components/Header.vue';
 import BottomNav from './components/BottomNav.vue';
 
 export default {
   components: {
-    Header,
+    HeaderBar,
     BottomNav,
   },
 };
@@ -33,7 +25,7 @@ export default {
   height: 100vh;
   background-color: black;
 }
-.containerBtnStyle {
+.containerMain {
   background-color: aquamarine;
   height: 100vh;
   width: 100vw;
@@ -41,13 +33,13 @@ export default {
 }
 
 @media (min-width: 600px) {
-  .containerBtnStyle {
+  .containerMain {
     width: 70vw;
   }
 }
 
-@media (min-width: 1020px) {
- .containerBtnStyle {
+@media (min-width: 900px) {
+ .containerMain {
     width: 60vw;
   }
 }

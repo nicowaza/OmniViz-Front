@@ -1,18 +1,13 @@
 <template>
-<div fill-height>
-  <!-- <v-layout align-center justify-center> -->
-    <div class="btnContainer">
-      <div class="btnRow1">
-        <v-btn id="btnGreen" round light class="button btnGreen"><span class="text-wrap">GOT IT</span></v-btn>
-        <v-btn id="btnRed" class="button btnRed"><span class="text-wrap">NOT UNDERSTOOD</span></v-btn>
-      </div>
-      <div class="btnRow2">
-        <v-btn id="btnBlue" class="button btnBlue"><span class="text-wrap">MORE INFO</span></v-btn>
-        <v-btn id="btnYellow" class="button btnYellow"><span class="text-wrap">INTERESTING</span></v-btn>
-      </div>
+  <div class="btnContainer">
+    <div class="btnRow1">
+      <v-btn id="btnGreen" round light class="button btnGreen"><span class="text-wrap">GOT IT</span></v-btn>
+      <v-btn id="btnRed" class="button btnRed"><span class="text-wrap">NOT UNDERSTOOD</span></v-btn>
     </div>
-  <!-- </v-layout> -->
-  <!-- <div id="container1"> -->
+    <div class="btnRow2">
+      <v-btn id="btnBlue" class="button btnBlue"><span class="text-wrap">MORE INFO</span></v-btn>
+      <v-btn id="btnYellow" class="button btnYellow"><span class="text-wrap">INTERESTING</span></v-btn>
+  </div>
 
     <!-- </div> -->
 </div>
@@ -20,6 +15,8 @@
 </template>
 
 <script>
+import io from 'socket.io-client'
+const socket = io('http://localhost:5000')
 export default {
   name: 'StudentBtn',
   props: {
@@ -41,7 +38,7 @@ export default {
     border: 1px solid red;
     display: inline-block;
     text-align: center;
-    min-width: 350px;
+    min-width: 320px;
   }
   .text-wrap{
   white-space: normal;
@@ -83,8 +80,8 @@ export default {
 // }
 
 .button {
-  width: 150px;
-  height: 150px;
+  width: 125px;
+  height: 125px;
   padding: 0px 25px;
   font-size: 14px;
   text-align: center;
@@ -96,14 +93,14 @@ export default {
   white-space: pre-wrap;
 }
 
-@media (min-width: 450px) {
+@media (min-width: 430px) {
   .button {
     width: 180px;
     height: 180px;
   }
 }
 
-@media (min-width: 900px) {
+@media (min-width: 970px) {
   .button {
     width: 250px;
     height: 250px;
