@@ -38,11 +38,11 @@
 <script>
 export default {
   name: 'BottomNav',
-  // data() {
-  //   return {
-  //     bottomNav: 'recent',
-  //   },
-  // }
+  data() {
+    return {
+      bottomNav: 'recent',
+    };
+  },
 };
 </script>
 

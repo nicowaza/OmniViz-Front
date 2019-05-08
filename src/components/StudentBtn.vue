@@ -15,13 +15,36 @@
 </template>
 
 <script>
-import io from 'socket.io-client'
-const socket = io('http://localhost:5000')
+
+import io from 'socket.io-client';
+
+const socket = io('http://localhost:5000');
+
 export default {
   name: 'StudentBtn',
   props: {
 
   },
+  // data() {
+  //   return {
+
+  //   },
+  // }
+  mounted() {
+    socket.on('connect', () => {
+      console.log('connected');
+    });
+    socket.on('disconnect', () => {
+      console.log('disconnected from server');
+    });
+  },
+
+
+  // methods() {
+  //   // tagGreen(){
+
+  //   // }
+  // },
 };
 </script>
 

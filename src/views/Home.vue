@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <Square/>
+    <!-- <Square/> -->
   </div>
 </template>
 
