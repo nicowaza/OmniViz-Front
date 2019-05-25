@@ -1,13 +1,16 @@
 <template>
   <div>
-  <div v-for = "message in messages" :key="message.id"><p>{{ message.message }}</p></div>
+    <!-- <div v-for="message in messages" :key="message.id"><p>{{ message }}</p></div> -->
+    <div v-for="room in roomInfos" :key="room.id">
+      <a>{{ room.room }} </a>
+    </div>
   </div>
 </template>
 
 <script>
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 
-const socket = io('http://localhost:5000');
+// const socket = io('http://localhost:5000');
 
 export default {
   name: 'TeacherDisplay',
@@ -15,13 +18,18 @@ export default {
   data() {
     return {
       messages: [],
+      roomInfos: [],
     };
   },
-  mounted() {
-    socket.on('joiningEvent', (data) => {
+  sockets: {
+    joiningEvent(data) {
       this.messages.push(data);
-      console.log('hello', data);
-    });
+      // console.log('hello :', data);
+    },
+    roomCreation(data) {
+      this.roomInfos.push(data);
+      // console.log('room infos', this.roomInfos);
+    },
   },
 
   methods: {

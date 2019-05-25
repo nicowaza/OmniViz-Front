@@ -4,6 +4,11 @@
       <v-flex xs6 offset-xs3>
         <h1>Register</h1>
 
+        <v-text-field v-model="email"
+          label="email"
+          placeholder="Email"
+        ></v-text-field>
+
         <v-text-field v-model="username"
           label="username"
           placeholder="Username"
@@ -55,6 +60,7 @@ export default {
   name: 'register',
   data() {
     return {
+      email: '',
       username: '',
       firstname: '',
       lastname: '',
@@ -67,6 +73,7 @@ export default {
   methods: {
     register() {
       const body = {
+        email: this.email,
         username: this.username,
         password: this.password,
         firstname: this.firstname,

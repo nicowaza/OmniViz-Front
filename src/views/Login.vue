@@ -5,9 +5,9 @@
         <h1>Login</h1>
 
         <v-text-field
-          v-model="username"
-          label="username"
-          placeholder="Username"
+          v-model="email"
+          label="email"
+          placeholder="Email"
         ></v-text-field>
 
         <v-text-field
@@ -34,14 +34,14 @@ export default {
   name: 'login',
   data() {
     return {
-      username: '',
+      email: '',
       password: '',
     };
   },
   methods: {
     login() {
       const body = {
-        username: this.username,
+        email: this.email,
         password: this.password,
       };
 

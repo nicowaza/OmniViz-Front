@@ -39,9 +39,9 @@ export default {
       return Auth.isAuthenticated();
     },
     logout() {
+      this.$router.push('/login');
       localStorage.removeItem('token');
       window.location.reload();
-      // this.$router.push('/login');
     },
   },
 };

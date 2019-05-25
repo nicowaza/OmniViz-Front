@@ -21,6 +21,9 @@ export default {
 </script>
 
 <style lang="scss">
+#app {
+  margin-top: 32px;
+}
 .contentStyle {
   height: 100vh;
   background-color: black;

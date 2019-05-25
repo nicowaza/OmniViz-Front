@@ -1,8 +1,7 @@
-// import VueSocketIO from 'vue-socket.io';
+import VueSocketIO from 'vue-socket.io';
 // import io from 'socket.io-client';
 import Vuetify from 'vuetify';
 import 'vuetify/dist/vuetify.min.css';
-
 import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
@@ -14,7 +13,10 @@ Vue.use(Vuetify);
 // eslint-disable-next-line import/prefer-default-export
 // export const SocketInstance = io('http://localhost:5000');
 
-
+Vue.use(new VueSocketIO({
+  debug: true,
+  connection: 'http://localhost:5000',
+}));
 // Vue.use(VueSocketIO, SocketInstance);
 
 Vue.config.productionTip = false;

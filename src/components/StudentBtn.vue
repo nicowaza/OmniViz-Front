@@ -1,5 +1,10 @@
 <template>
   <div class="btnContainer">
+    <div>
+    <p v-if="isConnected">We're connected to the server!</p>
+    <p>Message from server: "{{socketMessage}}"</p>
+    <button @click="pingServer()">Ping Server</button>
+  </div>
     <div class="btnRow1">
       <v-btn id="btnGreen" round light class="button btnGreen"><span class="text-wrap">GOT IT</span></v-btn>
       <v-btn id="btnRed" class="button btnRed"><span class="text-wrap">NOT UNDERSTOOD</span></v-btn>
@@ -16,28 +21,58 @@
 
 <script>
 
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 
-const socket = io('http://localhost:5000');
+// const socket = io('http://localhost:5000');
 
 export default {
   name: 'StudentBtn',
   props: {
 
   },
+
+  data() {
+    return {
+      isConnected: false,
+      socketMessage: '',
+    };
+  },
+
+  sockets: {
+    connect() {
+      // Fired when the socket connects.
+      this.isConnected = true;
+    },
+
+    disconnect() {
+      this.isConnected = false;
+    },
+
+    // Fired when the server sends something on the "messageChannel" channel.
+    messageChannel(data) {
+      this.socketMessage = data;
+    },
+  },
+
+  methods: {
+    pingServer() {
+      // Send the "pingServer" event to the server.
+      this.$socket.emit('pingServer', 'PING!');
+    },
+  },
   // data() {
   //   return {
 
   //   },
   // }
-  mounted() {
-    socket.on('connect', () => {
-      console.log('connected');
-    });
-    socket.on('disconnect', () => {
-      console.log('disconnected from server');
-    });
-  },
+  // mounted() {
+  //   socket.on('connect', () => {
+  //     console.log('connected');
+  //   });
+  //   socket.on('disconnect', () => {
+  //     console.log('disconnected from server');
+  //   });
+  // },
 
 
   // methods() {
