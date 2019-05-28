@@ -28,7 +28,8 @@
 </template>
 
 <script>
-import axios from 'axios';
+// import axios from 'axios';
+import HTTP from '../http';
 
 export default {
   name: 'login',
@@ -45,7 +46,7 @@ export default {
         password: this.password,
       };
 
-      axios.post('http://localhost:5000/login', body)
+      return HTTP().post('/api/login', body)
         .then((res) => {
           console.log(res);
           if (res.status === 200) {

@@ -41,7 +41,5 @@ export default {
 <style>
 h1 {
   font-size: 3em;
-  background-color: beige;
-
 }
 </style>
