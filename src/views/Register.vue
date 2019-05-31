@@ -92,7 +92,7 @@ export default {
         role: this.role,
       };
 
-      return HTTP().post('/users', body)
+      return HTTP().post('/users/register', body)
         .then((res) => {
           if (res.status === 200 && res.data.success) {
             alert('user created');

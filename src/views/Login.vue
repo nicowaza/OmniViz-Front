@@ -46,7 +46,7 @@ export default {
         password: this.password,
       };
 
-      return HTTP().post('/api/login', body)
+      return HTTP().post('/users/login', body)
         .then((res) => {
           console.log(res);
           if (res.status === 200) {
