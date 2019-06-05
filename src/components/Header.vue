@@ -26,7 +26,7 @@
 <script>
 
 import CreateRoom from './CreateRoom.vue';
-// import Auth from '../helpers/Auth';
+import Auth from '../helpers/Auth';
 import HTTP from '../http';
 
 export default {
@@ -36,18 +36,17 @@ export default {
     CreateRoom,
   },
   methods: {
-    // isAuthenticated() {
-    //   return Auth.isAuthenticated();
-    // },
+    isAuthenticated() {
+      return Auth.isAuthenticated();
+    },
     logout() {
       return HTTP().get('/users/logout')
         .then((res) => {
-          console.log(res);
           if (res.status === 200) {
-            console.log('user logged out');
+            console.log(res.data.isAuthenticated);
           }
           this.$router.push('/login');
-          window.location.reload();
+          // window.location.reload();
         })
         .catch((err) => {
           console.log(err);

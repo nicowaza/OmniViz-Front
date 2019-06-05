@@ -48,13 +48,13 @@ export default {
 
       return HTTP().post('/users/login', body)
         .then((res) => {
-          console.log(res);
-          if (res.status === 200) {
-            localStorage.setItem('token', res.data.token);
-            console.log(res.data.token);
-          }
+          console.log(res.data.isAuthenticated);
+          // if (res.status === 200) {
+          //   localStorage.setItem('token', res.data.token);
+          //   console.log(res.data.token);
+          // }
           this.$router.push('/');
-          window.location.reload();
+          // window.location.reload();
         })
         .catch((err) => {
           console.log(err);

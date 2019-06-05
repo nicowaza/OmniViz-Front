@@ -12,9 +12,9 @@
           <v-form>
             <v-container grid-list-md>
               <v-layout wrap>
-                <v-flex xs12>
+                <!-- <v-flex xs12>
                   <v-text-field v-model="username" label="Username*" required></v-text-field>
-                </v-flex>
+                </v-flex> -->
                 <v-flex xs12>
                   <v-text-field v-model="courseName" label="Name of the Course*" required></v-text-field>
                 </v-flex>
@@ -44,7 +44,7 @@
 export default {
   data: () => ({
     dialog: false,
-    username: '',
+    // username: '',
     courseName: '',
     description: '',
   }),
@@ -53,7 +53,7 @@ export default {
     submit() {
       this.dialog = false;
       this.$socket.emit('join', {
-        username: this.username,
+        // username: this.username,
         room: this.courseName,
         description: this.description,
       });

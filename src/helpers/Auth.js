@@ -1,5 +1,6 @@
 export default {
   isAuthenticated() {
-    return localStorage.getItem('token');
+    // console.log(document.cookie);
+    // return document.cookie;
   },
 };

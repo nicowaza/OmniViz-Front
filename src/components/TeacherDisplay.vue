@@ -1,6 +1,9 @@
 <template>
   <div>
     <!-- <div v-for="message in messages" :key="message.id"><p>{{ message }}</p></div> -->
+    <div v-for="welcome in welcomes" :key="welcome.id">
+      <h1>{{ welcome.welcome }}</h1>
+    </div>
     <div v-for="room in roomInfos" :key="room.id">
       <a>{{ room.room }} </a>
     </div>
@@ -19,9 +22,13 @@ export default {
     return {
       messages: [],
       roomInfos: [],
+      welcomes: [],
     };
   },
   sockets: {
+    welcome(data) {
+      this.welcomes.push(data);
+    },
     joiningEvent(data) {
       this.messages.push(data);
       // console.log('hello :', data);
