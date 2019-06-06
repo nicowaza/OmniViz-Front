@@ -6,16 +6,16 @@
     <v-toolbar-title>Title</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-toolbar-items class="hidden-xs-only">
-      <CreateRoom/>
-      <v-btn flat to="/register">
+      <CreateRoom v-if="!isLoggedIn"/>
+      <v-btn flat to="/register" v-if="isLoggedIn">
         <v-icon class="mr-2">account_box</v-icon>
         Register
         </v-btn>
-      <v-btn flat to="/login">
+      <v-btn flat to="/login" v-if="isLoggedIn">
         <v-icon class="mr-2">fingerprint</v-icon>
         Login
         </v-btn>
-      <v-btn flat to="/login" @click="logout()">
+      <v-btn flat to="/login" v-if="!isLoggedIn" @click="logout">
         <v-icon class="mr-2">exit_to_app</v-icon>
         Logout
         </v-btn>
@@ -24,10 +24,10 @@
 </template>
 
 <script>
-
+import { mapActions, mapState } from 'vuex';
 import CreateRoom from './CreateRoom.vue';
-import Auth from '../helpers/Auth';
-import HTTP from '../http';
+// import Auth from '../helpers/Auth';
+// import HTTP from '../http';
 
 export default {
   name: 'HeaderBar',
@@ -35,23 +35,17 @@ export default {
   components: {
     CreateRoom,
   },
+
+  computed: {
+    ...mapState('authentication', [
+      'isLoggedin',
+    ]),
+  },
+
   methods: {
-    isAuthenticated() {
-      return Auth.isAuthenticated();
-    },
-    logout() {
-      return HTTP().get('/users/logout')
-        .then((res) => {
-          if (res.status === 200) {
-            console.log(res.data.isAuthenticated);
-          }
-          this.$router.push('/login');
-          // window.location.reload();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
+    ...mapActions('authentication', [
+      'logout',
+    ]),
   },
 };
 
