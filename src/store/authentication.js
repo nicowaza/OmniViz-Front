@@ -77,6 +77,16 @@ export default {
       commit('setUser', null);
       commit('setIsLoggedin', false);
       router.push('/login');
+      return HTTP().get('/users/logout')
+        .then((res) => {
+          console.log(res);
+          if (res.status === 200) {
+            console.log('user logged out');
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     register({ commit, state }) {
       commit('setRegisterErrors', null);
@@ -123,6 +133,7 @@ export default {
           router.push('/');
         })
         .catch((errors) => {
+          console.log(errors);
           commit('setLoginError', errors);
         });
     },
