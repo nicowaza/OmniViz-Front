@@ -20,7 +20,7 @@ export default {
     registerErrors: [],
     loginEmail: null,
     loginPassword: null,
-    loginError: [],
+    loginError: null,
     user: null,
     isLoggedin: false,
   },
@@ -74,14 +74,16 @@ export default {
 
   actions: {
     logout({ commit }) {
-      commit('setUser', null);
-      commit('setIsLoggedin', false);
-      router.push('/login');
       return HTTP().get('/users/logout')
         .then((res) => {
           console.log(res);
           if (res.status === 200) {
             console.log('user logged out');
+            commit('setUser', null);
+            commit('setIsLoggedin', false);
+            commit('setLoginEmail', null);
+            commit('setLoginPassword', null);
+            router.push('/login');
           }
         })
         .catch((err) => {
@@ -126,15 +128,22 @@ export default {
         password: state.loginPassword,
       })
         .then(({ data }) => {
-          commit('setUser', data.user);
+          if (data.user) {
+            commit('setUser', data.user);
+            commit('setIsLoggedin', true);
+            router.push('/');
+          } else {
+            commit('setLoginError', data.message);
+            router.push('/login');
+          }
         })
-        .then(() => {
-          commit('setIsLoggedin', true);
-          router.push('/');
-        })
-        .catch((errors) => {
-          console.log(errors);
-          commit('setLoginError', errors);
+        // .then(() => {
+        //   commit('setIsLoggedin', true);
+        //   router.push('/');
+        // })
+        .catch(() => {
+          // console.log(errors);
+          // commit('setLoginError', errors);
         });
     },
   },
