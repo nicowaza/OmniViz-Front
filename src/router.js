@@ -1,5 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+// import store from './store/index';
+// import { ifNotAuthenticated, ifAuthenticated } from './helpers/checkAuth';
 // import Home from './views/Home.vue';
 // import Auth from './helpers/Auth';
 
@@ -25,11 +27,13 @@ const router = new Router({
     {
       path: '/register',
       name: 'register',
+      // beforeEnter: ifNotAuthenticated,
       component: () => import('./views/Register.vue'),
     },
     {
       path: '/login',
       name: 'login',
+      // beforeEnter: ifNotAuthenticated,
       component: () => import('./views/Login.vue'),
     },
     // {
@@ -40,11 +44,13 @@ const router = new Router({
     {
       path: '/student/viz',
       name: 'StudentViz',
+      // beforeEnter: ifAuthenticated,
       component: () => import('./views/StudentViz.vue'),
     },
     {
       path: '/',
       name: 'Teacher',
+      // beforeEnter: ifAuthenticated,
       component: () => import('./views/TeacherViz.vue'),
     },
 

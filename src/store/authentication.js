@@ -22,7 +22,7 @@ export default {
     loginPassword: null,
     loginError: null,
     user: null,
-    isLoggedin: false,
+    isLoggedIn: false,
   },
   mutations: {
     setUser(state, user) {
@@ -67,8 +67,8 @@ export default {
     setLoginPassword(state, password) {
       state.loginPassword = password;
     },
-    setIsLoggedin(state, isLoggedin) {
-      state.isLoggedin = isLoggedin;
+    setIsLoggedIn(state, isLoggedIn) {
+      state.isLoggedIn = isLoggedIn;
     },
   },
 
@@ -80,7 +80,7 @@ export default {
           if (res.status === 200) {
             console.log('user logged out');
             commit('setUser', null);
-            commit('setIsLoggedin', false);
+            commit('setIsLoggedIn', false);
             commit('setLoginEmail', null);
             commit('setLoginPassword', null);
             router.push('/login');
@@ -129,8 +129,9 @@ export default {
       })
         .then(({ data }) => {
           if (data.user) {
+            console.log(data);
+            commit('setIsLoggedIn', true);
             commit('setUser', data.user);
-            commit('setIsLoggedin', true);
             router.push('/');
           } else {
             commit('setLoginError', data.message);
@@ -148,9 +149,9 @@ export default {
     },
   },
 
-  // getters: {
-  //   isLoggedIn(state) {
-  //     return !!state.isLoggedIn;
-  //   },
-  // },
+  getters: {
+    isLoggedIn(state) {
+      return !!state.isLoggedIn;
+    },
+  },
 };

@@ -54,6 +54,7 @@ export default {
     ...mapMutations('authentication', [
       'setLoginEmail',
       'setLoginPassword',
+      'setIsLoggedIn',
     ]),
     ...mapActions('authentication', [
       'login',
