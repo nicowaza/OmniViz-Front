@@ -1,11 +1,10 @@
 <template>
   <div>
-    <!-- <div v-for="message in messages" :key="message.id"><p>{{ message }}</p></div> -->
-    <div v-for="welcome in welcomes" :key="welcome.id">
-      <h1>{{ welcome.welcome }}</h1>
+    <div v-for="message in messages" :key="message.id">
+      <p>{{ message.message }}</p>
     </div>
     <div v-for="room in roomInfos" :key="room.id">
-      <a>{{ room.room }} </a>
+      <p>{{ room.room }}</p>
     </div>
   </div>
 </template>
@@ -26,16 +25,16 @@ export default {
     };
   },
   sockets: {
-    welcome(data) {
-      this.welcomes.push(data);
-    },
     joiningEvent(data) {
+      console.log(this);
+      console.log('data :', data);
       this.messages.push(data);
-      // console.log('hello :', data);
     },
     roomCreation(data) {
       this.roomInfos.push(data);
-      // console.log('room infos', this.roomInfos);
+    },
+    greenTag(greenData) {
+      console.log('greenTag :', greenData);
     },
   },
 

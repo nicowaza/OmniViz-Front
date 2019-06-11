@@ -6,6 +6,10 @@
     <v-toolbar-title>Title</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-toolbar-items class="hidden-xs-only">
+      <v-btn flat to="/roomsList" v-if="isLoggedIn">
+        <v-icon class="mr-2">account_box</v-icon>
+        Classes
+        </v-btn>
       <CreateRoom v-if="isLoggedIn"/>
       <v-btn flat to="/register" v-if="!isLoggedIn">
         <v-icon class="mr-2">account_box</v-icon>

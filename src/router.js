@@ -53,7 +53,11 @@ const router = new Router({
       // beforeEnter: ifAuthenticated,
       component: () => import('./views/TeacherViz.vue'),
     },
-
+    {
+      path: '/roomsList',
+      name: 'roomsList',
+      component: () => import('./views/RoomsList.vue'),
+    },
   ],
 });
 

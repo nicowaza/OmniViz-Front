@@ -1,12 +1,18 @@
 <template>
   <div class="btnContainer">
-    <div>
+    <!-- <div>
     <p v-if="isConnected">We're connected to the server!</p>
     <p>Message from server: "{{socketMessage}}"</p>
     <button @click="pingServer()">Ping Server</button>
-  </div>
+  </div> -->
+    <div v-for="message in messages" :key="message.id">
+      <p>{{ message.message }}</p>
+    </div>
+    <div v-for="room in roomInfos" :key="room.id">
+      <p>{{ room.room }}</p>
+    </div>
     <div class="btnRow1">
-      <v-btn id="btnGreen" round light class="button btnGreen"><span class="text-wrap">GOT IT</span></v-btn>
+      <v-btn id="btnGreen" round light class="button btnGreen" @click="clickGreen"><span class="text-wrap" >GOT IT</span></v-btn>
       <v-btn id="btnRed" class="button btnRed"><span class="text-wrap">NOT UNDERSTOOD</span></v-btn>
     </div>
     <div class="btnRow2">
@@ -24,6 +30,7 @@
 // import io from 'socket.io-client';
 
 // const socket = io('http://localhost:5000');
+import { mapState } from 'vuex';
 
 export default {
   name: 'StudentBtn',
@@ -33,54 +40,91 @@ export default {
 
   data() {
     return {
-      isConnected: false,
-      socketMessage: '',
+      messages: [],
+      roomInfos: [],
+      welcomes: [],
     };
   },
 
+  computed: {
+    ...mapState('authentication', [
+      'user',
+    ]),
+  },
+
   sockets: {
-    connect() {
-      // Fired when the socket connects.
-      this.isConnected = true;
+    joiningEvent(data) {
+      console.log(this);
+      console.log('data :', data);
+      this.messages.push(data);
     },
-
-    disconnect() {
-      this.isConnected = false;
-    },
-
-    // Fired when the server sends something on the "messageChannel" channel.
-    messageChannel(data) {
-      this.socketMessage = data;
+    roomCreation(data) {
+      this.roomInfos.push(data);
     },
   },
 
   methods: {
-    pingServer() {
-      // Send the "pingServer" event to the server.
-      this.$socket.emit('pingServer', 'PING!');
+    clickGreen() {
+      // $socket is socket.io-client instance
+      this.$socket.emit('greenPing', {
+        // user: this.user.username,
+        // user_id: this.user.userID,
+        tag: 'green',
+        timestamp: Date.now(),
+      });
     },
   },
-  // data() {
-  //   return {
-
-  //   },
-  // }
-  // mounted() {
-  //   socket.on('connect', () => {
-  //     console.log('connected');
-  //   });
-  //   socket.on('disconnect', () => {
-  //     console.log('disconnected from server');
-  //   });
-  // },
-
-
-  // methods() {
-  //   // tagGreen(){
-
-  //   // }
-  // },
 };
+// data() {
+//   return {
+//     isConnected: false,
+//     socketMessage: '',
+//   };
+// },
+
+// sockets: {
+//   connect() {
+//     // Fired when the socket connects.
+//     this.isConnected = true;
+//   },
+
+//   disconnect() {
+//     this.isConnected = false;
+//   },
+
+//   // Fired when the server sends something on the "messageChannel" channel.
+//   messageChannel(data) {
+//     this.socketMessage = data;
+//   },
+// },
+
+// methods: {
+//   pingServer() {
+//     // Send the "pingServer" event to the server.
+//     this.$socket.emit('pingServer', 'PING!');
+//   },
+// },
+// data() {
+//   return {
+
+//   },
+// }
+// mounted() {
+//   socket.on('connect', () => {
+//     console.log('connected');
+//   });
+//   socket.on('disconnect', () => {
+//     console.log('disconnected from server');
+//   });
+// },
+
+
+// methods() {
+//   // tagGreen(){
+
+//   // }
+// },
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
