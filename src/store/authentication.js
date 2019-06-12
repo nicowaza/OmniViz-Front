@@ -24,6 +24,7 @@ export default {
     user: null,
     isLoggedIn: false,
   },
+
   mutations: {
     setUser(state, user) {
       state.user = user;
@@ -84,6 +85,7 @@ export default {
             commit('setLoginEmail', null);
             commit('setLoginPassword', null);
             router.push('/login');
+            window.location.reload();
           }
         })
         .catch((err) => {
@@ -139,8 +141,7 @@ export default {
           }
         })
         // .then(() => {
-        //   commit('setIsLoggedin', true);
-        //   router.push('/');
+
         // })
         .catch(() => {
           // console.log(errors);

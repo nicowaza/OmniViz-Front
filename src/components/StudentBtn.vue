@@ -12,12 +12,12 @@
       <p>{{ room.room }}</p>
     </div>
     <div class="btnRow1">
-      <v-btn id="btnGreen" round light class="button btnGreen" @click="clickGreen"><span class="text-wrap" >GOT IT</span></v-btn>
-      <v-btn id="btnRed" class="button btnRed"><span class="text-wrap">NOT UNDERSTOOD</span></v-btn>
+      <v-btn id="btnGreen" round light class="button btnGreen" @click="clickTag('green')"><span class="text-wrap" >GOT IT</span></v-btn>
+      <v-btn id="btnRed" class="button btnRed" @click="clickTag('red')"><span class="text-wrap">NOT UNDERSTOOD</span></v-btn>
     </div>
     <div class="btnRow2">
-      <v-btn id="btnBlue" class="button btnBlue"><span class="text-wrap">MORE INFO</span></v-btn>
-      <v-btn id="btnYellow" class="button btnYellow"><span class="text-wrap">INTERESTING</span></v-btn>
+      <v-btn id="btnBlue" class="button btnBlue" @click="clickTag('blue')"><span class="text-wrap">MORE INFO</span></v-btn>
+      <v-btn id="btnYellow" class="button btnYellow" @click="clickTag('yellow')"><span class="text-wrap">INTERESTING</span></v-btn>
   </div>
 
     <!-- </div> -->
@@ -64,13 +64,40 @@ export default {
   },
 
   methods: {
-    clickGreen() {
+    clickTag(color) {
       // $socket is socket.io-client instance
-      this.$socket.emit('greenPing', {
+      this.$socket.emit(`${color}Ping`, {
         // user: this.user.username,
         // user_id: this.user.userID,
-        tag: 'green',
-        timestamp: Date.now(),
+        tag: color,
+        timestamp: new Date(),
+      });
+    },
+    clickRed() {
+      // $socket is socket.io-client instance
+      this.$socket.emit('redPing', {
+        // user: this.user.username,
+        // user_id: this.user.userID,
+        tag: 'red',
+        timestamp: new Date(),
+      });
+    },
+    clickBlue() {
+      // $socket is socket.io-client instance
+      this.$socket.emit('bluePing', {
+        // user: this.user.username,
+        // user_id: this.user.userID,
+        tag: 'blue',
+        timestamp: new Date(),
+      });
+    },
+    clickYellow() {
+      // $socket is socket.io-client instance
+      this.$socket.emit('yellowPing', {
+        // user: this.user.username,
+        // user_id: this.user.userID,
+        tag: 'yellow',
+        timestamp: new Date(),
       });
     },
   },

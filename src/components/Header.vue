@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters, mapState } from 'vuex';
 import CreateRoom from './CreateRoom.vue';
 // import Auth from '../helpers/Auth';
 // import HTTP from '../http';
@@ -44,15 +44,26 @@ export default {
     ...mapGetters('authentication', [
       'isLoggedIn',
     ]),
+    ...mapState('rooms', [
+      'rooms',
+    ]),
+    ...mapState('authentication', [
+      'user',
+    ]),
   },
 
   methods: {
     ...mapActions('authentication', [
       'logout',
     ]),
+    leaveRoom() {
+      this.$socket.emit('leave', ({
+        room: this.room,
+      }),
+      console.log(this.user.username));
+    },
   },
 };
-
 </script>
 
 <style>
