@@ -11,6 +11,10 @@
 <script>
 import { mapActions, mapMutations, mapState } from 'vuex';
 
+import io from 'socket.io-client';
+
+const socket = io('http://localhost:5000');
+
 export default {
   name: 'roomsList',
 
@@ -34,7 +38,7 @@ export default {
       'fetchRooms',
     ]),
     join(name) {
-      this.$socket.emit('join', {
+      socket.emit('join', {
         // username: this.username,
         room: name,
         // description: this.room.description,

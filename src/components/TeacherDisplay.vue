@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-expressions */
+/* eslint-disable no-unused-expressions */
 <template>
   <div >
     <div>
@@ -30,9 +32,9 @@
 </template>
 
 <script>
-// import io from 'socket.io-client';
+import io from 'socket.io-client';
 
-// const socket = io('http://localhost:5000');
+const socket = io('http://localhost:5000');
 
 export default {
   name: 'TeacherDisplay',
@@ -48,32 +50,36 @@ export default {
       yellowTags: 0,
     };
   },
-  sockets: {
-    joiningEvent(data) {
+
+  mounted() {
+    // eslint-disable-next-line no-unused-expressions
+    socket.on('joiningEvent', (data) => {
       // console.log(this);
-      // console.log('data :', data);
+      console.log('data :', data);
       this.messages.push(data);
-    },
-    roomCreation(data) {
+    });
+    socket.on('roomCreation', (data) => {
+      console.log('room creation data', data);
       this.roomInfos.push(data);
-    },
-    greenTag(greenData) {
+    });
+    socket.on('greenTag', (greenData) => {
       this.greenTags += 1;
       console.log('greenTag :', greenData);
-    },
-    redTag(redData) {
+    });
+    socket.on('redTag', (redData) => {
       this.redTags += 1;
       console.log('redTag :', redData);
-    },
-    blueTag(blueData) {
+    });
+    socket.on('blueTag', (blueData) => {
       this.blueTags += 1;
       console.log('blueTag :', blueData);
-    },
-    yellowTag(yellowData) {
+    });
+    socket.on('yellowTag', (yellowData) => {
       this.yellowTags += 1;
       console.log('yellowTag :', yellowData);
-    },
+    });
   },
+
 
   methods: {
 

@@ -60,6 +60,11 @@ export default {
       'login',
     ]),
   },
+  // sockets: {
+  //   connect() {
+  //     console.log('socket connected');
+  //   },
+  // },
   // data() {
   //   return {
   //     email: '',

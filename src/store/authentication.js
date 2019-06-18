@@ -141,7 +141,7 @@ export default {
           }
         })
         // .then(() => {
-
+        //   window.location.reload();
         // })
         .catch(() => {
           // console.log(errors);

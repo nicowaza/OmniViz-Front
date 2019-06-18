@@ -27,10 +27,10 @@
 
 <script>
 
-// import io from 'socket.io-client';
-
-// const socket = io('http://localhost:5000');
+import io from 'socket.io-client';
 import { mapState } from 'vuex';
+
+const socket = io('http://localhost:5000');
 
 export default {
   name: 'StudentBtn',
@@ -42,7 +42,6 @@ export default {
     return {
       messages: [],
       roomInfos: [],
-      welcomes: [],
     };
   },
 
@@ -52,30 +51,31 @@ export default {
     ]),
   },
 
-  sockets: {
-    joiningEvent(data) {
+  mounted() {
+    socket.on('joiningEvent', (data) => {
       console.log(this);
       console.log('data :', data);
       this.messages.push(data);
-    },
-    roomCreation(data) {
+    });
+
+    socket.on('roomCreation', (data) => {
       this.roomInfos.push(data);
-    },
+    });
   },
 
   methods: {
-    clickTag(color) {
+    clickTag() {
       // $socket is socket.io-client instance
-      this.$socket.emit(`${color}Ping`, {
+      socket.emit('greenPing', {
         // user: this.user.username,
         // user_id: this.user.userID,
-        tag: color,
+        tag: 'green',
         timestamp: new Date(),
       });
     },
     clickRed() {
       // $socket is socket.io-client instance
-      this.$socket.emit('redPing', {
+      socket.emit('redPing', {
         // user: this.user.username,
         // user_id: this.user.userID,
         tag: 'red',
@@ -84,7 +84,7 @@ export default {
     },
     clickBlue() {
       // $socket is socket.io-client instance
-      this.$socket.emit('bluePing', {
+      socket.emit('bluePing', {
         // user: this.user.username,
         // user_id: this.user.userID,
         tag: 'blue',
@@ -93,7 +93,7 @@ export default {
     },
     clickYellow() {
       // $socket is socket.io-client instance
-      this.$socket.emit('yellowPing', {
+      socket.emit('yellowPing', {
         // user: this.user.username,
         // user_id: this.user.userID,
         tag: 'yellow',

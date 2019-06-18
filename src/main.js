@@ -1,4 +1,4 @@
-import VueSocketIO from 'vue-socket.io';
+// import VueSocketIO from 'vue-socket.io';
 // import io from 'socket.io-client';
 import { sync } from 'vuex-router-sync';
 import Vuetify from 'vuetify';
@@ -17,12 +17,12 @@ sync(store, router);
 // Vue.use(VueCookies);
 
 // eslint-disable-next-line import/prefer-default-export
-// export const SocketInstance = io('http://localhost:5000');
+// export const SocketInstance = io('http://localhost:5000', { forceNew: true });
 
-Vue.use(new VueSocketIO({
-  debug: true,
-  connection: 'http://localhost:5000',
-}));
+// Vue.use(new VueSocketIO({
+//   debug: true,
+//   connection: SocketInstance,
+// }));
 // Vue.use(VueSocketIO, SocketInstance);
 
 Vue.config.productionTip = false;
