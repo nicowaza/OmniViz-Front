@@ -41,9 +41,9 @@ export default {
         // prof: this.room.authorID,
       });
       if (this.user.role === 'student') {
-        this.$router.push('/student/viz');
+        this.$router.push('/socket/student/viz');
       } else {
-        this.$router.push('/');
+        this.$router.push('/socket/teacher/viz');
       }
     },
   },

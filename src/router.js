@@ -17,7 +17,7 @@ const router = new Router({
     //   component: Home,
     // },
     {
-      path: '/about',
+      path: '/',
       name: 'about',
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
@@ -42,19 +42,19 @@ const router = new Router({
     //   component: () => import('./views/StudentViz.vue'),
     // },
     {
-      path: '/student/viz',
+      path: '/socket/student/viz',
       name: 'StudentViz',
       // beforeEnter: ifAuthenticated,
       component: () => import('./views/StudentViz.vue'),
     },
     {
-      path: '/',
+      path: '/socket/teacher/viz',
       name: 'Teacher',
       // beforeEnter: ifAuthenticated,
       component: () => import('./views/TeacherViz.vue'),
     },
     {
-      path: '/roomsList',
+      path: '/socket/roomsList',
       name: 'roomsList',
       component: () => import('./views/RoomsList.vue'),
     },

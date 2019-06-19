@@ -66,37 +66,10 @@ export default {
   methods: {
     clickTag(color) {
       // $socket is socket.io-client instance
-      this.$socket.emit(`${color}Ping`, {
+      this.$socket.emit('tag', {
         // user: this.user.username,
         // user_id: this.user.userID,
         tag: color,
-        timestamp: new Date(),
-      });
-    },
-    clickRed() {
-      // $socket is socket.io-client instance
-      this.$socket.emit('redPing', {
-        // user: this.user.username,
-        // user_id: this.user.userID,
-        tag: 'red',
-        timestamp: new Date(),
-      });
-    },
-    clickBlue() {
-      // $socket is socket.io-client instance
-      this.$socket.emit('bluePing', {
-        // user: this.user.username,
-        // user_id: this.user.userID,
-        tag: 'blue',
-        timestamp: new Date(),
-      });
-    },
-    clickYellow() {
-      // $socket is socket.io-client instance
-      this.$socket.emit('yellowPing', {
-        // user: this.user.username,
-        // user_id: this.user.userID,
-        tag: 'yellow',
         timestamp: new Date(),
       });
     },
