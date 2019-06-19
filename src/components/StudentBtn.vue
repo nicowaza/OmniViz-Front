@@ -31,6 +31,7 @@
 
 // const socket = io('http://localhost:5000');
 import { mapState } from 'vuex';
+import { timeout } from 'q';
 
 export default {
   name: 'StudentBtn',
@@ -65,12 +66,14 @@ export default {
 
   methods: {
     clickTag(color) {
+      const timestamp = Date.now();
+      console.log('timestamp', timestamp);
       // $socket is socket.io-client instance
       this.$socket.emit('tag', {
         // user: this.user.username,
         // user_id: this.user.userID,
         tag: color,
-        timestamp: new Date(),
+        timestamp,
       });
     },
   },

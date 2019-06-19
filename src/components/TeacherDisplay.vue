@@ -58,11 +58,18 @@ export default {
     },
     event(data) {
       this.events.push({ tag: data.color, timestamp: data.time });
+      console.log(this.alertTags());
+      if (this.alertTags()) {
+        this.alertTags().forEach(color => alert(color));
+      }
     },
   },
+  // },
 
   methods: {
-
+    alertTags() {
+      return ['green', 'yellow', 'red', 'blue'].filter(x => this.events.filter(y => Date.now() - y.timestamp < 30000).filter(y => y.tag === x).length > 5);
+    },
   },
 };
 </script>
