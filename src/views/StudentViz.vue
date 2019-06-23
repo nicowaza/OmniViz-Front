@@ -1,9 +1,14 @@
 <template>
-  <v-container fill-height class="StdContainer">
+  <div class="StdContainer">
+    <!-- <v-layout align-center justify-center> -->
+      <studentBtn />
+    <!-- </v-layout> -->
+  </div>
+  <!-- <v-container fill-height class="StdContainer">
     <v-layout align-center justify-center>
       <studentBtn />
     </v-layout>
-  </v-container>
+  </v-container> -->
 </template>
 
 <script>
@@ -33,6 +38,7 @@ export default {
 <style>
 .StdContainer {
   height: 100vh;
+  /* margin: 0 auto; */
 }
 
 @media (min-width: 600px) {

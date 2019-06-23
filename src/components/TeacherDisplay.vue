@@ -26,6 +26,8 @@
     <div v-for="message in messages" :key="message.id">
       <p>{{ message.message }}</p>
     </div>
+    <div v-if="alerts.includes('red')">alerte rouge</div>
+    <ComposantAlerteRouge />
   </div>
 </template>
 
@@ -42,6 +44,7 @@ export default {
       messages: [],
       roomInfos: [],
       welcomes: [],
+      alerts: [],
       events: [
         { tag: '', timestamp: '' },
       ],
@@ -60,7 +63,10 @@ export default {
       this.events.push({ tag: data.color, timestamp: data.time });
       console.log(this.alertTags());
       if (this.alertTags()) {
-        this.alertTags().forEach(color => alert(color));
+        this.alertTags().forEach((color) => {
+          this.alerts.push(color);
+          this.events = this.events.filter(x => x.tag !== color);
+        });
       }
     },
   },

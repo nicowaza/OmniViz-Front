@@ -31,7 +31,6 @@
 
 // const socket = io('http://localhost:5000');
 import { mapState } from 'vuex';
-import { timeout } from 'q';
 
 export default {
   name: 'StudentBtn',
@@ -144,6 +143,7 @@ export default {
     display: inline-block;
     text-align: center;
     min-width: 320px;
+    // margin: 0 auto;
   }
   .text-wrap{
   white-space: normal;

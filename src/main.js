@@ -22,9 +22,9 @@ sync(store, router);
 Vue.use(new VueSocketIO({
   debug: true,
   connection: 'http://localhost:5000/socket',
-  options: {
-    useConnectionNamespace: true,
-  },
+  // options: {
+  //   useConnectionNamespace: true,
+  // },
 }));
 // Vue.use(VueSocketIO, SocketInstance);
 
