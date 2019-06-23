@@ -84,8 +84,9 @@ export default {
             commit('setIsLoggedIn', false);
             commit('setLoginEmail', null);
             commit('setLoginPassword', null);
+            this.$socket.close();
             router.push('/login');
-            window.location.reload();
+            // window.location.reload();
           }
         })
         .catch((err) => {
@@ -134,7 +135,7 @@ export default {
             console.log(data);
             commit('setIsLoggedIn', true);
             commit('setUser', data.user);
-            router.push('/');
+            router.push('/roomsList');
           } else {
             commit('setLoginError', data.message);
             router.push('/login');

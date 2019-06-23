@@ -6,19 +6,19 @@
       <div style="display: flex; justify-content: space-around; width: 300px;">
         <div style="display: flex">
           <div style="width: 20px; height: 20px; background-color: green; margin-left: 10px"></div>
-          <p style="margin-left: 3px"># {{ greenTags }}</p>
+          <p style="margin-left: 3px"># {{ events.filter(x => x.tag=="green").length }}</p>
         </div>
         <div style="display: flex">
           <div style="width: 20px; height: 20px; background-color: red; margin-left: 10px"></div>
-          <p style="margin-left: 3px;"># {{ redTags }}</p>
+          <p style="margin-left: 3px;"># {{ events.filter(x => x.tag=="red").length }}</p>
         </div>
         <div style="display: flex">
           <div style="width: 20px; height: 20px; background-color: blue; margin-left: 10px"></div>
-          <p style="margin-left: 3px;"># {{ blueTags }}</p>
+          <p style="margin-left: 3px;"># {{ events.filter(x => x.tag=="blue").length }}</p>
         </div>
         <div style="display: flex">
           <div style="width: 20px; height: 20px; background-color: yellow; margin-left: 10px"></div>
-          <p style="margin-left: 3px;"># {{ yellowTags }}</p>
+          <p style="margin-left: 3px;"># {{ events.filter(x => x.tag=="yellow").length }}</p>
         </div>
       </div>
     </div>
@@ -32,9 +32,9 @@
 </template>
 
 <script>
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 
-const socket = io('http://localhost:5000');
+// const socket = io('http://localhost:5000');
 
 export default {
   name: 'TeacherDisplay',
@@ -44,40 +44,68 @@ export default {
       messages: [],
       roomInfos: [],
       welcomes: [],
-      greenTags: 0,
-      redTags: 0,
-      blueTags: 0,
-      yellowTags: 0,
+      // greenTags: 0,
+      // redTags: 0,
+      // blueTags: 0,
+      // yellowTags: 0,
+      events: [
+        { tag: '', timestamp: '' },
+      ],
     };
   },
 
-  mounted() {
+  beforeDestroy() {
+    this.$socket.close();
+  },
+
+  sockets: {
     // eslint-disable-next-line no-unused-expressions
-    socket.on('joiningEvent', (data) => {
+    joiningEvent(data) {
       // console.log(this);
       console.log('data :', data);
       this.messages.push(data);
-    });
-    socket.on('roomCreation', (data) => {
+    },
+    leavingEvent(data) {
+      // console.log(this);
+      console.log('data :', data);
+      this.messages.push(data);
+    },
+    roomCreation(data) {
       console.log('room creation data', data);
       this.roomInfos.push(data);
-    });
-    socket.on('greenTag', (greenData) => {
-      this.greenTags += 1;
-      console.log('greenTag :', greenData);
-    });
-    socket.on('redTag', (redData) => {
-      this.redTags += 1;
-      console.log('redTag :', redData);
-    });
-    socket.on('blueTag', (blueData) => {
-      this.blueTags += 1;
-      console.log('blueTag :', blueData);
-    });
-    socket.on('yellowTag', (yellowData) => {
-      this.yellowTags += 1;
-      console.log('yellowTag :', yellowData);
-    });
+    },
+    event(data) {
+      this.events.push({ tag: data.color, timestamp: data.time });
+      console.log(data);
+    },
+    // greenTag(greenData) {
+    //   this.greenTags += 1;
+    //   console.log('greenTag :', greenData);
+    // },
+    // redTag(redData) {
+    //   this.redTags += 1;
+    //   console.log('redTag :', redData);
+    // },
+    // blueTag(blueData) {
+    //   this.blueTags += 1;
+    //   console.log('blueTag :', blueData);
+    // },
+    // yellowTag(yellowData) {
+    //   this.yellowTags += 1;
+    //   console.log('yellowTag :', yellowData);
+    // },
+    // socket.on('redTag', (redData) => {
+    //   this.redTags += 1;
+    //   console.log('redTag :', redData);
+    // });
+    // socket.on('blueTag', (blueData) => {
+    //   this.blueTags += 1;
+    //   console.log('blueTag :', blueData);
+    // });
+    // socket.on('yellowTag', (yellowData) => {
+    //   this.yellowTags += 1;
+    //   console.log('yellowTag :', yellowData);
+    // });
   },
 
 

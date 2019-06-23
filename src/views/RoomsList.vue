@@ -9,24 +9,34 @@
 </template>
 
 <script>
-import { mapActions, mapMutations, mapState } from 'vuex';
+import {
+  mapActions, mapMutations, mapState, mapGetters,
+} from 'vuex';
 
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 
-const socket = io('http://localhost:5000');
+// const socket = io('http://localhost:5000');
 
 export default {
   name: 'roomsList',
 
   mounted() {
     this.fetchRooms();
+    if (this.isLoggedIn) {
+      this.$socket.open();
+      console.log('user looged in', this.isLoggedIn);
+    } else console.log('user logged ?', this.isLoggedIn);
   },
+
   computed: {
     ...mapState('rooms', [
       'rooms',
     ]),
     ...mapState('authentication', [
       'user',
+    ]),
+    ...mapGetters('authentication', [
+      'isLoggedIn',
     ]),
   },
 
@@ -38,16 +48,20 @@ export default {
       'fetchRooms',
     ]),
     join(name) {
-      socket.emit('join', {
+      this.$socket.emit('join', {
         // username: this.username,
         room: name,
         // description: this.room.description,
         // prof: this.room.authorID,
       });
-      if (this.user.role === 'student') {
-        this.$router.push('/student/viz');
+      if (this.user) {
+        if (this.user.role === 'student') {
+          this.$router.push('/student/viz');
+        } else {
+          this.$router.push('/');
+        }
       } else {
-        this.$router.push('/');
+        alert('unauthorized: you are not authentified');
       }
     },
   },

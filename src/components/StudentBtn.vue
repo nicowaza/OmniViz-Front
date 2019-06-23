@@ -27,10 +27,10 @@
 
 <script>
 
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 import { mapState } from 'vuex';
 
-const socket = io('http://localhost:5000');
+// const socket = io('http://localhost:5000');
 
 export default {
   name: 'StudentBtn',
@@ -45,61 +45,74 @@ export default {
     };
   },
 
+  beforeDestroy() {
+    this.$socket.close();
+  },
+
   computed: {
     ...mapState('authentication', [
       'user',
     ]),
   },
 
-  mounted() {
-    socket.on('joiningEvent', (data) => {
-      console.log(this);
+  sockets: {
+  //   socket.on('joiningEvent', (data) => {
+  //     console.log(this);
+  //     console.log('data :', data);
+  //     this.messages.push(data);
+  //   });
+
+    //   socket.on('roomCreation', (data) => {
+    //     this.roomInfos.push(data);
+    //   });
+    // },
+    joiningEvent(data) {
+      // console.log(this);
       console.log('data :', data);
       this.messages.push(data);
-    });
-
-    socket.on('roomCreation', (data) => {
+    },
+    roomCreation(data) {
+      console.log('room creation data', data);
       this.roomInfos.push(data);
-    });
+    },
   },
-
   methods: {
-    clickTag() {
+    clickTag(color) {
       // $socket is socket.io-client instance
-      socket.emit('greenPing', {
+      this.$socket.emit('tag', {
         // user: this.user.username,
         // user_id: this.user.userID,
-        tag: 'green',
+        tag: color,
         timestamp: new Date(),
       });
     },
-    clickRed() {
-      // $socket is socket.io-client instance
-      socket.emit('redPing', {
-        // user: this.user.username,
-        // user_id: this.user.userID,
-        tag: 'red',
-        timestamp: new Date(),
-      });
-    },
-    clickBlue() {
-      // $socket is socket.io-client instance
-      socket.emit('bluePing', {
-        // user: this.user.username,
-        // user_id: this.user.userID,
-        tag: 'blue',
-        timestamp: new Date(),
-      });
-    },
-    clickYellow() {
-      // $socket is socket.io-client instance
-      socket.emit('yellowPing', {
-        // user: this.user.username,
-        // user_id: this.user.userID,
-        tag: 'yellow',
-        timestamp: new Date(),
-      });
-    },
+    // clickRed() {
+    //   // $socket is socket.io-client instance
+    //   this.$socket.emit('redPing', {
+    //     // user: this.user.username,
+    //     // user_id: this.user.userID,
+    //     tag: 'red',
+    //     timestamp: new Date(),
+    //   });
+    // },
+    // clickBlue() {
+    //   // $socket is socket.io-client instance
+    //   this.$socket.emit('bluePing', {
+    //     // user: this.user.username,
+    //     // user_id: this.user.userID,
+    //     tag: 'blue',
+    //     timestamp: new Date(),
+    //   });
+    // },
+    // clickYellow() {
+    //   // $socket is socket.io-client instance
+    //   this.$socket.emit('yellowPing', {
+    //     // user: this.user.username,
+    //     // user_id: this.user.userID,
+    //     tag: 'yellow',
+    //     timestamp: new Date(),
+    //   });
+    // },
   },
 };
 // data() {

@@ -1,5 +1,6 @@
 // import VueSocketIO from 'vue-socket.io';
-// import io from 'socket.io-client';
+import io from 'socket.io-client';
+import VueSocketio from 'vue-socket.io-extended';
 import { sync } from 'vuex-router-sync';
 import Vuetify from 'vuetify';
 import 'vuetify/dist/vuetify.min.css';
@@ -13,6 +14,11 @@ import './registerServiceWorker';
 Vue.use(Vuetify);
 sync(store, router);
 
+const socket = io('http://localhost:5000', {
+  autoConnect: false,
+});
+
+Vue.use(VueSocketio, socket, { store });
 
 // Vue.use(VueCookies);
 

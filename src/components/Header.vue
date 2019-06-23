@@ -10,6 +10,10 @@
         <v-icon class="mr-2">account_box</v-icon>
         Classes
         </v-btn>
+      <v-btn flat to="/about" v-if="isLoggedIn">
+        <v-icon class="mr-2">account_box</v-icon>
+        About
+        </v-btn>
       <CreateRoom v-if="isLoggedIn"/>
       <v-btn flat to="/register" v-if="!isLoggedIn">
         <v-icon class="mr-2">account_box</v-icon>

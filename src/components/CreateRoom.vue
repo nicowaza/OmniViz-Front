@@ -37,9 +37,9 @@
 </template>
 
 <script>
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 
-const socket = io('http://localhost:5000');
+// const socket = io('http://localhost:5000');
 
 export default {
   data: () => ({
@@ -52,7 +52,7 @@ export default {
   methods: {
     submit() {
       this.dialog = false;
-      socket.emit('join', {
+      this.$socket.emit('join', {
         // username: this.username,
         room: this.courseName,
         description: this.description,
