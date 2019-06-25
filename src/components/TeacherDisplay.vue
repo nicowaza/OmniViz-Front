@@ -28,6 +28,7 @@
     <div v-for="message in messages" :key="message.id">
       <p>{{ message.message }}</p>
     </div>
+    <div v-if="alerts.includes('red')">alerte rouge</div>
   </div>
 </template>
 
@@ -44,10 +45,7 @@ export default {
       messages: [],
       roomInfos: [],
       welcomes: [],
-      // greenTags: 0,
-      // redTags: 0,
-      // blueTags: 0,
-      // yellowTags: 0,
+      alerts: [],
       events: [
         { tag: '', timestamp: '' },
       ],
@@ -76,41 +74,21 @@ export default {
     },
     event(data) {
       this.events.push({ tag: data.color, timestamp: data.time });
+      console.log(this.alertTags());
       console.log(data);
+      if (this.alertTags()) {
+        this.alertTags().forEach((color) => {
+          this.alerts.push(color);
+          this.events = this.events.filter(x => x.tag !== color);
+        });
+      }
     },
-    // greenTag(greenData) {
-    //   this.greenTags += 1;
-    //   console.log('greenTag :', greenData);
-    // },
-    // redTag(redData) {
-    //   this.redTags += 1;
-    //   console.log('redTag :', redData);
-    // },
-    // blueTag(blueData) {
-    //   this.blueTags += 1;
-    //   console.log('blueTag :', blueData);
-    // },
-    // yellowTag(yellowData) {
-    //   this.yellowTags += 1;
-    //   console.log('yellowTag :', yellowData);
-    // },
-    // socket.on('redTag', (redData) => {
-    //   this.redTags += 1;
-    //   console.log('redTag :', redData);
-    // });
-    // socket.on('blueTag', (blueData) => {
-    //   this.blueTags += 1;
-    //   console.log('blueTag :', blueData);
-    // });
-    // socket.on('yellowTag', (yellowData) => {
-    //   this.yellowTags += 1;
-    //   console.log('yellowTag :', yellowData);
-    // });
   },
 
-
   methods: {
-
+    alertTags() {
+      return ['green', 'yellow', 'red', 'blue'].filter(x => this.events.filter(y => Date.now() - y.timestamp < 30000).filter(y => y.tag === x).length > 5);
+    },
   },
 };
 </script>

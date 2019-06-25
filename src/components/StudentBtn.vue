@@ -78,12 +78,13 @@ export default {
   },
   methods: {
     clickTag(color) {
+      const timestamp = Date.now();
       // $socket is socket.io-client instance
       this.$socket.emit('tag', {
         // user: this.user.username,
         // user_id: this.user.userID,
         tag: color,
-        timestamp: new Date(),
+        timestamp,
       });
     },
     // clickRed() {
