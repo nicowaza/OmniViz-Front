@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-expressions */
-/* eslint-disable no-unused-expressions */
+
 <template>
   <div >
     <div>
@@ -28,7 +27,21 @@
     <div v-for="message in messages" :key="message.id">
       <p>{{ message.message }}</p>
     </div>
-    <div v-if="alerts.includes('red')">alerte rouge</div>
+    <transition mode="in-out" name="animate" enter-active-class="animated flash" leave-active-class="animated flipOutX">
+      <h3 v-if="alerts.includes('green')">alerte verte</h3>
+    </transition>
+    <transition mode="in-out" name="animate" enter-active-class="animated flash" leave-active-class="animated flipOutX">
+      <h3 v-if="alerts.includes('red')">alerte rouge</h3>
+    </transition>
+    <br>
+    <br>
+    <br>
+   <transition mode="out-in" name="heartBeat" enter-active-class="animated flash" leave-active-class="animated flipOutX">
+      <h3 v-if="alerts.includes('blue')">alerte bleue</h3>
+    </transition>
+    <transition mode="out-in" name="heartBeat" enter-active-class="animated flash" leave-active-class="animated flipOutX">
+      <h3 v-if="alerts.includes('yellow')">alerte jaune</h3>
+    </transition>
   </div>
 </template>
 
@@ -74,26 +87,43 @@ export default {
     },
     event(data) {
       this.events.push({ tag: data.color, timestamp: data.time });
-      console.log(this.alertTags());
+      console.log('this alert tags()', this.alertTags());
+      console.log('this alerts', this.alerts);
       console.log(data);
+      // if (this.alertTags().length === 0) {
+      //   this.alerts = [];
+      // } else
       if (this.alertTags()) {
         this.alertTags().forEach((color) => {
-          this.alerts.push(color);
+          // if (this.events.length > 4) {
+          const { alerts } = this;
+          alerts.push(color);
+          function resetAlerts() {
+            console.log('reset this alerts', alerts);
+            console.log('setime out');
+            alerts.splice(0, 1);
+          }
+          setTimeout(resetAlerts, 5000);
+          // }
           this.events = this.events.filter(x => x.tag !== color);
         });
+        // if (this.events.length < 4) {
+        //   this.alerts = [];
+        // }
       }
     },
   },
 
   methods: {
     alertTags() {
-      return ['green', 'yellow', 'red', 'blue'].filter(x => this.events.filter(y => Date.now() - y.timestamp < 30000).filter(y => y.tag === x).length > 5);
+      return ['green', 'yellow', 'red', 'blue'].filter(x => this.events.filter(y => Date.now() - y.timestamp < 30000).filter(y => y.tag === x).length > 4);
     },
   },
 };
 </script>
 
-<style>
+<style scoped>
+@import "https://cdn.jsdelivr.net/npm/animate.css@3.5.1";
 h1 {
   font-size: 3em;
 }
