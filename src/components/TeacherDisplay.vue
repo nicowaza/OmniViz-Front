@@ -25,7 +25,7 @@
       <p style="text-align: center;">You're logged in {{ room.room }}</p>
     </div>
     <div v-for="message in messages" :key="message.id">
-      <p>{{ message.message }}</p>
+      <p>{{ message }}</p>
     </div>
     <transition mode="in-out" name="animate" enter-active-class="animated flash" leave-active-class="animated flipOutX">
       <h3 v-if="alerts.includes('green')">alerte verte</h3>
@@ -59,9 +59,8 @@ export default {
       roomInfos: [],
       welcomes: [],
       alerts: [],
-      events: [
-        { tag: '', timestamp: '' },
-      ],
+      events: [],
+      students: [],
     };
   },
 
@@ -74,12 +73,23 @@ export default {
     joiningEvent(data) {
       // console.log(this);
       console.log('data :', data);
-      this.messages.push(data);
+      this.messages.push(data.message);
+      this.students.push({
+        username: data.username,
+        id: data.user_id,
+        role: data.user_role,
+      });
     },
     leavingEvent(data) {
       // console.log(this);
-      console.log('data :', data);
-      this.messages.push(data);
+      console.log('leaving data :', data);
+      this.messages.push(data.message);
+      // this.students.splice({
+      //   username: data.username,
+      //   id: data.user_id,
+      //   role: data.user_role,
+      // });
+      this.students.filter(student => student.id === data.user_id);
     },
     roomCreation(data) {
       console.log('room creation data', data);
@@ -95,7 +105,6 @@ export default {
       // } else
       if (this.alertTags()) {
         this.alertTags().forEach((color) => {
-          // if (this.events.length > 4) {
           const { alerts } = this;
           alerts.push(color);
           function resetAlerts() {
@@ -103,13 +112,10 @@ export default {
             console.log('setime out');
             alerts.splice(0, 1);
           }
-          setTimeout(resetAlerts, 5000);
+          setTimeout(resetAlerts, 2000);
           // }
           this.events = this.events.filter(x => x.tag !== color);
         });
-        // if (this.events.length < 4) {
-        //   this.alerts = [];
-        // }
       }
     },
   },

@@ -28,7 +28,7 @@
 <script>
 
 // import io from 'socket.io-client';
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 
 // const socket = io('http://localhost:5000');
 
@@ -44,14 +44,29 @@ export default {
       roomInfos: [],
     };
   },
-
   beforeDestroy() {
+    const { roomInfos } = this;
+    console.log('rooms infos', roomInfos[0]);
+    console.log('room name', roomInfos[0].room);
+    // this.$socket.close();
+    this.$socket.emit('leave', {
+      // username: this.username,
+      roomInfos,
+      // description: this.room.description,
+      // prof: this.room.authorID,
+    });
     this.$socket.close();
   },
 
   computed: {
     ...mapState('authentication', [
       'user',
+    ]),
+    ...mapState('rooms', [
+      'rooms',
+    ]),
+    ...mapGetters('authentication', [
+      'isLoggedIn',
     ]),
   },
 
@@ -74,6 +89,11 @@ export default {
     roomCreation(data) {
       console.log('room creation data', data);
       this.roomInfos.push(data);
+    },
+    leavingEvent(data) {
+      // console.log(this);
+      console.log('leaving data :', data);
+      this.messages.push(data);
     },
   },
   methods: {
