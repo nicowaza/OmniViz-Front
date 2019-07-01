@@ -82,14 +82,11 @@ export default {
     },
     leavingEvent(data) {
       // console.log(this);
-      console.log('leaving data :', data);
+      // const studentLeft = this.students.filter(student => student.id !== data.user_id);
+      // console.log('student who left :', studentLeft);
+      // console.log('leaving data :', data);
       this.messages.push(data.message);
-      // this.students.splice({
-      //   username: data.username,
-      //   id: data.user_id,
-      //   role: data.user_role,
-      // });
-      this.students.filter(student => student.id === data.user_id);
+      this.students = this.students.filter(student => student.id !== data.user_id);
     },
     roomCreation(data) {
       console.log('room creation data', data);
