@@ -6,11 +6,11 @@
     <button @click="pingServer()">Ping Server</button>
   </div> -->
     <div v-for="message in messages" :key="message.id">
-      <p>{{ message.message }}</p>
+      <p>{{ message }}</p>
     </div>
-    <div v-for="room in roomInfos" :key="room.id">
+    <!-- <div v-for="room in roomInfos" :key="room.id">
       <p>{{ room.room }}</p>
-    </div>
+    </div> -->
     <div class="btnRow1">
       <v-btn id="btnGreen" round light class="button btnGreen" @click="clickTag('green')"><span class="text-wrap" >GOT IT</span></v-btn>
       <v-btn id="btnRed" class="button btnRed" @click="clickTag('red')"><span class="text-wrap">NOT UNDERSTOOD</span></v-btn>
@@ -42,6 +42,7 @@ export default {
     return {
       messages: [],
       roomInfos: [],
+      participants: [],
     };
   },
   beforeDestroy() {
@@ -50,10 +51,7 @@ export default {
     console.log('room name', roomInfos[0].room);
     // this.$socket.close();
     this.$socket.emit('leave', {
-      // username: this.username,
       roomInfos,
-      // description: this.room.description,
-      // prof: this.room.authorID,
     });
     this.$socket.close();
   },
@@ -82,9 +80,35 @@ export default {
     //   });
     // },
     joiningEvent(data) {
-      // console.log(this);
       console.log('data :', data);
-      this.messages.push(data);
+      const { room } = data;
+      const connectedUser = {
+        username: data.username,
+        id: data.user_id,
+        role: data.user_role,
+      };
+      const loggedUserID = this.user.userID;
+      const connectedUserID = data.user_id;
+      console.log(loggedUserID);
+      console.log(connectedUserID);
+
+      if (connectedUserID === loggedUserID) {
+        this.messages.push(`You've joined ${room}`);
+      } else {
+        this.messages.push(data.message);
+      }
+
+      this.participants.push({
+        username: data.username,
+        id: data.user_id,
+        role: data.user_role,
+      });
+
+      if (connectedUser.role === 'teacher') {
+        this.teacher.push(connectedUser);
+      } else if (connectedUser.role === 'student') {
+        this.students.push(connectedUser);
+      }
     },
     roomCreation(data) {
       console.log('room creation data', data);
@@ -93,7 +117,8 @@ export default {
     leavingEvent(data) {
       // console.log(this);
       console.log('leaving data :', data);
-      this.messages.push(data);
+      this.messages.push(data.message);
+      this.participants = this.participants.filter(participant => participant.id !== data.user_id);
     },
   },
   methods: {

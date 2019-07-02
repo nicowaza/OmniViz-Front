@@ -21,37 +21,40 @@
         </div>
       </div>
     </div>
-    <div v-for="room in roomInfos" :key="room.id">
+    <!-- <div v-for="room in roomInfos" :key="room.id">
       <p style="text-align: center;">You're logged in {{ room.room }}</p>
-    </div>
+    </div> -->
     <div v-for="message in messages" :key="message.id">
       <p>{{ message }}</p>
     </div>
-    <transition mode="in-out" name="animate" enter-active-class="animated flash" leave-active-class="animated flipOutX">
-      <h3 v-if="alerts.includes('green')">alerte verte</h3>
-    </transition>
-    <transition mode="in-out" name="animate" enter-active-class="animated flash" leave-active-class="animated flipOutX">
-      <h3 v-if="alerts.includes('red')">alerte rouge</h3>
-    </transition>
-    <br>
-    <br>
-    <br>
-   <transition mode="out-in" name="heartBeat" enter-active-class="animated flash" leave-active-class="animated flipOutX">
-      <h3 v-if="alerts.includes('blue')">alerte bleue</h3>
-    </transition>
-    <transition mode="out-in" name="heartBeat" enter-active-class="animated flash" leave-active-class="animated flipOutX">
-      <h3 v-if="alerts.includes('yellow')">alerte jaune</h3>
-    </transition>
+    <div style="min-width: 600px">
+      <transition mode="in-out" name="animate" enter-active-class="animated flash" leave-active-class="animated flipOutX">
+        <h3 v-show="alerts.includes('green')">alerte verte</h3>
+      </transition>
+      <transition mode="in-out" name="animate" enter-active-class="animated flash" leave-active-class="animated flipOutX">
+        <div style="float: right" v-if="alerts.includes('red')"><RedBtn /></div>
+      </transition>
+      <transition mode="out-in" name="heartBeat" enter-active-class="animated flash" leave-active-class="animated flipOutX">
+        <div style="float: left" v-show="alerts.includes('blue')"><BlueBtn /></div>
+      </transition>
+      <transition mode="out-in" name="heartBeat" enter-active-class="animated flash" leave-active-class="animated flipOutX">
+        <h3 v-if="alerts.includes('yellow')">alerte jaune</h3>
+      </transition>
+    </div>
   </div>
 </template>
 
 <script>
-// import io from 'socket.io-client';
-
-// const socket = io('http://localhost:5000');
+import { mapState } from 'vuex';
+import RedBtn from './RedButton.vue';
+import BlueBtn from './BlueButton.vue';
 
 export default {
   name: 'TeacherDisplay',
+  components: {
+    RedBtn,
+    BlueBtn,
+  },
 
   data() {
     return {
@@ -61,32 +64,52 @@ export default {
       alerts: [],
       events: [],
       students: [],
+      teacher: [],
     };
   },
 
+  computed: {
+    ...mapState('authentication', [
+      'user',
+    ]),
+  },
+
   beforeDestroy() {
+    const { roomInfos } = this;
+    this.$socket.emit('leave', {
+      roomInfos,
+    });
     this.$socket.close();
   },
 
   sockets: {
-    // eslint-disable-next-line no-unused-expressions
     joiningEvent(data) {
-      // console.log(this);
       console.log('data :', data);
-      this.messages.push(data.message);
-      this.students.push({
+      const { room } = data;
+      const connectedUser = {
         username: data.username,
         id: data.user_id,
         role: data.user_role,
-      });
+      };
+      const loggedUserID = this.user.userID;
+      const connectedUserID = data.user_id;
+
+      if (connectedUserID === loggedUserID) {
+        this.messages.push(`You've joined ${room}`);
+      } else {
+        this.messages.push(data.message);
+      }
+
+      if (connectedUser.role === 'teacher') {
+        this.teacher.push(connectedUser);
+      } else if (connectedUser.role === 'student') {
+        this.students.push(connectedUser);
+      }
     },
+
     leavingEvent(data) {
-      // console.log(this);
-      // const studentLeft = this.students.filter(student => student.id !== data.user_id);
-      // console.log('student who left :', studentLeft);
-      // console.log('leaving data :', data);
       this.messages.push(data.message);
-      this.students = this.students.filter(student => student.id !== data.user_id);
+      this.students = this.students.filter(participant => participant.id !== data.user_id);
     },
     roomCreation(data) {
       console.log('room creation data', data);
