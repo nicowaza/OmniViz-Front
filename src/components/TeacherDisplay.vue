@@ -1,5 +1,7 @@
 
 <template>
+<div style="height: 100%">
+  <v-btn color="red" style="right: -80%" @click="closeRoom()">Fermer le cours</v-btn>
   <div >
     <div>
       <div style="display: flex; justify-content: space-around; width: 300px;">
@@ -42,10 +44,13 @@
       </transition>
     </div>
   </div>
+</div>
+
 </template>
 
 <script>
 import { mapState } from 'vuex';
+import router from '../router';
 import RedBtn from './RedButton.vue';
 import BlueBtn from './BlueButton.vue';
 
@@ -65,6 +70,7 @@ export default {
       events: [],
       students: [],
       teacher: [],
+      host: [],
     };
   },
 
@@ -76,9 +82,10 @@ export default {
 
   beforeDestroy() {
     const { roomInfos } = this;
-    this.$socket.emit('leave', {
+    this.$socket.emit('closeRoom', {
       roomInfos,
     });
+    // ajouter une fenêtre de confirmation ?
     this.$socket.close();
   },
 
@@ -143,6 +150,14 @@ export default {
   methods: {
     alertTags() {
       return ['green', 'yellow', 'red', 'blue'].filter(x => this.events.filter(y => Date.now() - y.timestamp < 30000).filter(y => y.tag === x).length > 4);
+    },
+
+    closeRoom(data) {
+      alert('Vous allez fermer ce cours'); // remplacer par une fenêtre de confirmation
+      this.$socket.emit('closeRoom', console.log('fermeture'), {
+        data,
+      });
+      router.push('/roomsList');
     },
   },
 };

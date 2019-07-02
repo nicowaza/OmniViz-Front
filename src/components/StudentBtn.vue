@@ -29,6 +29,7 @@
 
 // import io from 'socket.io-client';
 import { mapState, mapGetters } from 'vuex';
+import router from '../router';
 
 // const socket = io('http://localhost:5000');
 
@@ -43,6 +44,8 @@ export default {
       messages: [],
       roomInfos: [],
       participants: [],
+      students: [],
+      teacher: [],
     };
   },
   beforeDestroy() {
@@ -69,16 +72,6 @@ export default {
   },
 
   sockets: {
-  //   socket.on('joiningEvent', (data) => {
-  //     console.log(this);
-  //     console.log('data :', data);
-  //     this.messages.push(data);
-  //   });
-
-    //   socket.on('roomCreation', (data) => {
-    //     this.roomInfos.push(data);
-    //   });
-    // },
     joiningEvent(data) {
       console.log('data :', data);
       const { room } = data;
@@ -110,17 +103,27 @@ export default {
         this.students.push(connectedUser);
       }
     },
+
     roomCreation(data) {
       console.log('room creation data', data);
       this.roomInfos.push(data);
     },
+
     leavingEvent(data) {
       // console.log(this);
       console.log('leaving data :', data);
       this.messages.push(data.message);
       this.participants = this.participants.filter(participant => participant.id !== data.user_id);
     },
+
+    closeRoom(data) {
+      console.log('classe fermée :', data);
+      this.$socket.close();
+      alert('Cette classe a été fermée');
+      router.push('/roomsList');
+    },
   },
+
   methods: {
     clickTag(color) {
       const timestamp = Date.now();

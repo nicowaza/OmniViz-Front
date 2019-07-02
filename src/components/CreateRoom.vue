@@ -37,23 +37,27 @@
 </template>
 
 <script>
-// import io from 'socket.io-client';
-
-// const socket = io('http://localhost:5000');
+import { mapState } from 'vuex';
 
 export default {
   data: () => ({
     dialog: false,
-    // username: '',
+    // created_by: '',
     courseName: '',
     description: '',
   }),
+
+  computed: {
+    ...mapState('authentication', [
+      'user',
+    ]),
+  },
 
   methods: {
     submit() {
       this.dialog = false;
       this.$socket.emit('join', {
-        // username: this.username,
+        // created_by: this.user.userID,
         room: this.courseName,
         description: this.description,
       });
