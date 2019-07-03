@@ -4,7 +4,7 @@
   :key="room.id"
   >
   <p>{{ room.name }} created by {{ room.authorID }}</p>
-  <v-btn @click="join(room.name)">Join</v-btn></div>
+  <v-btn @click="join(room.name, room.authorID)">Join</v-btn></div>
 </div>
 </template>
 
@@ -22,8 +22,9 @@ export default {
 
   mounted() {
     this.fetchRooms();
-    if (this.isLoggedIn) {
+    if (this.isConnected === false) {
       this.$socket.open();
+      console.log('opening socket');
       console.log('user looged in', this.isLoggedIn);
     } else console.log('user logged ?', this.isLoggedIn);
   },
@@ -37,6 +38,7 @@ export default {
     ]),
     ...mapGetters('authentication', [
       'isLoggedIn',
+      'isConnected',
     ]),
   },
 
@@ -46,11 +48,16 @@ export default {
     ]),
     ...mapActions('rooms', [
       'fetchRooms',
+      'connect',
     ]),
-    join(name) {
+    join(name, authorID) {
+      console.log('room name :', name);
+      console.log('author :', authorID);
+      this.connect();
       this.$socket.emit('join', {
         // username: this.username,
         room: name,
+        createdBy: authorID,
         // description: this.room.description,
         // prof: this.room.authorID,
       });

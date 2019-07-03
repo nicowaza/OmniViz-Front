@@ -14,7 +14,7 @@
         <v-icon class="mr-2">account_box</v-icon>
         About
         </v-btn>
-      <CreateRoom v-if="isLoggedIn"/>
+      <CreateRoom v-if="isLoggedIn && this.user.role === 'teacher'"/>
       <v-btn flat to="/register" v-if="!isLoggedIn">
         <v-icon class="mr-2">account_box</v-icon>
         Register
@@ -47,6 +47,7 @@ export default {
   computed: {
     ...mapGetters('authentication', [
       'isLoggedIn',
+      'isConnected',
     ]),
     ...mapState('rooms', [
       'rooms',

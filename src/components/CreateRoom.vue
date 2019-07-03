@@ -37,31 +37,57 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import {
+  mapState, mapGetters,
+} from 'vuex';
 
 export default {
   data: () => ({
-    dialog: false,
-    // created_by: '',
+    created_by: '',
     courseName: '',
     description: '',
   }),
+
+  // mounted() {
+  //   if (this.isConnected === false) {
+  //     this.$socket.open();
+  //     console.log('user looged in', this.isConnected);
+  //   } else console.log('user logged ?', this.isConnected);
+  // },
 
   computed: {
     ...mapState('authentication', [
       'user',
     ]),
+    ...mapGetters('authentication', [
+      'isLoggedIn',
+      'isConnected',
+    ]),
   },
 
   methods: {
-    submit() {
-      this.dialog = false;
-      this.$socket.emit('join', {
-        // created_by: this.user.userID,
-        room: this.courseName,
-        description: this.description,
-      });
-      this.$router.push('/');
+    // ...mapMutations('authentication', [
+    //   'SOCKET_CONNECT',
+    //   'SOCKET_DISCONNECT',
+    // ]),
+    // ...mapActions('authentication', [
+    //   'connect',
+    //   'disconnect',
+    // ]),
+    submit(isLoggedIn) {
+      if (isLoggedIn) {
+        this.$socket.open();
+        console.log('opening socket');
+        const timestamp = Date.now();
+        this.$socket.emit('createRoom', {
+          created_by: this.user.userID,
+          room: this.courseName,
+          description: this.description,
+          timestamp,
+        });
+        this.$router.push('/');
+      } else console.log('unauthorized');
+      this.$router.push('/about');
     },
   },
 };

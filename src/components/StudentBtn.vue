@@ -68,6 +68,7 @@ export default {
     ]),
     ...mapGetters('authentication', [
       'isLoggedIn',
+      'isConnected',
     ]),
   },
 

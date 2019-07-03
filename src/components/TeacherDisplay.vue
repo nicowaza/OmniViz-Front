@@ -85,8 +85,8 @@ export default {
     this.$socket.emit('closeRoom', {
       roomInfos,
     });
-    // ajouter une fenêtre de confirmation ?
     this.$socket.close();
+    // ajouter une fenêtre de confirmation ?
   },
 
   sockets: {
@@ -157,7 +157,7 @@ export default {
       this.$socket.emit('closeRoom', console.log('fermeture'), {
         data,
       });
-      router.push('/roomsList');
+      router.push('/about');
     },
   },
 };

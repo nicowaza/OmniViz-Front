@@ -7,6 +7,13 @@ export default {
     rooms: [],
   },
 
+  // sockets: {
+  //   roomCreation(data, { commit }) {
+  //     console.log(data);
+  //     commit('setRooms', data);
+  //   },
+  // },
+
   actions: {
     // saveProject({ commit }, project) {
     //   return HTTP().patch(`projects/${project.id}`, project)

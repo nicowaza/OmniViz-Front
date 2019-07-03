@@ -58,6 +58,10 @@ export default {
     ]),
     ...mapActions('authentication', [
       'login',
+    //   'SOCKET_CONNECT',
+    // ]),
+    // ...mapActions('authentication', [
+    //   'connect',
     ]),
   },
   // sockets: {

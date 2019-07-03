@@ -3,6 +3,7 @@
 import router from '../router';
 import HTTP from '../http';
 
+
 // Vue.use(Vuex);
 
 export default {
@@ -23,6 +24,7 @@ export default {
     loginError: null,
     user: null,
     isLoggedIn: false,
+    isConnected: false,
   },
 
   mutations: {
@@ -71,6 +73,12 @@ export default {
     setIsLoggedIn(state, isLoggedIn) {
       state.isLoggedIn = isLoggedIn;
     },
+    SOCKET_CONNECT(state) {
+      state.isConnected = true;
+    },
+    SOCKET_DISCONNECT(state) {
+      state.isConnected = false;
+    },
   },
 
   actions: {
@@ -82,9 +90,10 @@ export default {
             console.log('user logged out');
             commit('setUser', null);
             commit('setIsLoggedIn', false);
+            commit('SOCKET_DISCONNECT', false);
             commit('setLoginEmail', null);
             commit('setLoginPassword', null);
-            this.$socket.close();
+            // this.$socket.close();
             router.push('/login');
             // window.location.reload();
           }
@@ -135,7 +144,10 @@ export default {
             console.log(data);
             commit('setIsLoggedIn', true);
             commit('setUser', data.user);
+            // commit('SOCKET_CONNECT', true);
+            // this.$socket.open();
             router.push('/roomsList');
+            // this.$socket.open();
           } else {
             commit('setLoginError', data.message);
             router.push('/login');
@@ -149,11 +161,20 @@ export default {
           // commit('setLoginError', errors);
         });
     },
+    connect({ commit }) {
+      commit('SOCKET_CONNECT', true);
+    },
+    disconnect({ commit }) {
+      commit('SOCKET_DISCONNECT', true);
+    },
   },
 
   getters: {
     isLoggedIn(state) {
       return !!state.isLoggedIn;
+    },
+    isConnected(state) {
+      return !!state.isConnected;
     },
   },
 };
