@@ -70,13 +70,14 @@ export default {
       events: [],
       students: [],
       teacher: [],
-      host: [],
+      hostSocket: [],
     };
   },
 
   computed: {
     ...mapState('authentication', [
       'user',
+      'rooms',
     ]),
   },
 
@@ -92,7 +93,8 @@ export default {
   sockets: {
     joiningEvent(data) {
       console.log('data :', data);
-      const { room } = data;
+      const { room, socketID } = data;
+      console.log('socket id :', socketID);
       const connectedUser = {
         username: data.username,
         id: data.user_id,
@@ -109,6 +111,8 @@ export default {
 
       if (connectedUser.role === 'teacher') {
         this.teacher.push(connectedUser);
+        this.hostSocket.push(socketID);
+        this.hostSocketID();
       } else if (connectedUser.role === 'student') {
         this.students.push(connectedUser);
       }
@@ -158,6 +162,12 @@ export default {
         data,
       });
       router.push('/about');
+    },
+
+    hostSocketID() {
+      this.$socket.emit('hostSocket', {
+        hostSocket: this.hostSocket,
+      });
     },
   },
 };

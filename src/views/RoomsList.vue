@@ -48,8 +48,11 @@ export default {
     ]),
     ...mapActions('rooms', [
       'fetchRooms',
+    ]),
+    ...mapActions('authentication', [
       'connect',
     ]),
+
     join(name, authorID) {
       console.log('room name :', name);
       console.log('author :', authorID);
