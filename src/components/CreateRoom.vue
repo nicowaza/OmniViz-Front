@@ -43,6 +43,7 @@ import {
 
 export default {
   data: () => ({
+    dialog: false,
     created_by: '',
     courseName: '',
     description: '',
@@ -79,6 +80,7 @@ export default {
         this.$socket.open();
         console.log('opening socket');
         const timestamp = Date.now();
+        this.dialog = false;
         this.$socket.emit('createRoom', {
           created_by: this.user.userID,
           room: this.courseName,

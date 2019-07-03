@@ -149,7 +149,7 @@ export default {
 
   methods: {
     alertTags() {
-      return ['green', 'yellow', 'red', 'blue'].filter(x => this.events.filter(y => Date.now() - y.timestamp < 30000).filter(y => y.tag === x).length > 4);
+      return ['green', 'yellow', 'red', 'blue'].filter(x => this.events.filter(y => Date.now() - y.timestamp < 30000).filter(y => y.tag === x).length > (this.students.length / 2));
     },
 
     closeRoom(data) {

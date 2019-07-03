@@ -50,8 +50,8 @@ export default {
   },
   beforeDestroy() {
     const { roomInfos } = this;
-    console.log('rooms infos', roomInfos[0]);
-    console.log('room name', roomInfos[0].room);
+    // console.log('rooms infos', roomInfos[0]);
+    // console.log('room name', roomInfos[0].room);
     // this.$socket.close();
     this.$socket.emit('leave', {
       roomInfos,
@@ -119,6 +119,7 @@ export default {
 
     closeRoom(data) {
       console.log('classe fermée :', data);
+      this.participants = this.participants.filter(participant => participant.id !== data.user_id);
       this.$socket.close();
       alert('Cette classe a été fermée');
       router.push('/roomsList');
