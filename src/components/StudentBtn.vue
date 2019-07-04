@@ -26,19 +26,14 @@
 </template>
 
 <script>
-
 // import io from 'socket.io-client';
 import { mapState, mapGetters } from 'vuex';
 import router from '../router';
-
 // const socket = io('http://localhost:5000');
-
 export default {
   name: 'StudentBtn',
   props: {
-
   },
-
   data() {
     return {
       messages: [],
@@ -49,16 +44,10 @@ export default {
     };
   },
   beforeDestroy() {
-    const { roomInfos } = this;
-    // console.log('rooms infos', roomInfos[0]);
-    // console.log('room name', roomInfos[0].room);
     // this.$socket.close();
-    this.$socket.emit('leave', {
-      roomInfos,
-    });
+    this.$socket.emit('leave');
     this.$socket.close();
   },
-
   computed: {
     ...mapState('authentication', [
       'user',
@@ -71,7 +60,6 @@ export default {
       'isConnected',
     ]),
   },
-
   sockets: {
     joiningEvent(data) {
       console.log('data :', data);
@@ -85,47 +73,39 @@ export default {
       const connectedUserID = data.user_id;
       console.log(loggedUserID);
       console.log(connectedUserID);
-
       if (connectedUserID === loggedUserID) {
         this.messages.push(`You've joined ${room}`);
       } else {
         this.messages.push(data.message);
       }
-
       this.participants.push({
         username: data.username,
         id: data.user_id,
         role: data.user_role,
       });
-
       if (connectedUser.role === 'teacher') {
         this.teacher.push(connectedUser);
       } else if (connectedUser.role === 'student') {
         this.students.push(connectedUser);
       }
     },
-
     roomCreation(data) {
       console.log('room creation data', data);
       this.roomInfos.push(data);
     },
-
     leavingEvent(data) {
       // console.log(this);
       console.log('leaving data :', data);
       this.messages.push(data.message);
       this.participants = this.participants.filter(participant => participant.id !== data.user_id);
     },
-
     closeRoom(data) {
       console.log('classe fermée :', data);
-      this.participants = this.participants.filter(participant => participant.id !== data.user_id);
       this.$socket.close();
       alert('Cette classe a été fermée');
       router.push('/roomsList');
     },
   },
-
   methods: {
     clickTag(color) {
       const timestamp = Date.now();
@@ -172,23 +152,19 @@ export default {
 //     socketMessage: '',
 //   };
 // },
-
 // sockets: {
 //   connect() {
 //     // Fired when the socket connects.
 //     this.isConnected = true;
 //   },
-
 //   disconnect() {
 //     this.isConnected = false;
 //   },
-
 //   // Fired when the server sends something on the "messageChannel" channel.
 //   messageChannel(data) {
 //     this.socketMessage = data;
 //   },
 // },
-
 // methods: {
 //   pingServer() {
 //     // Send the "pingServer" event to the server.
@@ -197,7 +173,6 @@ export default {
 // },
 // data() {
 //   return {
-
 //   },
 // }
 // mounted() {
@@ -208,11 +183,8 @@ export default {
 //     console.log('disconnected from server');
 //   });
 // },
-
-
 // methods() {
 //   // tagGreen(){
-
 //   // }
 // },
 
