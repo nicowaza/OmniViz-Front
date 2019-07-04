@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import router from '../router';
 import RedBtn from './RedButton.vue';
 import BlueBtn from './BlueButton.vue';
@@ -78,13 +78,14 @@ export default {
     ...mapState('authentication', [
       'user',
     ]),
+    ...mapGetters('authentication', [
+      'isLoggedIn',
+      'isConnected',
+    ]),
   },
 
   beforeDestroy() {
-    const { roomInfos } = this;
-    this.$socket.emit('closeRoom', {
-      roomInfos,
-    });
+    this.$socket.emit('closeRoom');
     this.$socket.close();
     // ajouter une fenêtre de confirmation ?
   },
@@ -116,14 +117,18 @@ export default {
 
     leavingEvent(data) {
       this.messages.push(data.message);
-      this.students = this.students.filter(participant => participant.id !== data.user_id);
+      this.students = this.students.filter(student => student.id !== data.user_id);
     },
     roomCreation(data) {
       console.log('room creation data', data);
       this.roomInfos.push(data);
     },
     event(data) {
-      this.events.push({ tag: data.color, timestamp: data.time });
+      this.events.push({ tag: data.color, timestamp: data.time, username: data.username });
+      if (data.color === 'blue') {
+        this.alerts.push(data.color);
+        setTimeout(this.resetAlerts, 2000);
+      }
       console.log('this alert tags()', this.alertTags());
       console.log('this alerts', this.alerts);
       console.log(data);
@@ -134,12 +139,13 @@ export default {
         this.alertTags().forEach((color) => {
           const { alerts } = this;
           alerts.push(color);
-          function resetAlerts() {
-            console.log('reset this alerts', alerts);
-            console.log('setime out');
-            alerts.splice(0, 1);
-          }
-          setTimeout(resetAlerts, 2000);
+          // function resetAlerts() {
+          //   console.log('reset this alerts', alerts);
+          //   console.log('setime out');
+          //   alerts.splice(0, 1);
+          // }
+          // this.resetAlerts();
+          setTimeout(this.resetAlerts, 2000);
           // }
           this.events = this.events.filter(x => x.tag !== color);
         });
@@ -149,7 +155,7 @@ export default {
 
   methods: {
     alertTags() {
-      return ['green', 'yellow', 'red', 'blue'].filter(x => this.events.filter(y => Date.now() - y.timestamp < 30000).filter(y => y.tag === x).length > (this.students.length / 2));
+      return ['green', 'yellow', 'red'].filter(x => this.events.filter(y => Date.now() - y.timestamp < 30000).filter(y => y.tag === x).length > ((this.students.length + 3) / 2));
     },
 
     closeRoom(data) {
@@ -158,6 +164,12 @@ export default {
         data,
       });
       router.push('/about');
+    },
+    resetAlerts() {
+      const { alerts } = this;
+      console.log('reset this alerts', alerts);
+      console.log('setime out');
+      alerts.splice(0, 1);
     },
   },
 };

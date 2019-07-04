@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="button btnRed">I DON'T GET IT</div>
+    <div class="button btnRed textAlign">I DON'T GET IT</div>
   </div>
 </template>
 
@@ -24,6 +24,12 @@ export default {
   box-shadow: 0 9px #999;
   white-space: pre-wrap;
 }
+.textAlign {
+  display: flex; /* contexte sur le parent */
+  flex-direction: column; /* direction d'affichage verticale */
+  justify-content: center; /* alignement vertical */
+}
+
 .btnRed {
   background-color: red;
 }

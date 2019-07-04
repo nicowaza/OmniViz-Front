@@ -1,13 +1,38 @@
 <template>
   <div>
-    <div class="button btnBlue">I DON'T GET IT</div>
+    <div class="button btnBlue textAlign">{{ this.tags.username }} has a question</div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
   name: 'BlueBtn',
+
+  computed: {
+    ...mapState('rooms', [
+      'tags',
+    ]),
+  },
+  data() {
+    return {
+      // alerts: [],
+      // events: [],
+      // students: [],
+      // teacher: [],
+      // host: [],
+    };
+  },
+
+  // sockets: {
+  //   event(data) {
+  //     this.alerts.push(data.color);
+  //   },
+  // },
 };
+
+
 </script>
 
 <style>
@@ -23,6 +48,11 @@ export default {
   border-radius: 15px;
   box-shadow: 0 9px #999;
   white-space: pre-wrap;
+}
+.textAlign {
+  display: flex; /* contexte sur le parent */
+  flex-direction: column; /* direction d'affichage verticale */
+  justify-content: center; /* alignement vertical */
 }
 .btnBlue {
   background-color: blue;

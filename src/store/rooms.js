@@ -5,6 +5,7 @@ export default {
   namespaced: true,
   state: {
     rooms: [],
+    tags: [],
   },
 
   // sockets: {
@@ -43,10 +44,17 @@ export default {
     //       commit('setNewProjectName', null);
     //     });
     // },
+    socket_event({ commit }, data) {
+      commit('SOCKET_EVENT', data);
+    },
   },
   getters: {
   },
+
   mutations: {
+    SOCKET_EVENT(state, tags) {
+      state.tags = tags;
+    },
     // setCurrentRooms(state, room) {
     //   state.currentRoom = room;
     // },
