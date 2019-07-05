@@ -102,6 +102,7 @@ export default {
           console.log(err);
         });
     },
+
     register({ commit, state }) {
       commit('setRegisterErrors', null);
       return HTTP().post('/users/register', {
@@ -133,6 +134,7 @@ export default {
 
         });
     },
+
     login({ commit, state }) {
       commit('setLoginError', null);
       return HTTP().post('/users/login', {
@@ -144,27 +146,27 @@ export default {
             console.log(data);
             commit('setIsLoggedIn', true);
             commit('setUser', data.user);
-            // commit('SOCKET_CONNECT', true);
+            commit('SOCKET_CONNECT', true);
             // this.$socket.open();
-            router.push('/roomsList');
+            router.push('/about');
             // this.$socket.open();
           } else {
             commit('setLoginError', data.message);
             router.push('/login');
           }
         })
-        // .then(() => {
-        //   window.location.reload();
-        // })
+
         .catch(() => {
           // console.log(errors);
           // commit('setLoginError', errors);
         });
     },
-    connect({ commit }) {
+
+    socket_connect({ commit }) {
       commit('SOCKET_CONNECT', true);
     },
-    disconnect({ commit }) {
+
+    socket_disconnect({ commit }) {
       commit('SOCKET_DISCONNECT', true);
     },
   },

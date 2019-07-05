@@ -37,8 +37,7 @@
 </template>
 
 <script>
-// import axios from 'axios';
-// import HTTP from '../http';
+
 import { mapState, mapMutations, mapActions } from 'vuex';
 
 export default {
@@ -50,6 +49,7 @@ export default {
       'loginError',
     ]),
   },
+
   methods: {
     ...mapMutations('authentication', [
       'setLoginEmail',
@@ -58,45 +58,9 @@ export default {
     ]),
     ...mapActions('authentication', [
       'login',
-    //   'SOCKET_CONNECT',
-    // ]),
-    // ...mapActions('authentication', [
-    //   'connect',
+      'socket_connect',
+      // comment passer 2 actions dans le même v-on ??
     ]),
   },
-  // sockets: {
-  //   connect() {
-  //     console.log('socket connected');
-  //   },
-  // },
-  // data() {
-  //   return {
-  //     email: '',
-  //     password: '',
-  //   };
-  // },
-  // methods: {
-  //   login() {
-  //     const body = {
-  //       email: this.email,
-  //       password: this.password,
-  //     };
-
-  //     return HTTP().post('/users/login', body)
-  //       .then((res) => {
-  //         console.log(res);
-  //         console.log(res.data.isAuthenticated);
-  //         // if (res.status === 200) {
-  //         //   localStorage.setItem('token', res.data.token);
-  //         //   console.log(res.data.token);
-  //         // }
-  //         this.$router.push('/');
-  //         // window.location.reload();
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   },
-  // },
 };
 </script>

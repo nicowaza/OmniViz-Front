@@ -23,9 +23,6 @@
         </div>
       </div>
     </div>
-    <!-- <div v-for="room in roomInfos" :key="room.id">
-      <p style="text-align: center;">You're logged in {{ room.room }}</p>
-    </div> -->
     <div v-for="message in messages" :key="message.id">
       <p>{{ message }}</p>
     </div>
@@ -132,21 +129,12 @@ export default {
       console.log('this alert tags()', this.alertTags());
       console.log('this alerts', this.alerts);
       console.log(data);
-      // if (this.alertTags().length === 0) {
-      //   this.alerts = [];
-      // } else
+
       if (this.alertTags()) {
         this.alertTags().forEach((color) => {
           const { alerts } = this;
           alerts.push(color);
-          // function resetAlerts() {
-          //   console.log('reset this alerts', alerts);
-          //   console.log('setime out');
-          //   alerts.splice(0, 1);
-          // }
-          // this.resetAlerts();
           setTimeout(this.resetAlerts, 2000);
-          // }
           this.events = this.events.filter(x => x.tag !== color);
         });
       }
@@ -155,7 +143,7 @@ export default {
 
   methods: {
     alertTags() {
-      return ['green', 'yellow', 'red'].filter(x => this.events.filter(y => Date.now() - y.timestamp < 30000).filter(y => y.tag === x).length > ((this.students.length + 3) / 2));
+      return ['green', 'yellow', 'red'].filter(x => this.events.filter(y => Date.now() - y.timestamp < 30000).filter(y => y.tag === x).length > ((this.students.length) / 2));
     },
 
     closeRoom(data) {

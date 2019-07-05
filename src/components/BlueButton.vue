@@ -17,19 +17,10 @@ export default {
   },
   data() {
     return {
-      // alerts: [],
-      // events: [],
-      // students: [],
-      // teacher: [],
-      // host: [],
+
     };
   },
 
-  // sockets: {
-  //   event(data) {
-  //     this.alerts.push(data.color);
-  //   },
-  // },
 };
 
 

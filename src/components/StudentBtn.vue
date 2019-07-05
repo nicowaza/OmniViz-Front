@@ -1,16 +1,8 @@
 <template>
   <div class="btnContainer">
-    <!-- <div>
-    <p v-if="isConnected">We're connected to the server!</p>
-    <p>Message from server: "{{socketMessage}}"</p>
-    <button @click="pingServer()">Ping Server</button>
-  </div> -->
     <div v-for="message in messages" :key="message.id">
       <p>{{ message }}</p>
     </div>
-    <!-- <div v-for="room in roomInfos" :key="room.id">
-      <p>{{ room.room }}</p>
-    </div> -->
     <div class="btnRow1">
       <v-btn id="btnGreen" round light class="button btnGreen" @click="clickTag('green')"><span class="text-wrap" >GOT IT</span></v-btn>
       <v-btn id="btnRed" class="button btnRed" @click="clickTag('red')"><span class="text-wrap">NOT UNDERSTOOD</span></v-btn>
@@ -19,17 +11,15 @@
       <v-btn id="btnBlue" class="button btnBlue" @click="clickTag('blue')"><span class="text-wrap">MORE INFO</span></v-btn>
       <v-btn id="btnYellow" class="button btnYellow" @click="clickTag('yellow')"><span class="text-wrap">INTERESTING</span></v-btn>
   </div>
-
-    <!-- </div> -->
 </div>
 
 </template>
 
 <script>
-// import io from 'socket.io-client';
+
 import { mapState, mapGetters } from 'vuex';
 import router from '../router';
-// const socket = io('http://localhost:5000');
+
 export default {
   name: 'StudentBtn',
   props: {
@@ -37,17 +27,16 @@ export default {
   data() {
     return {
       messages: [],
-      roomInfos: [],
       participants: [],
       students: [],
       teacher: [],
     };
   },
   beforeDestroy() {
-    // this.$socket.close();
     this.$socket.emit('leave');
     this.$socket.close();
   },
+
   computed: {
     ...mapState('authentication', [
       'user',
@@ -60,6 +49,7 @@ export default {
       'isConnected',
     ]),
   },
+
   sockets: {
     joiningEvent(data) {
       console.log('data :', data);
@@ -78,115 +68,44 @@ export default {
       } else {
         this.messages.push(data.message);
       }
+
       this.participants.push({
         username: data.username,
         id: data.user_id,
         role: data.user_role,
       });
+
       if (connectedUser.role === 'teacher') {
         this.teacher.push(connectedUser);
       } else if (connectedUser.role === 'student') {
         this.students.push(connectedUser);
       }
     },
-    roomCreation(data) {
-      console.log('room creation data', data);
-      this.roomInfos.push(data);
-    },
+
     leavingEvent(data) {
-      // console.log(this);
       console.log('leaving data :', data);
       this.messages.push(data.message);
       this.participants = this.participants.filter(participant => participant.id !== data.user_id);
+      this.students = this.students.filter(student => student.id !== data.user_id);
     },
+
     closeRoom(data) {
       console.log('classe fermée :', data);
       this.$socket.close();
-      alert('Cette classe a été fermée');
+      alert(`Cette classe a été fermée par ${this.teacher.username}`);
       router.push('/roomsList');
     },
   },
   methods: {
     clickTag(color) {
       const timestamp = Date.now();
-      // $socket is socket.io-client instance
       this.$socket.emit('tag', {
-        // user: this.user.username,
-        // user_id: this.user.userID,
         tag: color,
         timestamp,
       });
     },
-    // clickRed() {
-    //   // $socket is socket.io-client instance
-    //   this.$socket.emit('redPing', {
-    //     // user: this.user.username,
-    //     // user_id: this.user.userID,
-    //     tag: 'red',
-    //     timestamp: new Date(),
-    //   });
-    // },
-    // clickBlue() {
-    //   // $socket is socket.io-client instance
-    //   this.$socket.emit('bluePing', {
-    //     // user: this.user.username,
-    //     // user_id: this.user.userID,
-    //     tag: 'blue',
-    //     timestamp: new Date(),
-    //   });
-    // },
-    // clickYellow() {
-    //   // $socket is socket.io-client instance
-    //   this.$socket.emit('yellowPing', {
-    //     // user: this.user.username,
-    //     // user_id: this.user.userID,
-    //     tag: 'yellow',
-    //     timestamp: new Date(),
-    //   });
-    // },
   },
 };
-// data() {
-//   return {
-//     isConnected: false,
-//     socketMessage: '',
-//   };
-// },
-// sockets: {
-//   connect() {
-//     // Fired when the socket connects.
-//     this.isConnected = true;
-//   },
-//   disconnect() {
-//     this.isConnected = false;
-//   },
-//   // Fired when the server sends something on the "messageChannel" channel.
-//   messageChannel(data) {
-//     this.socketMessage = data;
-//   },
-// },
-// methods: {
-//   pingServer() {
-//     // Send the "pingServer" event to the server.
-//     this.$socket.emit('pingServer', 'PING!');
-//   },
-// },
-// data() {
-//   return {
-//   },
-// }
-// mounted() {
-//   socket.on('connect', () => {
-//     console.log('connected');
-//   });
-//   socket.on('disconnect', () => {
-//     console.log('disconnected from server');
-//   });
-// },
-// methods() {
-//   // tagGreen(){
-//   // }
-// },
 
 </script>
 
@@ -212,70 +131,56 @@ export default {
     color: rgb(51, 255, 0);
     background-color: green;
   }
-.btnGreen {
-  color: rgb(51, 255, 0);
-  background-color: green;
-}
+  .btnGreen {
+    color: rgb(51, 255, 0);
+    background-color: green;
+  }
   #btnRed {
     background-color: red;
   }
-.btnRed {
-  color: #fff;
-  background-color: red;
-}
+  .btnRed {
+    color: #fff;
+    background-color: red;
+  }
   #btnBlue {
     background-color: blue;
   }
-.btnBlue {
-  color: #fff;
-  background-color: Blue;
-}
+  .btnBlue {
+    color: #fff;
+    background-color: Blue;
+  }
   #btnYellow {
     background-color: yellow;
   }
-.btnYellow {
-  color: rgb(195, 182, 0);
-  background-color: yellow;
-}
-// .btnGreen:hover {
-//   background-color: #3e8e41
-//   }
-// .btnGreen:active {
-//   background-color: #3e8e41;
-// }
-
-.button {
-  width: 125px;
-  height: 125px;
-  padding: 0px 25px;
-  font-size: 14px;
-  text-align: center;
-  cursor: pointer;
-  outline: none;
-  border: none;
-  border-radius: 15px;
-  box-shadow: 0 9px #999;
-  white-space: pre-wrap;
-}
-
-@media (min-width: 430px) {
-  .button {
-    width: 180px;
-    height: 180px;
+  .btnYellow {
+    color: rgb(195, 182, 0);
+    background-color: yellow;
   }
-}
-
-@media (min-width: 970px) {
   .button {
-    width: 250px;
-    height: 250px;
+    width: 125px;
+    height: 125px;
+    padding: 0px 25px;
+    font-size: 14px;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 9px #999;
+    white-space: pre-wrap;
   }
-}
 
+  @media (min-width: 430px) {
+    .button {
+      width: 180px;
+      height: 180px;
+    }
+  }
 
-// .button:active {
-
-//   box-shadow: 0 5px #666;
-//   transform: translateY(4px);
-// }
-// </style>
+  @media (min-width: 970px) {
+    .button {
+      width: 250px;
+      height: 250px;
+    }
+  }
+</style>

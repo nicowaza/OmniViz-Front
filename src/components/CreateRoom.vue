@@ -12,9 +12,6 @@
           <v-form>
             <v-container grid-list-md>
               <v-layout wrap>
-                <!-- <v-flex xs12>
-                  <v-text-field v-model="username" label="Username*" required></v-text-field>
-                </v-flex> -->
                 <v-flex xs12>
                   <v-text-field v-model="courseName" label="Name of the Course*" required></v-text-field>
                 </v-flex>
@@ -38,7 +35,7 @@
 
 <script>
 import {
-  mapState, mapGetters,
+  mapState, mapGetters, mapMutations, mapActions,
 } from 'vuex';
 
 export default {
@@ -49,13 +46,6 @@ export default {
     description: '',
   }),
 
-  // mounted() {
-  //   if (this.isConnected === false) {
-  //     this.$socket.open();
-  //     console.log('user looged in', this.isConnected);
-  //   } else console.log('user logged ?', this.isConnected);
-  // },
-
   computed: {
     ...mapState('authentication', [
       'user',
@@ -64,17 +54,18 @@ export default {
       'isLoggedIn',
       'isConnected',
     ]),
+    ...mapMutations('authentication', [
+      'SOCKET_CONNECT',
+      'SOCKET_DISCONNECT',
+    ]),
+    ...mapActions('authentication', [
+      'socket_connect',
+      'socket_disconnect',
+    ]),
   },
 
   methods: {
-    // ...mapMutations('authentication', [
-    //   'SOCKET_CONNECT',
-    //   'SOCKET_DISCONNECT',
-    // ]),
-    // ...mapActions('authentication', [
-    //   'connect',
-    //   'disconnect',
-    // ]),
+
     submit(isLoggedIn) {
       if (isLoggedIn) {
         this.$socket.open();

@@ -32,10 +32,9 @@
 </template>
 
 <script>
+
 import { mapActions, mapGetters, mapState } from 'vuex';
 import CreateRoom from './CreateRoom.vue';
-// import Auth from '../helpers/Auth';
-// import HTTP from '../http';
 
 export default {
   name: 'HeaderBar',

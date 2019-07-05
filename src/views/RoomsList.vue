@@ -9,16 +9,19 @@
 </template>
 
 <script>
+
 import {
   mapActions, mapMutations, mapState, mapGetters,
 } from 'vuex';
 
-// import io from 'socket.io-client';
-
-// const socket = io('http://localhost:5000');
-
 export default {
   name: 'roomsList',
+
+  data() {
+    return {
+      roomInfos: [],
+    };
+  },
 
   mounted() {
     this.fetchRooms();
@@ -55,12 +58,10 @@ export default {
       console.log('author :', authorID);
       this.connect();
       this.$socket.emit('join', {
-        // username: this.username,
         room: name,
         createdBy: authorID,
-        // description: this.room.description,
-        // prof: this.room.authorID,
       });
+
       if (this.user) {
         if (this.user.role === 'student') {
           this.$router.push('/student/viz');
@@ -70,6 +71,11 @@ export default {
       } else {
         alert('unauthorized: you are not authentified');
       }
+    },
+
+    roomCreation(data) {
+      console.log('room creation data', data);
+      this.roomInfos.push(data);
     },
   },
 };
