@@ -1,7 +1,7 @@
 <template>
   <v-container>
-    <v-layout row wrap>
-      <v-flex xs6 offset-xs3>
+    <v-layout row wrap style= "height: auto;">
+      <v-flex style= "margin-top: 10vh;height: 100vh;" xs6 offset-xs3>
         <h1>Register</h1>
         <form autocomplete="off">
           <v-text-field

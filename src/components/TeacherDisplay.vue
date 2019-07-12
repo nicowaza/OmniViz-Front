@@ -1,6 +1,6 @@
 
 <template>
-<div style="height: 100%">
+<div>
   <v-btn color="red" style="right: -80%" @click="closeRoom()">Fermer le cours</v-btn>
   <div >
     <div>

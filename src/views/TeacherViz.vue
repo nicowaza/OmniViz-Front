@@ -1,6 +1,6 @@
 <template>
   <v-container fill-height>
-    <v-layout  align-center justify-center>
+    <v-layout  style = " height: 100vh" align-center justify-center>
       <TeacherDisplay />
     </v-layout>
   </v-container>

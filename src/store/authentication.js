@@ -146,7 +146,7 @@ export default {
             console.log(data);
             commit('setIsLoggedIn', true);
             commit('setUser', data.user);
-            commit('SOCKET_CONNECT', true);
+            // commit('SOCKET_CONNECT', true);
             // this.$socket.open();
             router.push('/about');
             // this.$socket.open();

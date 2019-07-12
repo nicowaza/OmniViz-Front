@@ -1,5 +1,5 @@
 <template>
-<div>
+<div style = "height: 100vh;">
   <div v-for="room in rooms"
   :key="room.id"
   >
@@ -27,6 +27,7 @@ export default {
     this.fetchRooms();
     if (this.isConnected === false) {
       this.$socket.open();
+      this.connect();
       console.log('opening socket');
       console.log('user looged in', this.isLoggedIn);
     } else console.log('user logged ?', this.isLoggedIn);
@@ -56,7 +57,7 @@ export default {
     join(name, authorID) {
       console.log('room name :', name);
       console.log('author :', authorID);
-      this.connect();
+
       this.$socket.emit('join', {
         room: name,
         createdBy: authorID,

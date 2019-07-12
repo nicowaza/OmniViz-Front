@@ -22,17 +22,20 @@ export default {
 
 <style lang="scss">
 #app {
-  margin-top: 32px;
+  height: auto;
+  min-height: 300px;
+  // margin-top: 28px;
 }
 .contentStyle {
-  height: 100vh;
+  // height: 100vh;
   background-color: black;
 }
 .containerMain {
   background-color: aquamarine;
-  height: 100vh;
+  height: auto;
   width: 100vw;
   margin: auto;
+  padding-top: 64px;
 }
 
 @media (min-width: 600px) {

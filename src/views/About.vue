@@ -1,5 +1,5 @@
 <template>
-  <div class="about">
+  <div class="about" style="height: 100vh;">
     <h1>This is the welcome page</h1>
     <div style="display: flex; justify-content: space-around;">
       <RedBtn />

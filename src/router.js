@@ -36,6 +36,12 @@ const router = new Router({
       // beforeEnter: ifNotAuthenticated,
       component: () => import('./views/Login.vue'),
     },
+    {
+      path: '/createClass',
+      name: 'CreateClass',
+      // beforeEnter: ifNotAuthenticated,
+      component: () => import('./views/CreateClass.vue'),
+    },
 
     {
       path: '/student/viz',
