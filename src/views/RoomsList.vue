@@ -24,10 +24,19 @@ export default {
     this.fetchRooms();
     if (this.isConnected === false) {
       this.$socket.open();
+      this.connect();
       console.log('opening socket');
       console.log('user looged in', this.isLoggedIn);
     } else console.log('user logged ?', this.isLoggedIn);
   },
+
+  //  mettre un before destroy ??
+  //  beforeDestroy() {
+  //     this.$socket.emit('closeRoom');
+  //     this.$socket.close();
+  //     this.disconnet()
+  //     // ajouter une fenêtre de confirmation ?
+  //   },
 
   computed: {
     ...mapState('rooms', [
@@ -53,7 +62,6 @@ export default {
     join(name, authorID) {
       console.log('room name :', name);
       console.log('author :', authorID);
-      this.connect();
       this.$socket.emit('join', {
         // username: this.username,
         room: name,

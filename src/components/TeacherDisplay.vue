@@ -88,6 +88,7 @@ export default {
     this.$socket.emit('closeRoom');
     this.$socket.close();
     // ajouter une fenêtre de confirmation ?
+    // metttre un  this.disconnet() ??
   },
 
   sockets: {
