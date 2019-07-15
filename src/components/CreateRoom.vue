@@ -18,12 +18,132 @@
                 <v-flex xs12>
                   <v-textarea v-model="description" auto-grow box label="Description"></v-textarea>
                 </v-flex>
+                <v-flex>
+                  <v-dialog
+                    ref="dialog1"
+                    v-model="modal1"
+                    :return-value.sync="startDate"
+                    persistent
+                    lazy
+                    full-width
+                    width="290px"
+                  >
+                    <template v-slot:activator="{ on }">
+                      <v-text-field
+                        v-model="startDate"
+                        label="Picker in dialog"
+                        prepend-icon="event"
+                        readonly
+                        v-on="on"
+                      ></v-text-field>
+                    </template>
+                    <v-date-picker v-model="startDate" scrollable>
+                      <v-spacer></v-spacer>
+                      <v-btn flat color="primary" @click="modal1 = false">Cancel</v-btn>
+                      <v-btn flat color="primary" @click="$refs.dialog1.save(startDate)">OK</v-btn>
+                    </v-date-picker>
+                  </v-dialog>
+
+                  <v-dialog
+                    ref="dialog2"
+                    v-model="modal2"
+                    :return-value.sync="startTime"
+                    persistent
+                    lazy
+                    full-width
+                    width="290px"
+                  >
+                    <template v-slot:activator="{ on }">
+                      <v-text-field
+                        v-model="startTime"
+                        label="Picker in dialog"
+                        prepend-icon="access_time"
+                        readonly
+                        v-on="on"
+                      ></v-text-field>
+                    </template>
+                    <v-time-picker
+                      v-if="modal2"
+                      v-model="startTime"
+                      full-width
+                      format="24hr"
+                    >
+                      <v-spacer></v-spacer>
+                      <v-btn flat color="primary" @click="modal2 = false">Cancel</v-btn>
+                      <v-btn flat color="primary" @click="$refs.dialog2.save(startTime)">OK</v-btn>
+                    </v-time-picker>
+                  </v-dialog>
+                  <div>Début du cours le {{ startDate }} à {{ startTime }}</div>
+                </v-flex>
+                <v-spacer></v-spacer>
+                 <v-flex>
+                  <v-dialog
+                    ref="dialog3"
+                    v-model="modal3"
+                    :return-value.sync="endDate"
+                    persistent
+                    lazy
+                    full-width
+                    width="290px"
+                  >
+                    <template v-slot:activator="{ on }">
+                      <v-text-field
+                        v-model="endDate"
+                        label="Picker in dialog"
+                        prepend-icon="event"
+                        readonly
+                        v-on="on"
+                      ></v-text-field>
+                    </template>
+                    <v-date-picker v-model="endDate" scrollable>
+                      <v-spacer></v-spacer>
+                      <v-btn flat color="primary" @click="modal3 = false">Cancel</v-btn>
+                      <v-btn flat color="primary" @click="$refs.dialog3.save(endDate)">OK</v-btn>
+                    </v-date-picker>
+                  </v-dialog>
+
+                  <v-dialog
+                    ref="dialog4"
+                    v-model="modal4"
+                    :return-value.sync="endTime"
+                    persistent
+                    lazy
+                    full-width
+                    width="290px"
+                  >
+                    <template v-slot:activator="{ on }">
+                      <v-text-field
+                        v-model="endTime"
+                        label="Picker in dialog"
+                        prepend-icon="access_time"
+                        readonly
+                        v-on="on"
+                      ></v-text-field>
+                    </template>
+                    <v-time-picker
+                      v-if="modal4"
+                      v-model="endTime"
+                      full-width
+                      format="24hr"
+                    >
+                      <v-spacer></v-spacer>
+                      <v-btn flat color="primary" @click="modal4 = false">Cancel</v-btn>
+                      <v-btn flat color="primary" @click="$refs.dialog4.save(endTime)">OK</v-btn>
+                    </v-time-picker>
+                  </v-dialog>
+                  <div>Fin du cours le {{ endDate }} à {{ endTime }}</div>
+                </v-flex>
               </v-layout>
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="blue darken-1" flat @click="dialog = false">Close</v-btn>
                 <v-btn color="blue darken-1" flat @click="submit">Save</v-btn>
               </v-card-actions>
+              <v-alert v-if="this.dateError"
+                :value="true"
+                type="error"
+              >{{ this.dateError }}
+              </v-alert>
             </v-container>
             <small>*indicates required field</small>
           </v-form>
@@ -37,13 +157,27 @@
 import {
   mapState, mapGetters, mapMutations, mapActions,
 } from 'vuex';
+import moment from 'moment';
 
 export default {
   data: () => ({
     dialog: false,
+    dialog1: false,
+    dialog2: false,
+    dialog3: false,
+    dialog4: false,
+    modal1: false,
+    modal2: false,
+    modal3: false,
+    modal4: false,
     created_by: '',
     courseName: '',
     description: '',
+    startDate: '',
+    endDate: '',
+    startTime: '',
+    endTime: '',
+    dateError: '',
   }),
 
   computed: {
@@ -62,12 +196,21 @@ export default {
       'socket_connect',
       'socket_disconnect',
     ]),
+
   },
 
   methods: {
 
     submit(isLoggedIn) {
-      if (isLoggedIn) {
+      const startClass = moment(this.startDate + ' ' + this.startTime).format('x');
+      const endClass = moment(this.endDate + ' ' + this.endTime).format('x');
+      console.log('début', startClass);
+      console.log('fin', endClass);
+      if (endClass <= startClass) {
+        this.dateError = "l'horaire de fin du cours est antérieur au début du cours";
+      } else if (startClass <= Date.now()) {
+        this.dateError = 'la date de début de cours est déjà passée';
+      } else if (isLoggedIn) {
         this.$socket.open();
         console.log('opening socket');
         const timestamp = Date.now();
@@ -77,6 +220,8 @@ export default {
           room: this.courseName,
           description: this.description,
           timestamp,
+          startDate: startClass,
+          endDate: endClass,
         });
         this.$router.push('/');
       } else console.log('unauthorized');
