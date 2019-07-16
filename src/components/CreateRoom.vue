@@ -139,10 +139,10 @@
                 <v-btn color="blue darken-1" flat @click="dialog = false">Close</v-btn>
                 <v-btn color="blue darken-1" flat @click="submit">Save</v-btn>
               </v-card-actions>
-              <v-alert v-if="this.dateError"
+              <v-alert v-if="this.Error"
                 :value="true"
                 type="error"
-              >{{ this.dateError }}
+              >{{ this.Error }}
               </v-alert>
             </v-container>
             <small>*indicates required field</small>
@@ -158,6 +158,7 @@ import {
   mapState, mapGetters, mapMutations, mapActions,
 } from 'vuex';
 import moment from 'moment';
+import HTTP from '../http';
 
 export default {
   data: () => ({
@@ -177,7 +178,8 @@ export default {
     endDate: '',
     startTime: '',
     endTime: '',
-    dateError: '',
+    Error: '',
+    createSuccess: '',
   }),
 
   computed: {
@@ -202,27 +204,52 @@ export default {
   methods: {
 
     submit(isLoggedIn) {
-      const startClass = moment(this.startDate + ' ' + this.startTime).format('x');
-      const endClass = moment(this.endDate + ' ' + this.endTime).format('x');
-      console.log('début', startClass);
-      console.log('fin', endClass);
+      const startClass = moment(this.startDate + ' ' + this.startTime).format('X'); // moment().format(X) => transforme la date en secondes. Utiliser x pour la date en millisecondes
+      const endClass = moment(this.endDate + ' ' + this.endTime).format('X');
+      const timestamp = (Date.now() / 1000); // diviser par 1000 pour avoir la date en secondes (Date.now() la donne en millisecondes).
       if (endClass <= startClass) {
-        this.dateError = "l'horaire de fin du cours est antérieur au début du cours";
-      } else if (startClass <= Date.now()) {
-        this.dateError = 'la date de début de cours est déjà passée';
+        this.Error = "l'horaire de fin du cours est antérieur au début du cours";
+      } else if (startClass <= timestamp) {
+        this.Error = 'la date de début de cours est déjà passée';
       } else if (isLoggedIn) {
+        HTTP().post('/rooms', {
+          authorID: this.user.userID,
+          title: this.courseName,
+          description: this.description,
+          createdat: timestamp,
+          startClass,
+          endClass,
+        })
+          .then(({ data }) => {
+            if (data.status === 200 && data.success) {
+              alert('class created');
+              // this.createSuccess = 'Votre cours a bien été crée';
+              console.log(data);
+            } else if (data.status === 400) {
+              const errorData = data.errors;
+              const errorDataMsg = errorData.map((e) => {
+                return e.msg;
+              });
+              this.Error = errorDataMsg;
+            }
+          })
+          .catch(() => {
+            // ne marche pas...les erreurs sont attrapées dans le else if précédent...to fix
+
+          });
+
         this.$socket.open();
         console.log('opening socket');
-        const timestamp = Date.now();
         this.dialog = false;
         this.$socket.emit('createRoom', {
           created_by: this.user.userID,
           room: this.courseName,
           description: this.description,
           timestamp,
-          startDate: startClass,
-          endDate: endClass,
+          startClass,
+          endClass,
         });
+
         this.$router.push('/');
       } else console.log('unauthorized');
       this.$router.push('/about');

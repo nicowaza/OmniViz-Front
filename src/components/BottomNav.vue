@@ -28,6 +28,11 @@
         <v-icon>account_box</v-icon>
       </v-btn>
 
+      <v-btn v-if="isLoggedIn && this.user.role === 'teacher'">
+        <CreateRoom style = "margin-top: -11px;"/>
+        <v-icon>home</v-icon>
+      </v-btn>
+
       <v-btn
         color="teal"
         flat
@@ -67,9 +72,15 @@
 <script>
 
 import { mapActions, mapGetters, mapState } from 'vuex';
+import CreateRoom from './CreateRoom.vue';
 
 export default {
   name: 'BottomNav',
+
+  components: {
+    CreateRoom,
+  },
+
   data() {
     return {
       bottomNav: 'recent',
@@ -98,5 +109,7 @@ export default {
 </script>
 
 <style>
-
+  .v-item-group.v-bottom-nav .v-btn {
+    max-width: 105px;
+}
 </style>
