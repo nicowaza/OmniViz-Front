@@ -22,7 +22,6 @@ export default {
   data() {
     return {
       roomInfos: [],
-      // isValidTime: false,
     };
   },
 
@@ -35,11 +34,6 @@ export default {
       console.log('opening socket');
       console.log('user looged in', this.isLoggedIn);
     } else console.log('user logged ?', this.isLoggedIn);
-
-
-    // if (currentDate > this.rooms[0].startClass && currentDate < this.rooms[0].endClass) {
-    //   this.isValidTime = true;
-    // }
   },
 
   computed: {
@@ -53,13 +47,6 @@ export default {
       'isLoggedIn',
       'isConnected',
     ]),
-
-    // isValidTime() {
-    //   const currentDate = (Date.now() / 1000);
-    //   console.log('date', currentDate);
-    //   console.log('start', this.rooms.startClass);
-    //   return currentDate > this.rooms.startClass && currentDate < this.rooms.endClass;
-    // },
   },
 
   methods: {
