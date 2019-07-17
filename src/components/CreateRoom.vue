@@ -250,7 +250,7 @@ export default {
           endClass,
         });
 
-        this.$router.push('/');
+        this.$router.push('/rommsList');
       } else console.log('unauthorized');
       this.$router.push('/about');
     },

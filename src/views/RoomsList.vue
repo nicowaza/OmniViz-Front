@@ -1,10 +1,12 @@
 <template>
 <div style = "height: 100vh;">
-  <div v-for="room in rooms"
+  <div v-for="(room, index) in rooms"
   :key="room.id"
   >
-  <p>{{ room.name }} created by {{ room.authorID }}</p>
-  <v-btn @click="join(room.name, room.authorID)">Join</v-btn></div>
+  <p>{{ room.title }} created by {{ room.authorID }}</p>
+  <v-btn v-if="isValidTime(index)" @click="join(room.title, room.authorID)">Join</v-btn>
+  <v-btn v-else>hello</v-btn>
+  </div>
 </div>
 </template>
 
@@ -20,8 +22,10 @@ export default {
   data() {
     return {
       roomInfos: [],
+      // isValidTime: false,
     };
   },
+
 
   mounted() {
     this.fetchRooms();
@@ -31,6 +35,11 @@ export default {
       console.log('opening socket');
       console.log('user looged in', this.isLoggedIn);
     } else console.log('user logged ?', this.isLoggedIn);
+
+
+    // if (currentDate > this.rooms[0].startClass && currentDate < this.rooms[0].endClass) {
+    //   this.isValidTime = true;
+    // }
   },
 
   computed: {
@@ -44,6 +53,13 @@ export default {
       'isLoggedIn',
       'isConnected',
     ]),
+
+    // isValidTime() {
+    //   const currentDate = (Date.now() / 1000);
+    //   console.log('date', currentDate);
+    //   console.log('start', this.rooms.startClass);
+    //   return currentDate > this.rooms.startClass && currentDate < this.rooms.endClass;
+    // },
   },
 
   methods: {
@@ -54,12 +70,12 @@ export default {
       'fetchRooms',
       'connect',
     ]),
-    join(name, authorID) {
-      console.log('room name :', name);
+    join(title, authorID) {
+      console.log('room name :', title);
       console.log('author :', authorID);
 
       this.$socket.emit('join', {
-        room: name,
+        room: title,
         createdBy: authorID,
       });
 
@@ -77,6 +93,13 @@ export default {
     roomCreation(data) {
       console.log('room creation data', data);
       this.roomInfos.push(data);
+    },
+
+    isValidTime(i) {
+      console.log('i ==', i);
+      const currentDate = (Date.now() / 1000);
+      console.log('date', currentDate);
+      return currentDate > this.rooms[i].startClass && currentDate < this.rooms[i].endClass;
     },
   },
 };
