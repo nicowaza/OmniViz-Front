@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import authentication from './store/authentication';
 // import store from './store/index';
 // import { ifNotAuthenticated, ifAuthenticated } from './helpers/checkAuth';
 // import Home from './views/Home.vue';
@@ -17,12 +18,13 @@ const router = new Router({
     //   component: Home,
     // },
     {
-      path: '/about',
+      path: '/',
       name: 'about',
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "about" */ './views/About.vue'),
+      meta: { requiresAuth: true },
     },
     {
       path: '/register',
@@ -39,42 +41,43 @@ const router = new Router({
     {
       path: '/createClass',
       name: 'CreateClass',
-      // beforeEnter: ifNotAuthenticated,
       component: () => import('./views/CreateClass.vue'),
     },
 
     {
       path: '/student/viz',
       name: 'StudentViz',
-      // beforeEnter: ifAuthenticated,
       component: () => import('./views/StudentViz.vue'),
+      meta: { requiresAuth: true },
     },
     {
-      path: '/',
+      path: '/teacher',
       name: 'Teacher',
-      // beforeEnter: ifAuthenticated,
       component: () => import('./views/TeacherViz.vue'),
+      meta: { requiresAuth: true },
     },
     {
       path: '/roomsList',
       name: 'roomsList',
       component: () => import('./views/RoomsList.vue'),
+      meta: { requiresAuth: true },
     },
   ],
 });
 
-// router.beforeEach((to, from, next) => {
-//   if (to.matched.some(record => record.meta.requiresAuth)) {
-//     if (!Auth.isAuthenticated()) {
-//       next({
-//         path: '/login',
-//         query: { redirect: to.fullPath },
-//       });
-//     } else {
-//       next('/');
-//     }
-//   }
-//   next();
-// });
+router.beforeEach((to, from, next) => {
+  console.log(`navigation to ${to.name} from ${from.name}`);
+  if (to.meta.requiresAuth) {
+    if (authentication.getters.isLoggedIn) {
+      next();
+    } else {
+      next({
+        name: 'login',
+      });
+    }
+  } else {
+    next();
+  }
+});
 
 export default router;

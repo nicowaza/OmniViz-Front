@@ -9,14 +9,31 @@
 </template>
 
 <script>
+import router from './router';
 import HeaderBar from './components/Header.vue';
 import BottomNav from './components/BottomNav.vue';
+import isAuthenticated from './helpers/Auth';
 
 export default {
   components: {
     HeaderBar,
     BottomNav,
   },
+
+  // call pour vérifier si une session est toujours ouverte pour l'utilsateur
+  beforeMount() {
+    isAuthenticated()
+      .then(({ data }) => {
+        console.log(data);
+        if (data.isAuthenticated === false) {
+          router.push('/login');
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },
+
 };
 </script>
 

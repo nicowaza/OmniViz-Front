@@ -148,7 +148,7 @@ export default {
             commit('setUser', data.user);
             // commit('SOCKET_CONNECT', true);
             // this.$socket.open();
-            router.push('/about');
+            router.push('/');
             // this.$socket.open();
           } else {
             commit('setLoginError', data.message);

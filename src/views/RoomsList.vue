@@ -4,7 +4,7 @@
   :key="room.id"
   >
   <p>{{ room.title }} created by {{ room.authorID }}</p>
-  <v-btn v-if="isValidTime(index)" @click="join(room.title, room.authorID)">Join</v-btn>
+  <v-btn v-if="isValidTime(index)" @click="join(room.roomID, room.title, room.authorID)">Join</v-btn>
   <v-btn v-else>hello</v-btn>
   </div>
 </div>
@@ -57,11 +57,12 @@ export default {
       'fetchRooms',
       'connect',
     ]),
-    join(title, authorID) {
+    join(roomID, title, authorID) {
       console.log('room name :', title);
       console.log('author :', authorID);
 
       this.$socket.emit('join', {
+        roomID,
         room: title,
         createdBy: authorID,
       });
@@ -70,7 +71,7 @@ export default {
         if (this.user.role === 'student') {
           this.$router.push('/student/viz');
         } else {
-          this.$router.push('/');
+          this.$router.push('/teacher');
         }
       } else {
         alert('unauthorized: you are not authentified');
