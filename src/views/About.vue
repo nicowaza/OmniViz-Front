@@ -1,6 +1,8 @@
 <template>
-  <div class="about" style="height: 100vh;">
+  <div class="about">
     <h1>This is the welcome page</h1>
+      here {{ this.$store.getters['authentication/isLoggedIn']}}
+
     <div style="display: flex; justify-content: space-around;">
       <RedBtn />
       <BlueBtn />

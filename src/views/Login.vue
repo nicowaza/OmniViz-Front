@@ -1,7 +1,7 @@
 <template>
   <div>
-    <v-layout row wrap style= "height: auto;">
-      <v-flex style= "margin-top: 40vh; height: 100vh;" xs6 offset-xs3>
+    <v-layout row wrap>
+      <v-flex style= "margin-top: 40vh" xs6 offset-xs3>
         <h1>Login</h1>
         <form action=""
         autocomplete="off"

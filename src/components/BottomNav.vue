@@ -1,9 +1,9 @@
 <template>
     <v-bottom-nav
       app
+      fixed
       :active.sync="bottomNav"
       :value="true"
-      absolute
       color="blue-grey"
     >
       <v-btn

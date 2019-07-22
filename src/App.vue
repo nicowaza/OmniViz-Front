@@ -1,5 +1,5 @@
 <template>
-  <v-app >
+  <v-app>
     <HeaderBar/>
     <div id="app" class="pa-0 contentStyle">
       <router-view class="containerMain"/>
@@ -9,20 +9,38 @@
 </template>
 
 <script>
+import router from './router';
 import HeaderBar from './components/Header.vue';
 import BottomNav from './components/BottomNav.vue';
+import isAuthenticated from './helpers/Auth';
 
 export default {
   components: {
     HeaderBar,
     BottomNav,
   },
+
+  // call pour vérifier si une session est toujours ouverte pour l'utilsateur
+  beforeMount() {
+    isAuthenticated()
+      .then(({ data }) => {
+        console.log(data);
+        if (data.isAuthenticated === false) {
+          router.push('/login');
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },
 };
+
+
 </script>
 
 <style lang="scss">
 #app {
-  height: auto;
+  // height: auto;
   min-height: 300px;
   // margin-top: 28px;
 }
@@ -32,10 +50,13 @@ export default {
 }
 .containerMain {
   background-color: aquamarine;
-  height: auto;
+  // height: auto;
   width: 100vw;
-  margin: auto;
-  padding-top: 64px;
+  margin-top: 64px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 56px
+  // padding-top: 64px;
 }
 
 @media (min-width: 600px) {
