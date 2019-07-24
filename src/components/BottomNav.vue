@@ -4,7 +4,7 @@
       :active.sync="bottomNav"
       :value="true"
       absolute
-      color="blue-grey"
+      color="#231846"
     >
       <v-btn
         color="teal"
@@ -13,8 +13,8 @@
         to="/login"
         fingerprint v-if="!isLoggedIn"
       >
-        <span>Login</span>
-        <v-icon>fingerprint</v-icon>
+        <span style="color: #B39DDB">Login</span>
+        <v-icon style="color: #B39DDB">fingerprint</v-icon>
       </v-btn>
 
       <v-btn
@@ -24,8 +24,8 @@
         to="/register"
         v-if="!isLoggedIn"
       >
-        <span>Register</span>
-        <v-icon>account_box</v-icon>
+        <span style="color: #B39DDB">Register</span>
+        <v-icon style="color: #B39DDB">account_box</v-icon>
       </v-btn>
 
       <v-btn v-if="isLoggedIn && this.user.role === 'teacher'">

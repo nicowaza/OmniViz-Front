@@ -3,74 +3,67 @@
     <v-layout row wrap style= "height: auto;">
       <v-flex style= "margin-top: 10vh;height: 100vh;" xs6 offset-xs3>
         <h1>Register</h1>
+        <br>
         <form autocomplete="off">
           <v-text-field
-          label="Enter an email"
-          placeholder="Email"
+          class="elevation-18"
+          label="Enter your email"
           :value="registerEmail"
           @input="setRegisterEmail"
           ></v-text-field>
-
+          <br>
           <v-text-field
             label="Enter a username"
-            placeholder="Username"
             :value="registerUsername"
             @input="setRegisterUsername"
           ></v-text-field>
-
+          <br>
           <v-text-field
             label="Entre your firstname"
-            placeholder="Firstname"
             :value="registerFirstname"
             @input="setRegisterFirstname"
           ></v-text-field>
-
+          <br>
           <v-text-field
             label="Entre your lastname"
-            placeholder="Lastname"
             :value="registerLastname"
             @input="SetRegisterLastname"
           ></v-text-field>
-
+          <br>
           <v-text-field
             label="Enter your university"
-            placeholder="University"
             :value="registerUniversity"
             @input="setRegisterUniversity"
           ></v-text-field>
-
+          <br>
           <v-text-field
             label="Enter your status"
-            placeholder="Role"
             :value="registerRole"
             @input="setRegisterRole"
           ></v-text-field>
-
+          <br>
           <v-text-field
             label="Enter your password"
-            placeholder="Password"
             type="password"
             :value="registerPassword"
             @input="setRegisterPassword"
           ></v-text-field>
-
+          <br>
           <v-text-field
             label="Confirm your password"
-            placeholder="Password"
             type="password"
             :value="registerConfirmedPassword"
             @input="setRegisterConfirmedPassword"
           ></v-text-field>
-
         </form>
 
-        <div v-for="errorDataMsg in registerErrors" :key="errorDataMsg.id">
+        <div v-for="registerError in registerErrors" :key="registerError.id">
           <v-alert type="error">
-            {{ errorDataMsg }}
+            {{ registerError }}
           </v-alert>
         </div>
 
-        <v-btn color="green" dark @click="register()">
+        <v-btn dark @click="register()">
           <v-icon class="mr-2">fingerprint</v-icon>
           Register
         </v-btn>
@@ -110,6 +103,7 @@ export default {
       'setRegisterAvatarUrl',
       'setRegisterUniversity',
       'setRegisterRole',
+      'setRegisterErrors',
     ]),
     ...mapActions('authentication', [
       'register',
@@ -117,3 +111,30 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+  h1 {
+    color: map-get($colors, custom-pink);
+    text-align: center;
+  }
+  .theme--dark.v-btn:not(.v-btn--icon):not(.v-btn--flat) {
+  @include submitBtn()
+  }
+  .v-input__control {
+    padding: 0 5px;
+  }
+  .v-input {
+    @include formInputBox()
+  }
+  .primary--text {
+    color:map-get($colors, dark-purple) !important;
+    caret-color:map-get($colors, dark-purple) !important;
+  }
+  .v-alert {
+    border-radius: $radius-default;
+    border-width: 0;
+  }
+  .center {
+    @include flexCenter()
+  }
+</style>

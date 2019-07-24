@@ -1,7 +1,7 @@
 <template>
   <v-app >
     <HeaderBar/>
-    <div id="app" class="pa-0 contentStyle">
+    <div class="pa-0 contentStyle">
       <router-view class="containerMain"/>
     </div>
     <BottomNav class="hidden-sm-and-up"/>
@@ -45,10 +45,10 @@ export default {
 }
 .contentStyle {
   // height: 100vh;
-  background-color: black;
+  background-color: #231846;
 }
 .containerMain {
-  background-color: aquamarine;
+  background-color: #28315a;
   height: auto;
   width: 100vw;
   margin: auto;

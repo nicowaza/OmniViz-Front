@@ -1,0 +1,20 @@
+$colors: (custom-pink: #B39DDB, dark-purple: #231846);
+$radius-default: 10px;
+
+@mixin submitBtn() {
+  background-color: map-get($colors, dark-purple);
+  color: map-get($colors, custom-pink);
+  border-radius: $radius-default;
+}
+
+@mixin formInputBox() {
+  background-color: map-get($colors, custom-pink);
+  border-radius: $radius-default;
+  color: map-get($colors, dark-purple)
+}
+
+@mixin flexCenter {
+  display: flex;
+  justify-content: center;
+}
+

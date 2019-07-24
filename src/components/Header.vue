@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar app fixed dark style = "height: 64px;">
+  <v-toolbar app fixed dark style = "height: 64px; background-color: #231846;">
     <v-avatar size="36px">
       <img src="https://avatars0.githubusercontent.com/u/9064066?v=4&s=460" alt="Avatar">
     </v-avatar>

@@ -1,13 +1,13 @@
 <template>
-<div style = "height: 100vh;">
-  <div v-for="(room, index) in rooms"
-  :key="room.id"
-  >
-  <p>{{ room.title }} created by {{ room.authorID }}</p>
-  <v-btn v-if="isValidTime(index)" @click="join(room.roomID, room.title, room.authorID)">Join</v-btn>
-  <v-btn v-else>hello</v-btn>
+  <div style = "height: 100vh;">
+    <div v-for="(room, index) in rooms"
+    :key="room.id"
+    >
+    <p>{{ room.title }} created by {{ room.authorID }}</p>
+    <v-btn v-if="isValidTime(index)" @click="join(room.roomID, room.title, room.authorID)">Join</v-btn>
+    <v-btn v-else>hello</v-btn>
+    </div>
   </div>
-</div>
 </template>
 
 <script>

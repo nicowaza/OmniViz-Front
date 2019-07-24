@@ -18,7 +18,7 @@ export default {
     registerAvatarUrl: null,
     registerUniversity: null,
     registerRole: null,
-    registerErrors: [],
+    registerErrors: null,
     loginEmail: null,
     loginPassword: null,
     loginError: null,
@@ -126,7 +126,9 @@ export default {
             const errorDataMsg = errorData.map((e) => {
               return e.msg;
             });
+            console.log(errorDataMsg);
             commit('setRegisterErrors', errorDataMsg);
+            console.log(state.registerErrors);
           }
         })
         .catch(() => {
