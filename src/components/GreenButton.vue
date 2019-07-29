@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div class="button btnRed textAlign">I DON'T GET IT</div>
+    <div class="button btnGreen textAlign">Everything's ok</div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'RedBtn',
+  name: 'GreenBtn',
 };
 </script>
 
@@ -30,18 +30,18 @@ export default {
   justify-content: center; /* alignement vertical */
 }
 
-.btnRed {
-  background-color: red;
+.btnGreen {
+  background-color: green;
 }
 
-@media (min-width: 350px) {
+@media (min-width: 430px) {
   .button {
-    width: 280px;
-    height: 280px;
+    width: 310px;
+    height: 310px;
   }
 }
 
-@media (min-width: 970px) {
+@media (min-width: 820px) {
   .button {
     width: 400px;
     height: 400px;

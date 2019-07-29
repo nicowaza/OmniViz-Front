@@ -15,7 +15,7 @@ export default {
     registerConfirmedPassword: null,
     registerFirstname: null,
     registerLastname: null,
-    registerAvatarUrl: null,
+    registerAvatar: null,
     registerUniversity: null,
     registerRole: null,
     registerErrors: null,
@@ -52,8 +52,8 @@ export default {
     SetRegisterLastname(state, lastname) {
       state.registerLastname = lastname;
     },
-    setRegisterAvatarUrl(state, avatarUrl) {
-      state.registerAvatarUrl = avatarUrl;
+    setRegisterAvatar(state, avatar) {
+      state.registerAvatar = avatar;
     },
     setRegisterUniversity(state, University) {
       state.registerUniversity = University;
@@ -112,7 +112,7 @@ export default {
         username: state.registerUsername,
         firstname: state.registerFirstname,
         lastname: state.registerLastname,
-        avatarUrl: state.registerAvatarUrl,
+        avatar: state.registerAvatar,
         university: state.registerUniversity,
         role: state.registerRole,
       })
@@ -150,7 +150,7 @@ export default {
             commit('setUser', data.user);
             // commit('SOCKET_CONNECT', true);
             // this.$socket.open();
-            router.push('/');
+            router.push('/home');
             // this.$socket.open();
           } else {
             commit('setLoginError', data.message);

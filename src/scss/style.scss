@@ -18,3 +18,7 @@ $radius-default: 10px;
   justify-content: center;
 }
 
+@mixin btn{
+  border-radius: $radius-default
+}
+

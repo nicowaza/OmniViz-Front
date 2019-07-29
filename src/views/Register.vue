@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-layout row wrap style= "height: auto;">
-      <v-flex style= "margin-top: 10vh;height: 100vh;" xs6 offset-xs3>
+      <v-flex style= "margin-top: 10vh; margin-bottom: 5vh;" xs8 offset-xs2>
         <h1>Register</h1>
         <br>
         <form autocomplete="off">
@@ -13,36 +13,63 @@
           ></v-text-field>
           <br>
           <v-text-field
+            class="elevation-18"
             label="Enter a username"
             :value="registerUsername"
             @input="setRegisterUsername"
           ></v-text-field>
           <br>
           <v-text-field
+            class="elevation-18"
             label="Entre your firstname"
             :value="registerFirstname"
             @input="setRegisterFirstname"
           ></v-text-field>
           <br>
           <v-text-field
+            class="elevation-18"
             label="Entre your lastname"
             :value="registerLastname"
             @input="SetRegisterLastname"
           ></v-text-field>
           <br>
           <v-text-field
+            class="elevation-18"
             label="Enter your university"
             :value="registerUniversity"
             @input="setRegisterUniversity"
           ></v-text-field>
           <br>
           <v-text-field
+            class="elevation-18"
             label="Enter your status"
             :value="registerRole"
             @input="setRegisterRole"
           ></v-text-field>
           <br>
           <v-text-field
+            class="elevation-18"
+            label="Enter your avatar"
+            :value="registerAvatar"
+            @input="setRegisterAvatar"
+          ></v-text-field>
+          <br>
+          <!-- <div>
+            <label for="file" class="label"></label>
+            <input
+            style="display: none;"
+            type="file"
+            ref="imageUpload"
+            accept="image/*"
+            @change="onFileSelected"
+            @input="setRegisterAvatar(selectedFile)"
+            >
+
+          </div>
+          <v-btn @click="onChooseFile">Upload an image</v-btn>
+          <br> -->
+          <v-text-field
+            class="elevation-18"
             label="Enter your password"
             type="password"
             :value="registerPassword"
@@ -50,23 +77,29 @@
           ></v-text-field>
           <br>
           <v-text-field
+            class="elevation-18"
             label="Confirm your password"
             type="password"
             :value="registerConfirmedPassword"
             @input="setRegisterConfirmedPassword"
           ></v-text-field>
+          <br>
+          <div class=center>
+            <v-btn dark @click="register()">
+            <v-icon class="mr-2">fingerprint</v-icon>
+            Register
+            </v-btn>
+          </div>
         </form>
-
+        <br>
+        <br>
         <div v-for="registerError in registerErrors" :key="registerError.id">
           <v-alert type="error">
             {{ registerError }}
           </v-alert>
         </div>
 
-        <v-btn dark @click="register()">
-          <v-icon class="mr-2">fingerprint</v-icon>
-          Register
-        </v-btn>
+
       </v-flex>
     </v-layout>
   </v-container>
@@ -78,6 +111,10 @@ import { mapState, mapMutations, mapActions } from 'vuex';
 
 export default {
   name: 'register',
+  // data: () => ({
+  //   selectedFile: null,
+  // }),
+
   computed: {
     ...mapState('authentication', [
       'registerEmail',
@@ -86,13 +123,25 @@ export default {
       'registerConfirmedPassword',
       'registerFirstname',
       'registerLastname',
-      'registerAvatarUrl',
+      'registerAvatar',
       'registerUniversity',
       'registerRole',
       'registerErrors',
     ]),
   },
   methods: {
+
+    // // implémenter l'upload de l'img dans le store authentication !!
+    // onChooseFile() {
+    //   this.$refs.imageUpload.click();
+    // },
+    // onFileSelected(event) {
+    //   const { files } = event.target;
+    //   console.log('files', files);
+    //   const filename = files[0].name;
+    //   console.log('filename', filename);
+    //   this.selectedFile = filename;
+    // },
     ...mapMutations('authentication', [
       'setRegisterEmail',
       'setRegisterPassword',
@@ -100,7 +149,7 @@ export default {
       'setRegisterUsername',
       'setRegisterFirstname',
       'SetRegisterLastname',
-      'setRegisterAvatarUrl',
+      'setRegisterAvatar',
       'setRegisterUniversity',
       'setRegisterRole',
       'setRegisterErrors',
@@ -112,7 +161,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
   h1 {
     color: map-get($colors, custom-pink);
     text-align: center;
@@ -120,15 +169,16 @@ export default {
   .theme--dark.v-btn:not(.v-btn--icon):not(.v-btn--flat) {
   @include submitBtn()
   }
-  .v-input__control {
-    padding: 0 5px;
+  .v-text-field {
+    padding-left: 10px;
+    padding-right: 10px;
   }
   .v-input {
     @include formInputBox()
   }
   .primary--text {
     color:map-get($colors, dark-purple) !important;
-    caret-color:map-get($colors, dark-purple) !important;
+    caret-color:map-get($colors, dark-purple)!important;
   }
   .v-alert {
     border-radius: $radius-default;

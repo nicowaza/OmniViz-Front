@@ -1,11 +1,14 @@
 <template>
-  <v-app >
-    <HeaderBar/>
-    <div class="pa-0 contentStyle">
-      <router-view class="containerMain"/>
-    </div>
-    <BottomNav class="hidden-sm-and-up"/>
-  </v-app>
+  <div id="app">
+    <v-app >
+      <HeaderBar/>
+        <div class="pa-0 contentStyle">
+          <router-view class="containerMain"/>
+        </div>
+      <BottomNav class="hidden-sm-and-up"/>
+    </v-app>
+  </div>
+
 </template>
 
 <script>
@@ -38,18 +41,14 @@ export default {
 </script>
 
 <style lang="scss">
-#app {
-  height: auto;
-  min-height: 300px;
-  // margin-top: 28px;
-}
+
 .contentStyle {
-  // height: 100vh;
+  height: 100%;
   background-color: #231846;
 }
 .containerMain {
   background-color: #28315a;
-  height: auto;
+  height: 100%;
   width: 100vw;
   margin: auto;
   padding-top: 64px;

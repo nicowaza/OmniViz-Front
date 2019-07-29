@@ -37,6 +37,13 @@ export default {
     this.$socket.close();
   },
 
+  // ne fonctionne pas...
+  beforeCreate() {
+    if (this.isLoggedIn === false) {
+      router.push('/login');
+    }
+  },
+
   computed: {
     ...mapState('authentication', [
       'user',

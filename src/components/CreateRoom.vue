@@ -1,6 +1,6 @@
 <template>
   <v-layout row justify-center>
-    <v-dialog v-model="dialog" persistent min-width= "300px" max-width="600px">
+    <v-dialog v-model="dialog" min-width= "300px" max-width="600px">
       <template v-slot:activator="{ on }">
         <v-btn flat v-on="on">Create Class</v-btn>
       </template>
@@ -9,7 +9,7 @@
           <span class="headline">Create your class</span>
         </v-card-title>
         <v-card-text>
-          <v-form>
+          <v-form enctype="mutlipart/form-data">
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
@@ -18,6 +18,18 @@
                 <v-flex xs12>
                   <v-textarea v-model="description" auto-grow box label="Description"></v-textarea>
                 </v-flex>
+                <!-- <v-flex xs12>
+                  <div>
+                    <label for="file" class="label"></label>
+                    <input
+                    style="display: none;"
+                    type="file"
+                    ref="imageUpload"
+                    accept="image/*"
+                    @change="onFileSelected">
+                  </div>
+                <v-btn @click="onChooseFile">Upload an image</v-btn>
+                </v-flex> -->
                 <v-flex>
                   <v-dialog
                     ref="dialog1"
@@ -180,6 +192,7 @@ export default {
     endTime: '',
     Error: '',
     createSuccess: '',
+    selectedFile: null,
   }),
 
   computed: {
@@ -202,8 +215,23 @@ export default {
   },
 
   methods: {
+    // onChooseFile() {
+    //   this.$refs.imageUpload.click();
+    // },
+    // onFileSelected(event) {
+    //   const { files } = event.target;
+    //   const filename = files[0].name;
 
+    //   this.selectedFile = event.target.files[0];
+    //   console.log('files', files);
+    //   console.log('filename', filename);
+    // },
     submit(isLoggedIn) {
+    //   console.log('selectedFile', this.selectedFile);
+    //   const formData = new FormData();
+    //   formData.append('file', this.selectedFile);
+    //   console.log('formData', formData);
+
       const startClass = moment(this.startDate + ' ' + this.startTime).format('X'); // moment().format(X) => transforme la date en secondes. Utiliser x pour la date en millisecondes
       const endClass = moment(this.endDate + ' ' + this.endTime).format('X');
       const timestamp = (Date.now() / 1000); // diviser par 1000 pour avoir la date en secondes (Date.now() la donne en millisecondes).
@@ -214,8 +242,13 @@ export default {
       } else if (isLoggedIn) {
         HTTP().post('/rooms', {
           authorID: this.user.userID,
+          authorLastname: this.user.lastname,
+          authorFirstname: this.user.firstname,
+          authorUsername: this.user.username,
           title: this.courseName,
           description: this.description,
+          avatar: this.avatar,
+          // image: formData,
           createdat: timestamp,
           startClass,
           endClass,

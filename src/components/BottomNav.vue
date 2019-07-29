@@ -3,7 +3,7 @@
       app
       :active.sync="bottomNav"
       :value="true"
-      absolute
+      fixed
       color="#231846"
     >
       <v-btn
@@ -108,8 +108,14 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
   .v-item-group.v-bottom-nav .v-btn {
     max-width: 105px;
+}
+.v-item-group.v-bottom-nav .v-btn .v-btn__content i.v-icon {
+  color: map-get($colors, custom-pink);
+}
+.v-btn__content {
+  color: map-get($colors, custom-pink);
 }
 </style>

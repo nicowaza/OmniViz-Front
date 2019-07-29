@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-layout row wrap style= "height: auto;">
-      <v-flex style= "margin-top: 40vh; height: 100vh;" xs6 offset-xs3>
+      <v-flex style= "margin-top: 25vh;" xs6 offset-xs3>
         <h1>Login</h1>
         <br>
         <form action=""
@@ -86,8 +86,12 @@ export default {
   .theme--dark.v-btn:not(.v-btn--icon):not(.v-btn--flat) {
   @include submitBtn()
   }
-  .v-input__control {
-    padding: 0 5px;
+  // .v-input__control {
+  //   padding: 0 10px;
+  // }
+  .v-text-field {
+    padding-left: 10px;
+    padding-right: 10px;
   }
   .theme--light.v-sheet {
     @include formInputBox()

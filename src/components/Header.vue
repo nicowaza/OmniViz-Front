@@ -10,9 +10,9 @@
         <v-icon class="mr-2">account_box</v-icon>
         Classes
         </v-btn>
-      <v-btn flat to="/" v-if="isLoggedIn">
-        <v-icon class="mr-2">account_box</v-icon>
-        About
+      <v-btn flat to="/home" v-if="isLoggedIn">
+        <v-icon class="mr-2">home</v-icon>
+        Home
         </v-btn>
       <CreateRoom v-if="isLoggedIn && this.user.role === 'teacher'"/>
       <v-btn flat to="/register" v-if="!isLoggedIn">
