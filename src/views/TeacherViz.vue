@@ -1,10 +1,9 @@
 <template>
   <v-container fill-height>
-    <v-layout  style = "height: 100vh" align-center justify-center>
+    <v-layout  style = "height: auto" align-center justify-center>
       <TeacherDisplay />
     </v-layout>
   </v-container>
-
 </template>
 
 <script>

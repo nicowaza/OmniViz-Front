@@ -1,7 +1,7 @@
 
 <template>
   <div id="1s">
-    <v-container style="display: flex; justify-content: space-between;">
+    <v-container style="display: flex; justify-content: space-around;">
       <div>
         <h3>TEACHER: </h3>
         <p>{{ this.roomInfos[0].authorFirstname }} {{ this.roomInfos[0].authorLastname }}</p>
@@ -11,39 +11,39 @@
       </div>
       <v-btn color="red" @click="closeRoom()">close</v-btn>
     </v-container>
-    <v-container class="test" style="height: 100%; display: flex;">
-      <div class="interactiveBox">
-        <div>
-        <!-- <transition mode="in-out" name="animate" enter-active-class="animated flash" leave-active-class="animated flipOutX">
-          <h3 v-show="alerts.includes('green')">alerte verte</h3>
-        </transition> -->
-          <!-- <transition mode="in-out" name="animate" enter-active-class="animated flash" leave-active-class="animated flipOutX"> -->
-          <div v-if="alerts.includes('red')"><RedBtn class="wiggle" /></div>
-          <div v-else><GreenBtn /></div>
+    <v-container class="test" style="height: 100%; display: flex; justify-content: space-around; flex-wrap: wrap; margin-top: 0px;">
+      <!-- <div class="interactiveBox"> -->
+      <div>
+      <!-- <transition mode="in-out" name="animate" enter-active-class="animated flash" leave-active-class="animated flipOutX">
+        <h3 v-show="alerts.includes('green')">alerte verte</h3>
+      </transition> -->
+        <!-- <transition mode="in-out" name="animate" enter-active-class="animated flash" leave-active-class="animated flipOutX"> -->
+        <div v-if="alerts.includes('red')"><RedBtn class="wiggle" /></div>
+        <div v-else><GreenBtn /></div>
 
-          <audio id=audio controls loop>
-            <source src="../../public/sounds/Wrong-alert-beep-sound.mp3" type="audio/mpeg">
-          Your browser does not support the audio element.
-          </audio>
+        <audio id=audio controls loop>
+          <source src="../../public/sounds/Wrong-alert-beep-sound.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+        </audio>
 
-          <!-- </transition>
-          <br>
-          <br> -->
-          <br>
-          <br>
-        <!-- <transition mode="out-in" name="heartBeat" enter-active-class="animated flash" leave-active-class="animated flipOutX">
-          <div v-show="alerts.includes('blue')"><BlueBtn /></div>
-        </transition>
-        <transition mode="out-in" name="heartBeat" enter-active-class="animated flash" leave-active-class="animated flipOutX">
-          <h3 v-if="alerts.includes('yellow')">alerte jaune</h3>
-        </transition> -->
-        </div>
-      <div id="chatbox">
-        <div style="padding: 5px 0" v-for="message in messages" :key="message.id">
-        <p style="margin: 5px 0;">{{ message }}</p>
-        </div>
+        <!-- </transition>
+        <br>
+        <br> -->
+        <br>
+        <br>
+      <!-- <transition mode="out-in" name="heartBeat" enter-active-class="animated flash" leave-active-class="animated flipOutX">
+        <div v-show="alerts.includes('blue')"><BlueBtn /></div>
+      </transition>
+      <transition mode="out-in" name="heartBeat" enter-active-class="animated flash" leave-active-class="animated flipOutX">
+        <h3 v-if="alerts.includes('yellow')">alerte jaune</h3>
+      </transition> -->
+      </div>
+    <div id="chatbox">
+      <div style="padding: 5px 0" v-for="message in messages" :key="message.id">
+      <p style="margin: 5px 0;">{{ message }}</p>
       </div>
     </div>
+    <!-- </div> -->
   </v-container>
 </div>
 
