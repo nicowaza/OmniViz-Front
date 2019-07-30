@@ -4,9 +4,9 @@
     <v-container style="display: flex; justify-content: space-around;">
       <div>
         <h3>TEACHER: </h3>
-        <p>{{ this.roomInfos[0].authorFirstname }} {{ this.roomInfos[0].authorLastname }}</p>
+        <p>{{ this.roomInfos[0].roomData.authorFirstname }} {{ this.roomInfos[0].roomData.authorLastname }}</p>
         <h3>CLASS:  </h3>
-        <p>{{ this.roomInfos[0].roomName }}</p>
+        <p>{{ this.roomInfos[0].roomData.roomName }}</p>
 
       </div>
       <v-btn color="red" @click="closeRoom()">close</v-btn>
@@ -128,9 +128,11 @@ export default {
   sockets: {
     joiningEvent(data) {
       console.log('data :', data);
-      const { roomName } = data;
+      const { roomName } = data.roomData;
       console.log('room', roomName);
       this.roomInfos.push(data);
+      console.log('this.roomInfos', this.roomInfos);
+      console.log('data joining event', data);
       // console.log('this infos', this.roomInfos[0].authorFirstname);
       const connectedUser = {
         username: data.username,

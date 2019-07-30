@@ -14,6 +14,10 @@
         <v-icon class="mr-2">home</v-icon>
         Home
         </v-btn>
+      <v-btn flat to="/timeline" v-if="isLoggedIn">
+        <v-icon class="mr-2">timeline</v-icon>
+        Timeline
+        </v-btn>
       <CreateRoom v-if="isLoggedIn && this.user.role === 'teacher'"/>
       <v-btn flat to="/register" v-if="!isLoggedIn">
         <v-icon class="mr-2">account_box</v-icon>

@@ -45,6 +45,12 @@ const router = new Router({
     },
 
     {
+      path: '/timeline',
+      name: 'Timeline',
+      component: () => import('./views/Timeline.vue'),
+    },
+
+    {
       path: '/student/viz',
       name: 'StudentViz',
       component: () => import('./views/StudentViz.vue'),

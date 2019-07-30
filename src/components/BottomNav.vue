@@ -29,7 +29,7 @@
       </v-btn>
 
       <v-btn v-if="isLoggedIn && this.user.role === 'teacher'">
-        <CreateRoom style = "margin-top: -11px;"/>
+        <CreateRoom class="createRooms" style = ""/>
         <v-icon>home</v-icon>
       </v-btn>
 
@@ -117,5 +117,14 @@ export default {
 }
 .v-btn__content {
   color: map-get($colors, custom-pink);
+}
+élément {
+
+    padding-top: 11px;
+
+}
+.createRooms {
+  margin-top: -11px;
+  font-size: 14px;
 }
 </style>
