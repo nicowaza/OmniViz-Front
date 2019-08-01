@@ -11,10 +11,13 @@
 </template>
 
 <script>
+import HTTP from '../http';
+
 export default {
   name: 'Timeline',
   data() {
     return {
+      roomInfos: [],
       tags: [
         {
           backgroundColor: 'red',
@@ -68,6 +71,12 @@ export default {
       // avatar: '../public/img/avatar/slash.jpg',
     };
   },
+
+  mounted() {
+    const id = this.$store.state.route.params.roomID;
+    this.fetchRoom(id);
+  },
+
   computed: {
     tagsStyle() {
       return this.tags.map(tag => ({
@@ -81,6 +90,25 @@ export default {
           position: tag.position,
         },
       }));
+    },
+  },
+
+  methods: {
+    fetchRoom(roomID) {
+      HTTP().get(`/rooms/${roomID}`, {
+
+      })
+        .then(({ data, err }) => {
+          if (err) {
+            console.log(err);
+          } else if (data.status === 200) {
+            this.roomInfos.push(data);
+          }
+        })
+        .catch(() => {
+          // ne marche pas...les erreurs sont attrapées dans le else if précédent...to fix
+
+        });
     },
   },
 };

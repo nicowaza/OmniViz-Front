@@ -1,8 +1,8 @@
 <template>
   <div class="btnContainer">
-    <div v-for="message in messages" :key="message.id">
+    <!-- <div v-for="message in messages" :key="message.id">
       <p>{{ message }}</p>
-    </div>
+    </div> -->
     <div class="btnRow1">
       <v-btn id="btnGreen" round light class="button btnGreen" @click="clickTag('green')"><span class="text-wrap" >GOT IT</span></v-btn>
       <v-btn id="btnRed" class="button btnRed" @click="clickTag('red')"><span class="text-wrap">NOT UNDERSTOOD</span></v-btn>
@@ -105,7 +105,9 @@ export default {
   },
   methods: {
     clickTag(color) {
-      const timestamp = Date.now();
+      const timestamp = Date.now()
+      / 1000;
+      console.log(timestamp);
       this.$socket.emit('tag', {
         tag: color,
         timestamp,

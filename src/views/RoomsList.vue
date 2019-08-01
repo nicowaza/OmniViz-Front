@@ -40,7 +40,7 @@
                 <div>
                   <v-btn v-if="isValidTime(index)" @click="join(room.roomID,  room.title, room.authorID, room.authorLastname, room.authorFirstname)">Join
                   </v-btn>
-                  <v-btn v-else>hello</v-btn>
+                  <v-btn v-else @click="viewRoom(room.roomID)">Timeline</v-btn>
                 </div>
                 <div>
                   <v-btn >edit</v-btn>
@@ -125,6 +125,10 @@ export default {
       } else {
         alert('unauthorized: you are not authentified');
       }
+    },
+
+    viewRoom(roomID) {
+      this.$router.push(`/rooms/${roomID}`);
     },
 
     roomCreation(data) {

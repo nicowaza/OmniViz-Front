@@ -180,5 +180,8 @@ export default {
     isConnected(state) {
       return !!state.isConnected;
     },
+    // hasAvatar(state) {
+    //   return !!state.user.avatar;
+    // },
   },
 };

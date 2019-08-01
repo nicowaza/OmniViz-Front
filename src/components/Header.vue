@@ -1,9 +1,10 @@
 <template>
   <v-toolbar app fixed dark style = "height: 64px; background-color: #231846;">
     <v-avatar size="36px">
-      <img src="https://avatars0.githubusercontent.com/u/9064066?v=4&s=460" alt="Avatar">
+      <!-- <img v-bind:src="img" alt="Avatar"> -->
     </v-avatar>
-    <v-toolbar-title>Title</v-toolbar-title>
+    <v-toolbar-title v-if="this.user">Hello {{ this.user.username }}</v-toolbar-title>
+    <v-toolbar-title v-else>Welcome To Omnilive</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-toolbar-items class="hidden-xs-only">
       <v-btn flat to="/roomsList" v-if="isLoggedIn">
@@ -43,14 +44,32 @@ import CreateRoom from './CreateRoom.vue';
 export default {
   name: 'HeaderBar',
 
+
+  // data() {
+    // const { avatar } = this.user.avatar;
+    // console.log(avatar);
+  //   return {
+  //     img: '',
+  //     // avatar: '../public/img/avatar/slash.jpg',
+  //   };
+  // },
   components: {
     CreateRoom,
   },
+
+  // mounted() {
+  //   this.hasAvatar();
+  // },
+
+  // updated() {
+  //   this.hasAvatar();
+  // },
 
   computed: {
     ...mapGetters('authentication', [
       'isLoggedIn',
       'isConnected',
+      // 'hasAvatar',
     ]),
     ...mapState('rooms', [
       'rooms',
@@ -70,6 +89,10 @@ export default {
       }),
       console.log(this.user.username));
     },
+  //   hasAvatar() {
+  //     const { avatar } = this.user;
+  //     this.img.push(avatar);
+  //   },
   },
 };
 </script>
