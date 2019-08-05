@@ -4,9 +4,9 @@
     <v-container style="display: flex; justify-content: space-around;">
       <div>
         <h3>TEACHER: </h3>
-        <p>{{ this.roomInfos[0].roomData.authorFirstname }} {{ this.roomInfos[0].roomData.authorLastname }}</p>
+        <p>{{ this.roomInfos[0].authorFirstname }} {{ this.roomInfos[0].authorLastname }}</p>
         <h3>CLASS:  </h3>
-        <p>{{ this.roomInfos[0].roomData.roomName }}</p>
+        <p>{{ this.roomInfos[0].roomName }}</p>
 
       </div>
       <v-btn color="red" @click="closeRoom()">close</v-btn>
@@ -120,19 +120,22 @@ export default {
   },
 
   beforeDestroy() {
-    this.$socket.emit('closeRoom');
+    // this.$socket.emit('closeRoom');
     this.$socket.close();
     // ajouter une fenêtre de confirmation ?
   },
 
   sockets: {
     joiningEvent(data) {
-      console.log('data :', data);
+      console.log('data :', data.roomData);
       const { roomName } = data.roomData;
       console.log('room', roomName);
-      this.roomInfos.push(data);
-      console.log('this.roomInfos', this.roomInfos);
-      console.log('data joining event', data);
+
+      if (this.roomInfos.length === 0) {
+        this.roomInfos.push(data.roomData);
+        console.log('this.roomInfos', this.roomInfos);
+      }
+      // console.log('data joining event', data);
       // console.log('this infos', this.roomInfos[0].authorFirstname);
       const connectedUser = {
         username: data.username,
@@ -141,12 +144,19 @@ export default {
       };
       const loggedUserID = this.user.userID;
       const connectedUserID = data.user_id;
-
+      console.log('logged user id', loggedUserID);
+      console.log('conncected user id', connectedUserID);
       if (connectedUserID === loggedUserID) {
         this.messages.push(`You've joined ${roomName}`);
       } else {
         this.messages.push(data.message);
       }
+
+      // this.participants.push({
+      //   username: data.username,
+      //   id: data.user_id,
+      //   role: data.user_role,
+      // });
 
       if (connectedUser.role === 'teacher') {
         this.teacher.push(connectedUser);
@@ -155,6 +165,37 @@ export default {
       }
     },
 
+    // joiningEvent(data) {
+    //   console.log('data :', data);
+    //   const { room } = data.roomData;
+
+    //   const connectedUser = {
+    //     username: data.username,
+    //     id: data.user_id,
+    //     role: data.user_role,
+    //   };
+    //   const loggedUserID = this.user.userID;
+    //   const connectedUserID = data.user_id;
+    //   console.log(loggedUserID);
+    //   console.log(connectedUserID);
+    //   if (connectedUserID === loggedUserID) {
+    //     this.messages.push(`You've joined ${room}`);
+    //   } else {
+    //     this.messages.push(data.message);
+    //   }
+
+    //   this.participants.push({
+    //     username: data.username,
+    //     id: data.user_id,
+    //     role: data.user_role,
+    //   });
+
+    //   if (connectedUser.role === 'teacher') {
+    //     this.teacher.push(connectedUser);
+    //   } else if (connectedUser.role === 'student') {
+    //     this.students.push(connectedUser);
+    //   }
+    // },
     leavingEvent(data) {
       this.messages.push(data.message);
       this.students = this.students.filter(student => student.id !== data.user_id);
