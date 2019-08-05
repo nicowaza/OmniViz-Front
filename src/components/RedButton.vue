@@ -34,10 +34,10 @@ export default {
   background-color: red;
 }
 
-@media (min-width: 350px) {
-  .button {
-    width: 280px;
-    height: 280px;
+@media (min-width: 430px) {
+  .btn {
+    width: 310px;
+    height: 310px;
   }
 }
 

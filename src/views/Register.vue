@@ -6,55 +6,55 @@
         <br>
         <form autocomplete="off">
           <v-text-field
-          class="elevation-18"
+          class="elevation-24"
           label="Enter your email"
           :value="registerEmail"
           @input="setRegisterEmail"
           ></v-text-field>
           <br>
           <v-text-field
-            class="elevation-18"
+            class="elevation-24"
             label="Enter a username"
             :value="registerUsername"
             @input="setRegisterUsername"
           ></v-text-field>
           <br>
           <v-text-field
-            class="elevation-18"
+            class="elevation-24"
             label="Entre your firstname"
             :value="registerFirstname"
             @input="setRegisterFirstname"
           ></v-text-field>
           <br>
           <v-text-field
-            class="elevation-18"
+            class="elevation-24"
             label="Entre your lastname"
             :value="registerLastname"
             @input="SetRegisterLastname"
           ></v-text-field>
           <br>
           <v-text-field
-            class="elevation-18"
+            class="elevation-24"
             label="Enter your university"
             :value="registerUniversity"
             @input="setRegisterUniversity"
           ></v-text-field>
           <br>
           <v-text-field
-            class="elevation-18"
+            class="elevation-24"
             label="Enter your status"
             :value="registerRole"
             @input="setRegisterRole"
           ></v-text-field>
           <br>
-          <v-text-field
-            class="elevation-18"
+          <!-- <v-text-field
+            class="elevation-24"
             label="Enter your avatar"
             :value="registerAvatar"
             @input="setRegisterAvatar"
-          ></v-text-field>
+          >{{ selectedFile }}</v-text-field> -->
           <br>
-          <!-- <div>
+          <div>
             <label for="file" class="label"></label>
             <input
             style="display: none;"
@@ -62,14 +62,13 @@
             ref="imageUpload"
             accept="image/*"
             @change="onFileSelected"
-            @input="setRegisterAvatar(selectedFile)"
+            @input="setRegisterAvatar"
             >
-
           </div>
           <v-btn @click="onChooseFile">Upload an image</v-btn>
-          <br> -->
+          <br>
           <v-text-field
-            class="elevation-18"
+            class="elevation-24"
             label="Enter your password"
             type="password"
             :value="registerPassword"
@@ -77,7 +76,7 @@
           ></v-text-field>
           <br>
           <v-text-field
-            class="elevation-18"
+            class="elevation-24"
             label="Confirm your password"
             type="password"
             :value="registerConfirmedPassword"
@@ -111,9 +110,9 @@ import { mapState, mapMutations, mapActions } from 'vuex';
 
 export default {
   name: 'register',
-  // data: () => ({
-  //   selectedFile: null,
-  // }),
+  data: () => ({
+    selectedFile: null,
+  }),
 
   computed: {
     ...mapState('authentication', [
@@ -131,17 +130,18 @@ export default {
   },
   methods: {
 
-    // // implémenter l'upload de l'img dans le store authentication !!
-    // onChooseFile() {
-    //   this.$refs.imageUpload.click();
-    // },
-    // onFileSelected(event) {
-    //   const { files } = event.target;
-    //   console.log('files', files);
-    //   const filename = files[0].name;
-    //   console.log('filename', filename);
-    //   this.selectedFile = filename;
-    // },
+    // implémenter l'upload de l'img dans le store authentication !!
+    onChooseFile() {
+      this.$refs.imageUpload.click();
+    },
+    onFileSelected(event) {
+      const { files } = event.target;
+      console.log('files', files);
+      const filename = files[0].name;
+      console.log('filename', filename);
+      this.selectedFile = filename;
+      console.log('this selected', this.selectedFile);
+    },
     ...mapMutations('authentication', [
       'setRegisterEmail',
       'setRegisterPassword',

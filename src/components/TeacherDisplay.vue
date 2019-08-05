@@ -19,7 +19,7 @@
       </transition> -->
         <!-- <transition mode="in-out" name="animate" enter-active-class="animated flash" leave-active-class="animated flipOutX"> -->
         <div v-if="alerts.includes('red')"><RedBtn class="wiggle" /></div>
-        <div v-else><GreenBtn /></div>
+        <div v-else class="elevation-24"><GreenBtn /></div>
 
         <audio id=audio controls loop>
           <source src="../../public/sounds/Wrong-alert-beep-sound.mp3" type="audio/mpeg">
@@ -38,7 +38,7 @@
         <h3 v-if="alerts.includes('yellow')">alerte jaune</h3>
       </transition> -->
       </div>
-    <div id="chatbox">
+    <div id="chatbox" class="elevation-24">
       <div style="padding: 5px 0" v-for="message in messages" :key="message.id">
       <p style="margin: 5px 0;">{{ message }}</p>
       </div>
@@ -287,13 +287,14 @@ h1 {
 }
 
 #chatbox {
-  background-color: white;
+  background-color: #ffffff;
   height: 100px;
   width: 300px;
   /* min-width: 300px; */
   overflow-y: scroll;
   margin: 10px 30px;
   padding: 0 30px;
+  border-radius: 50px
 }
 #chatbox p {
   padding: 5px 0;

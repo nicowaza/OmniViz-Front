@@ -7,7 +7,7 @@
         <form action=""
         autocomplete="off"
         >
-          <v-card class="elevation-18">
+          <v-card :elevation="24">
             <v-text-field
 
             label="Email"
@@ -18,7 +18,7 @@
 
           <br>
           <br>
-          <v-card class="elevation-18">
+          <v-card :elevation="24">
             <v-text-field
             label="Password"
             type="password"
