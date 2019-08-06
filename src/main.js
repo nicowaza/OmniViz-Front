@@ -4,12 +4,16 @@ import VueSocketio from 'vue-socket.io-extended';
 import { sync } from 'vuex-router-sync';
 import Vuetify from 'vuetify';
 import 'vuetify/dist/vuetify.min.css';
+import moment from 'moment';
 // import VueCookies from 'vue-cookies';
 import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 import store from './store/index';
 import './registerServiceWorker';
+
+
+Vue.prototype.moment = moment;
 
 Vue.use(Vuetify);
 sync(store, router);

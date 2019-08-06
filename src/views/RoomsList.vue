@@ -2,6 +2,26 @@
   <div>
     <v-container style="padding-bottom: 64px" >
       <div style="width: auto" >
+        <div class="text-center">
+          <v-menu offset-y>
+            <template v-slot:activator="{ on }">
+              <v-btn
+                color="#463e54"
+                v-on="on"
+              ><v-icon left>expand_more</v-icon>
+              <span>Filter by</span>
+              </v-btn>
+            </template>
+            <v-list>
+              <v-list-tile @click="fetchRooms()">Date of creation</v-list-tile>
+              <v-list-tile @click="fetchRoomsByDate()">Class start Date</v-list-tile>
+              <v-list-tile @click="fetchRoomsOfTheDay()">Classes of the day</v-list-tile>
+            </v-list>
+          </v-menu>
+        </div>
+        <!-- <div style="display: flex; justify-content: start;">
+          <v-btn @click="fetchRoomsByDate()">date</v-btn>
+        </div> -->
         <div style="display: flex; flex-wrap: wrap; justify-content: space-around;">
           <div  v-for="(paginatedData, index) in paginatedDatas" :key="paginatedData.id">
             <v-card
@@ -15,7 +35,7 @@
               </v-img>
               <v-layout style="margin-top: 15px">
                 <v-flex>
-                  <v-subheader>teacher {{ paginatedData.authorID }}</v-subheader>
+                  <h2 style="padding: 15px">teacher: {{ paginatedData.authorUsername }}</h2>
                 </v-flex>
                 <v-spacer></v-spacer>
                 <v-spacer></v-spacer>
@@ -30,10 +50,15 @@
                   </v-avatar>
                 </v-flex>
               </v-layout>
-
-              <p style="height: 60px; width: 210px; overflow: auto; padding: 15px;"
+              <h3 style="padding-left: 15px; margin: 10px 0;">Day:  {{ moment(paginatedData.startClass * 1000).format('Mo MMM') }}</h3>
+              <div style="display: flex; margin: 10px 0; ">
+                <div style="padding-left: 15px">begining: {{ moment(paginatedData.startClass * 1000).format('HH mm') }} </div>
+                <div style="padding-left: 15px">finishing: {{ moment(paginatedData.endClass * 1000).format('HH mm')}}
+                </div>
+              </div>
+              <h3 style="padding-left: 15px;">Subject: </h3>
+              <p style="height: 60px; width: 210px; overflow: auto; padding: 5px 15px 15px 15px; margin-bottom: 0;"
               >{{ paginatedData.description }}</p>
-
               <v-layout justify-space-around>
                 <div>
                   <v-btn v-if="isValidTime(index)" @click="join(paginatedData.roomID,  paginatedData.title, paginatedData.authorID, paginatedData.authorLastname, paginatedData.authorFirstname)">Join
@@ -126,6 +151,8 @@ export default {
     ]),
     ...mapActions('rooms', [
       'fetchRooms',
+      'fetchRoomsByDate',
+      'fetchRoomsOfTheDay',
       'connect',
     ]),
     join(roomID, title, authorID, authorLastname, authorFirstname) {

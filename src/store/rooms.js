@@ -35,6 +35,22 @@ export default {
           // console.log('this state room[0]', data.result[1]);
         });
     },
+
+    fetchRoomsByDate({ commit }) {
+      return HTTP().get('/rooms/startDate')
+        .then(({ data }) => {
+          commit('setRooms', data.results);
+          // console.log('this state room[0]', data.result[1]);
+        });
+    },
+    // createProject({ commit, state }) {
+    fetchRoomsOfTheDay({ commit }) {
+      return HTTP().get('/rooms/classOfTheDay')
+        .then(({ data }) => {
+          commit('setRooms', data.results);
+          // console.log('this state room[0]', data.result[1]);
+        });
+    },
     // createProject({ commit, state }) {
     //   return HTTP().post('/projects', {
     //     title: state.newProjectName,
