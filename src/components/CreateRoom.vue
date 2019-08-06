@@ -1,6 +1,6 @@
 <template>
   <v-layout row justify-center>
-    <v-dialog v-model="dialog" min-width= "300px" max-width="600px">
+    <v-dialog v-model="dialog" width= "300px" height="70%">
       <template v-slot:activator="{ on }">
         <v-btn flat v-on="on">Create Class</v-btn>
       </template>
@@ -235,11 +235,13 @@ export default {
       const startClass = moment(this.startDate + ' ' + this.startTime).format('X'); // moment().format(X) => transforme la date en secondes. Utiliser x pour la date en millisecondes
       const endClass = moment(this.endDate + ' ' + this.endTime).format('X');
       const timestamp = (Date.now() / 1000); // diviser par 1000 pour avoir la date en secondes (Date.now() la donne en millisecondes).
+      console.log('timestamp', timestamp);
       if (endClass <= startClass) {
         this.Error = "l'horaire de fin du cours est antérieur au début du cours";
       } else if (startClass <= timestamp) {
         this.Error = 'la date de début de cours est déjà passée';
       } else if (isLoggedIn) {
+        console.log('date', timestamp);
         HTTP().post('/rooms', {
           authorID: this.user.userID,
           authorLastname: this.user.lastname,
@@ -248,8 +250,6 @@ export default {
           title: this.courseName,
           description: this.description,
           avatar: this.avatar,
-          // image: formData,
-          createdat: timestamp,
           startClass,
           endClass,
         })
