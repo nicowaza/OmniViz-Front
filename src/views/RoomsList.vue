@@ -16,6 +16,7 @@
               <v-list-tile @click="fetchRooms()">Date of creation</v-list-tile>
               <v-list-tile @click="fetchRoomsByDate()">Class start Date</v-list-tile>
               <v-list-tile @click="fetchRoomsOfTheDay()">Classes of the day</v-list-tile>
+              <v-list-tile @click="fetchMyRooms(user.userID)">My Classes</v-list-tile>
             </v-list>
           </v-menu>
         </div>
@@ -153,6 +154,7 @@ export default {
       'fetchRooms',
       'fetchRoomsByDate',
       'fetchRoomsOfTheDay',
+      'fetchMyRooms',
       'connect',
     ]),
     join(roomID, title, authorID, authorLastname, authorFirstname) {

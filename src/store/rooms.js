@@ -1,5 +1,6 @@
 // import router from '../router';
 import HTTP from '../http';
+import router from '../router';
 
 export default {
   namespaced: true,
@@ -16,50 +17,39 @@ export default {
   // },
 
   actions: {
-    // saveProject({ commit }, project) {
-    //   return HTTP().patch(`projects/${project.id}`, project)
-    //     .then(() => {
-    //       commit('unsetEditMode', project);
-    //     });
-    // },
-    // deleteProject({ commit }, project) {
-    //   return HTTP().delete(`projects/${project.id}`)
-    //     .then(() => {
-    //       commit('removeProject', project);
-    //     });
-    // },
+
     fetchRooms({ commit }) {
       return HTTP().get('/rooms')
         .then(({ data }) => {
           commit('setRooms', data.results);
-          // console.log('this state room[0]', data.result[1]);
         });
     },
 
+    // liste les cours par date de début du cours(plus récents en premier)
     fetchRoomsByDate({ commit }) {
       return HTTP().get('/rooms/startDate')
         .then(({ data }) => {
           commit('setRooms', data.results);
-          // console.log('this state room[0]', data.result[1]);
         });
     },
-    // createProject({ commit, state }) {
+
+    // liste tous les cours de la journée
     fetchRoomsOfTheDay({ commit }) {
       return HTTP().get('/rooms/classOfTheDay')
         .then(({ data }) => {
           commit('setRooms', data.results);
-          // console.log('this state room[0]', data.result[1]);
         });
     },
-    // createProject({ commit, state }) {
-    //   return HTTP().post('/projects', {
-    //     title: state.newProjectName,
-    //   })
-    //     .then(({ data }) => {
-    //       commit('appendProject', data);
-    //       commit('setNewProjectName', null);
-    //     });
-    // },
+
+    // liste uniquement les cours auquels à participé le user
+    fetchMyRooms({ commit }, userID) {
+      console.log(`/rooms/myRooms/${userID}`);
+      return HTTP().get(`/rooms/myRooms/${userID}`)
+        .then(({ data }) => {
+          commit('setRooms', data.results);
+        });
+    },
+
     socket_event({ commit }, data) {
       commit('SOCKET_EVENT', data);
     },
