@@ -52,8 +52,8 @@ export default {
     SetRegisterLastname(state, lastname) {
       state.registerLastname = lastname;
     },
-    setRegisterAvatar(state, avatar) {
-      state.registerAvatar = avatar;
+    setRegisterAvatar(state, payload) {
+      state.registerAvatar = payload;
     },
     setRegisterUniversity(state, University) {
       state.registerUniversity = University;

@@ -42,12 +42,14 @@ const router = new Router({
       path: '/createClass',
       name: 'CreateClass',
       component: () => import('./views/CreateClass.vue'),
+      meta: { requiresAuth: true },
     },
 
     {
       path: '/rooms/:roomID',
       name: 'Timeline',
       component: () => import('./views/Timeline.vue'),
+      meta: { requiresAuth: true },
     },
 
     {

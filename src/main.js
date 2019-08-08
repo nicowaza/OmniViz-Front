@@ -18,7 +18,7 @@ Vue.prototype.moment = moment;
 Vue.use(Vuetify);
 sync(store, router);
 
-const socket = io('http://localhost:5000', {
+const socket = io(process.env.SOCKET_CONNECT, {
   autoConnect: false,
 });
 
