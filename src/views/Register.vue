@@ -93,7 +93,7 @@
         <br>
         <br>
         <div v-for="registerError in registerErrors" :key="registerError.id">
-          <v-alert type="error">
+          <v-alert v-show="registerError" type="error">
             {{ registerError }}
           </v-alert>
         </div>
