@@ -4,20 +4,15 @@
     <v-container style="display: flex; justify-content: space-around;">
       <div>
         <h3>TEACHER: </h3>
-        <p>{{ this.roomInfos[0].authorFirstname }} {{ this.roomInfos[0].authorLastname }}</p>
+        <p>{{ this.roomInfos.authorFirstname }} {{ this.roomInfos.authorLastname }}</p>
         <h3>CLASS:  </h3>
-        <p>{{ this.roomInfos[0].roomName }}</p>
+        <p>{{ this.roomInfos.roomName }}</p>
 
       </div>
-      <v-btn color="red" @click="closeRoom()">close</v-btn>
+      <v-btn color="red" @click="closeRoom(user.username)">close</v-btn>
     </v-container>
     <v-container class="test" style="height: 100%; display: flex; justify-content: space-around; flex-wrap: wrap; margin-top: 0px;">
-      <!-- <div class="interactiveBox"> -->
       <div>
-      <!-- <transition mode="in-out" name="animate" enter-active-class="animated flash" leave-active-class="animated flipOutX">
-        <h3 v-show="alerts.includes('green')">alerte verte</h3>
-      </transition> -->
-        <!-- <transition mode="in-out" name="animate" enter-active-class="animated flash" leave-active-class="animated flipOutX"> -->
         <div v-if="alerts.includes('red')"><RedBtn class="wiggle" /></div>
         <div v-else class="elevation-24"><GreenBtn /></div>
 
@@ -25,50 +20,16 @@
           <source src="../../public/sounds/Wrong-alert-beep-sound.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
         </audio>
-
-        <!-- </transition>
-        <br>
-        <br> -->
         <br>
         <br>
-      <!-- <transition mode="out-in" name="heartBeat" enter-active-class="animated flash" leave-active-class="animated flipOutX">
-        <div v-show="alerts.includes('blue')"><BlueBtn /></div>
-      </transition>
-      <transition mode="out-in" name="heartBeat" enter-active-class="animated flash" leave-active-class="animated flipOutX">
-        <h3 v-if="alerts.includes('yellow')">alerte jaune</h3>
-      </transition> -->
       </div>
-    <div id="chatbox" class="elevation-24">
-      <div style="padding: 5px 0" v-for="message in messages" :key="message.id">
-      <p style="margin: 5px 0;">{{ message }}</p>
-      </div>
-    </div>
-    <!-- </div> -->
-  </v-container>
-</div>
-
-    <!-- <div style="display: flex; justify-content: space-around; width: 300px;">
-      <div style="display: flex">
-        <div style="width: 20px; height: 20px; background-color: green; margin-left: 10px">
+      <div id="chatbox" class="elevation-24">
+        <div style="padding: 5px 0" v-for="message in messages" :key="message.id">
+        <p style="margin: 5px 0;">{{ message }}</p>
         </div>
-        <p style="margin-left: 3px"># {{ events.filter(x => x.tag=="green").length }}</p>
       </div>
-      <div style="display: flex">
-        <div style="width: 20px; height: 20px; background-color: red; margin-left: 10px">
-        </div>
-        <p style="margin-left: 3px;"># {{ events.filter(x => x.tag=="red").length }}</p>
-      </div>
-      <div style="display: flex">
-        <div style="width: 20px; height: 20px; background-color: blue; margin-left: 10px">
-        </div>
-        <p style="margin-left: 3px;"># {{ events.filter(x => x.tag=="blue").length }}</p>
-      </div>
-      <div style="display: flex">
-        <div style="width: 20px; height: 20px; background-color: yellow; margin-left: 10px">
-        </div>
-        <p style="margin-left: 3px;"># {{ events.filter(x => x.tag=="yellow").length }}</p>
-      </div> -->
-
+    </v-container>
+  </div>
 </template>
 
 <script>
@@ -76,7 +37,6 @@ import { mapState, mapGetters } from 'vuex';
 import moment from 'moment';
 import router from '../router';
 import RedBtn from './RedButton.vue';
-import BlueBtn from './BlueButton.vue';
 import GreenBtn from './GreenButton.vue';
 
 
@@ -84,14 +44,13 @@ export default {
   name: 'TeacherDisplay',
   components: {
     RedBtn,
-    BlueBtn,
     GreenBtn,
   },
 
   data() {
     return {
       messages: [],
-      roomInfos: [],
+      roomInfos: '',
       welcomes: [],
       alerts: [],
       events: [],
@@ -130,13 +89,9 @@ export default {
       console.log('data :', data.roomData);
       const { roomName } = data.roomData;
       console.log('room', roomName);
+      this.roomInfos = data.roomData;
+      console.log('this.roomInfos', this.roomInfos);
 
-      if (this.roomInfos.length === 0) {
-        this.roomInfos.push(data.roomData);
-        console.log('this.roomInfos', this.roomInfos);
-      }
-      // console.log('data joining event', data);
-      // console.log('this infos', this.roomInfos[0].authorFirstname);
       const connectedUser = {
         username: data.username,
         id: data.user_id,
@@ -152,12 +107,6 @@ export default {
         this.messages.push(data.message);
       }
 
-      // this.participants.push({
-      //   username: data.username,
-      //   id: data.user_id,
-      //   role: data.user_role,
-      // });
-
       if (connectedUser.role === 'teacher') {
         this.teacher.push(connectedUser);
       } else if (connectedUser.role === 'student') {
@@ -165,45 +114,16 @@ export default {
       }
     },
 
-    // joiningEvent(data) {
-    //   console.log('data :', data);
-    //   const { room } = data.roomData;
-
-    //   const connectedUser = {
-    //     username: data.username,
-    //     id: data.user_id,
-    //     role: data.user_role,
-    //   };
-    //   const loggedUserID = this.user.userID;
-    //   const connectedUserID = data.user_id;
-    //   console.log(loggedUserID);
-    //   console.log(connectedUserID);
-    //   if (connectedUserID === loggedUserID) {
-    //     this.messages.push(`You've joined ${room}`);
-    //   } else {
-    //     this.messages.push(data.message);
-    //   }
-
-    //   this.participants.push({
-    //     username: data.username,
-    //     id: data.user_id,
-    //     role: data.user_role,
-    //   });
-
-    //   if (connectedUser.role === 'teacher') {
-    //     this.teacher.push(connectedUser);
-    //   } else if (connectedUser.role === 'student') {
-    //     this.students.push(connectedUser);
-    //   }
-    // },
     leavingEvent(data) {
       this.messages.push(data.message);
       this.students = this.students.filter(student => student.id !== data.user_id);
     },
+
     roomCreation(data) {
       console.log('room creation data', data);
       this.roomInfos.push(data);
     },
+
     event(data) {
       this.events.push({ tag: data.color, timestamp: data.time, username: data.username });
       if (data.color === 'blue') {
@@ -243,13 +163,16 @@ export default {
       return ['green', 'yellow', 'red'].filter(x => this.events.filter(y => Date.now() - y.timestamp < 30000).filter(y => y.tag === x).length > ((this.students.length) / 2));
     },
 
-    closeRoom(data) {
+    closeRoom() {
+      console.log('ferme cours', this.user.username);
       alert('Vous allez fermer ce cours'); // remplacer par une fenêtre de confirmation
-      this.$socket.emit('closeRoom', console.log('fermeture'), {
-        data,
+      const { username } = this.user;
+      this.$socket.emit('closeRoom', console.log('socket emit fermeture', this.user.username), {
+        username,
       });
       router.push('/about');
     },
+
     resetAlerts() {
       const { alerts } = this;
       console.log('reset this alerts', alerts);
