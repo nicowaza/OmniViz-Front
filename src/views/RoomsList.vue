@@ -110,7 +110,7 @@ export default {
   },
 
   mounted() {
-    this.fetchRooms();
+    console.log('mounted rooms', this.rooms);
     if (this.isConnected === false) {
       this.$socket.open();
       this.connect();
@@ -141,6 +141,7 @@ export default {
     paginatedDatas() {
       const start = this.pageNumber * this.size;
       const end = start + this.size;
+      console.log('sliced rooms', this.rooms);
       return this.rooms.slice(start, end);
     },
 
