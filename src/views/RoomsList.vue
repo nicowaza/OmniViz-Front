@@ -110,7 +110,6 @@ export default {
   },
 
   mounted() {
-    this.fetchRooms();
     if (this.isConnected === false) {
       this.$socket.open();
       this.connect();
