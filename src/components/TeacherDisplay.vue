@@ -208,7 +208,7 @@ export default {
       this.events.push({ tag: data.color, timestamp: data.time, username: data.username });
       if (data.color === 'blue') {
         this.alerts.push(data.color);
-        const timeToString = moment(data.time).format('HH:mm:ss');
+        const timeToString = moment((data.time) * 1000).format('HH:mm:ss');
         console.log('time', timeToString);
         this.messages.push(`At ${timeToString}: ${data.username} has a question `);
 
