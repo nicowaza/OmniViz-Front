@@ -107,8 +107,8 @@ export default {
   },
   methods: {
     clickTag(color) {
-      const timestamp = Date.now();
-      console.log(timestamp);
+      const timestamp = Date.now() / 1000;
+      console.log('tag timestamp', timestamp);
       this.$socket.emit('tag', {
         tag: color,
         timestamp,
