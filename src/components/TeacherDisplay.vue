@@ -4,14 +4,15 @@
     <v-container style="display: flex; justify-content: space-around;">
       <div>
         <h3>TEACHER: </h3>
-        <p>{{ this.roomInfos.authorFirstname }} {{ this.roomInfos.authorLastname }}</p>
+        <p>{{ this.roomInfos[0].authorFirstname }} {{ this.roomInfos[0].authorLastname }}</p>
         <h3>CLASS:  </h3>
-        <p>{{ this.roomInfos.roomName }}</p>
+        <p>{{ this.roomInfos[0].roomName }}</p>
 
       </div>
-      <v-btn color="red" @click="closeRoom(user.username)">close</v-btn>
+      <v-btn color="red" @click="closeRoom()">close</v-btn>
     </v-container>
     <v-container class="test" style="height: 100%; display: flex; justify-content: space-around; flex-wrap: wrap; margin-top: 0px;">
+      <!-- <div class="interactiveBox"> -->
       <div>
         <div v-if="alerts.includes('red')"><RedBtn class="wiggle" /></div>
         <div v-else class="elevation-24"><GreenBtn /></div>
@@ -20,16 +21,18 @@
           <source src="../../public/sounds/Wrong-alert-beep-sound.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
         </audio>
+
         <br>
         <br>
       </div>
-      <div id="chatbox" class="elevation-24">
-        <div style="padding: 5px 0" v-for="message in messages" :key="message.id">
-        <p style="margin: 5px 0;">{{ message }}</p>
-        </div>
+    <div id="chatbox" class="elevation-24">
+      <div style="padding: 5px 0" v-for="message in messages" :key="message.id">
+      <p style="margin: 5px 0;">{{ message }}</p>
       </div>
-    </v-container>
-  </div>
+    </div>
+  </v-container>
+</div>
+
 </template>
 
 <script>
@@ -37,6 +40,7 @@ import { mapState, mapGetters } from 'vuex';
 import moment from 'moment';
 import router from '../router';
 import RedBtn from './RedButton.vue';
+// import BlueBtn from './BlueButton.vue';
 import GreenBtn from './GreenButton.vue';
 
 
@@ -50,7 +54,7 @@ export default {
   data() {
     return {
       messages: [],
-      roomInfos: '',
+      roomInfos: [],
       welcomes: [],
       alerts: [],
       events: [],
@@ -89,8 +93,11 @@ export default {
       console.log('data :', data.roomData);
       const { roomName } = data.roomData;
       console.log('room', roomName);
-      this.roomInfos = data.roomData;
-      console.log('this.roomInfos', this.roomInfos);
+
+      if (this.roomInfos.length === 0) {
+        this.roomInfos.push(data.roomData);
+        console.log('this.roomInfos', this.roomInfos);
+      }
 
       const connectedUser = {
         username: data.username,
@@ -118,12 +125,10 @@ export default {
       this.messages.push(data.message);
       this.students = this.students.filter(student => student.id !== data.user_id);
     },
-
     roomCreation(data) {
       console.log('room creation data', data);
       this.roomInfos.push(data);
     },
-
     event(data) {
       this.events.push({ tag: data.color, timestamp: data.time, username: data.username });
       if (data.color === 'blue') {
@@ -163,16 +168,13 @@ export default {
       return ['green', 'yellow', 'red'].filter(x => this.events.filter(y => Date.now() - y.timestamp < 30000).filter(y => y.tag === x).length > ((this.students.length) / 2));
     },
 
-    closeRoom() {
-      console.log('ferme cours', this.user.username);
+    closeRoom(data) {
       alert('Vous allez fermer ce cours'); // remplacer par une fenêtre de confirmation
-      const { username } = this.user;
-      this.$socket.emit('closeRoom', console.log('socket emit fermeture', this.user.username), {
-        username,
+      this.$socket.emit('closeRoom', console.log('fermeture'), {
+        data,
       });
       router.push('/about');
     },
-
     resetAlerts() {
       const { alerts } = this;
       console.log('reset this alerts', alerts);

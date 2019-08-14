@@ -51,7 +51,7 @@
                   </v-avatar>
                 </v-flex>
               </v-layout>
-              <h3 style="padding-left: 15px; margin: 10px 0;">Day:  {{ moment(paginatedData.startClass * 1000).format('Mo MMM') }}</h3>
+              <h3 style="padding-left: 15px; margin: 10px 0;">Day:  {{ moment(paginatedData.startClass * 1000).format('Do MMM') }}</h3>
               <div style="display: flex; margin: 10px 0; ">
                 <div style="padding-left: 15px">begining: {{ moment(paginatedData.startClass * 1000).format('HH mm') }} </div>
                 <div style="padding-left: 15px">finishing: {{ moment(paginatedData.endClass * 1000).format('HH mm')}}
@@ -160,7 +160,6 @@ export default {
       console.log('room name :', title);
       console.log('author :', authorID);
       console.log('author last name', authorLastname);
-
       this.$socket.emit('join', {
         roomID,
         roomName: title,
