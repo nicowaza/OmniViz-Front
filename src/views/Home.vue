@@ -14,15 +14,16 @@ import {
 
 export default {
   components: {
-    // Square,
+
   },
   name: 'home',
-  // components: {
-  //   HelloWorld,
-  // };
+
   mounted() {
-    this.fetchRooms();
-    console.log('home mounted rooms', this.rooms);
+    this.fetchRooms()
+      .then(() => {
+        console.log('after fetch');
+        console.log('this rooms:', this.rooms);
+      });
   },
 
   computed: {

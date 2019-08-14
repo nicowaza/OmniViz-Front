@@ -141,7 +141,7 @@ export default {
     paginatedDatas() {
       const start = this.pageNumber * this.size;
       const end = start + this.size;
-      console.log('sliced rooms', this.rooms);
+      console.log('paginated rooms', this.rooms);
       return this.rooms.slice(start, end);
     },
 
