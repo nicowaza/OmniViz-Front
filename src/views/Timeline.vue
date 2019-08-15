@@ -37,6 +37,7 @@ export default {
   data() {
     return {
       roomInfos: [],
+      participants: [],
       classDuration: '',
       tags: [],
       activeIndex: '',
@@ -117,8 +118,9 @@ export default {
 
             console.log('this tags before', this.tags);
 
-            this.newTagArray();
-            console.log('this tag after', this.tags);
+            this.participants = roomData.content3;
+            // this.newTagArray();
+            // console.log('this tag after', this.tags);
           }
         })
         .catch(() => {
@@ -136,6 +138,8 @@ export default {
       if (this.activeIndexStyle[0]) {
         this.activeIndexStyle.splice(0, 1, activeStyle);
       } else this.activeIndexStyle.push(activeStyle);
+
+      this.activeIndexStyle[0].display = 'flex';
     },
 
     // ferme le modal
