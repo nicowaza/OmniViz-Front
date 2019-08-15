@@ -57,7 +57,7 @@ const router = new Router({
       meta: { requiresAuth: true },
     },
     {
-      path: '/teacher',
+      path: '/teacher/:roomID',
       name: 'Teacher',
       component: () => import('./views/TeacherViz.vue'),
       meta: { requiresAuth: true },

@@ -4,9 +4,9 @@
     <v-container style="display: flex; justify-content: space-around;">
       <div>
         <h3>TEACHER: </h3>
-        <p>{{ this.roomInfos[0].authorFirstname }} {{ this.roomInfos[0].authorLastname }}</p>
+        <p>{{ this.rooms[0].authorFirstname }} {{ this.rooms[0].authorLastname }}</p>
         <h3>CLASS:  </h3>
-        <p>{{ this.roomInfos[0].roomName }}</p>
+        <p>{{ this.rooms[0].title }}</p>
 
       </div>
       <v-btn color="red" @click="closeRoom()">close</v-btn>
@@ -36,7 +36,9 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
+import {
+  mapState, mapGetters, mapActions, mapMutations,
+} from 'vuex';
 import moment from 'moment';
 import router from '../router';
 import RedBtn from './RedButton.vue';
@@ -65,6 +67,25 @@ export default {
   },
 
   mounted() {
+    const id = this.$store.state.route.params.roomID;
+    this.fetchRoomsById(id)
+      .then(() => {
+        this.roomInfos.push(this.rooms);
+        if (this.rooms[0].authorID === this.user.userID) {
+          this.messages.push(`You've joined ${this.rooms[0].title}`);
+        }
+        //  else {
+        //   this.messages.push(`${this.user.username} has joined ${this.rooms[0].title}`);
+        // }
+
+        if (this.user.role === 'teacher') {
+          this.teacher.push(this.user);
+        }
+        // else if (this.user.role === 'student') {
+        //   this.students.push(this.user);
+        // }
+      });
+
     this.scrollToBottom();
   },
 
@@ -75,6 +96,9 @@ export default {
   computed: {
     ...mapState('authentication', [
       'user',
+    ]),
+    ...mapState('rooms', [
+      'rooms',
     ]),
     ...mapGetters('authentication', [
       'isLoggedIn',
@@ -94,10 +118,10 @@ export default {
       const { roomName } = data.roomData;
       console.log('room', roomName);
 
-      if (this.roomInfos.length === 0) {
-        this.roomInfos.push(data.roomData);
-        console.log('this.roomInfos', this.roomInfos);
-      }
+      // if (this.roomInfos.length === 0) {
+      //   this.roomInfos.push(data.roomData);
+      //   console.log('this.roomInfos', this.roomInfos);
+      // }
 
       const connectedUser = {
         username: data.username,
@@ -108,15 +132,18 @@ export default {
       const connectedUserID = data.user_id;
       console.log('logged user id', loggedUserID);
       console.log('conncected user id', connectedUserID);
-      if (connectedUserID === loggedUserID) {
-        this.messages.push(`You've joined ${roomName}`);
-      } else {
+
+      // {
+      //   this.messages.push(`You've joined ${roomName}`);
+      // } else
+      if (connectedUserID !== loggedUserID) {
         this.messages.push(data.message);
       }
 
-      if (connectedUser.role === 'teacher') {
-        this.teacher.push(connectedUser);
-      } else if (connectedUser.role === 'student') {
+      // if (connectedUser.role === 'teacher') {
+      //   this.teacher.push(connectedUser);
+      // } else
+      if (connectedUser.role === 'student') {
         this.students.push(connectedUser);
       }
     },
@@ -130,6 +157,7 @@ export default {
       this.roomInfos.push(data);
     },
     event(data) {
+      console.log('event data', data);
       this.events.push({ tag: data.color, timestamp: data.time, username: data.username });
       if (data.color === 'blue') {
         this.alerts.push(data.color);
@@ -158,6 +186,12 @@ export default {
   },
 
   methods: {
+    ...mapMutations('rooms', [
+      'setRooms',
+    ]),
+    ...mapActions('rooms', [
+      'fetchRoomsById',
+    ]),
     // permet d'afficher les derniers messages en bas du chatbox
     scrollToBottom() {
       const messageBox = document.getElementById('chatbox');
@@ -165,7 +199,7 @@ export default {
     },
 
     alertTags() {
-      return ['green', 'yellow', 'red'].filter(x => this.events.filter(y => Date.now() - y.timestamp < 30000).filter(y => y.tag === x).length > ((this.students.length) / 2));
+      return ['red'].filter(x => this.events.filter(y => (Date.now() / 1000) - y.timestamp < 30000).filter(y => y.tag === x).length > ((this.students.length) / 2));
     },
 
     closeRoom(data) {

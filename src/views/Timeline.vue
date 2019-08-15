@@ -85,7 +85,7 @@ export default {
 
   methods: {
     fetchRoom(roomID) {
-      HTTP().get(`/rooms/${roomID}`, {
+      HTTP().get(`/rooms/timeline/${roomID}`, {
 
       })
         .then(({ data, err }) => {

@@ -172,7 +172,7 @@ export default {
         if (this.user.role === 'student') {
           this.$router.push('/student/viz');
         } else {
-          this.$router.push('/teacher');
+          this.$router.push(`/teacher/${roomID}`);
         }
       } else {
         alert('unauthorized: you are not authentified');
