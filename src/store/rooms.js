@@ -25,6 +25,14 @@ export default {
         });
     },
 
+    fetchRoomsById({ commit }, roomID) {
+      return HTTP().get(`/rooms/${roomID}`)
+        .then(({ data }) => {
+          console.log('results', data.results);
+          commit('setRooms', data.results);
+        });
+    },
+
     // liste les cours par date de début du cours(plus récents en premier)
     fetchRoomsByDate({ commit }) {
       return HTTP().get('/rooms/startDate')

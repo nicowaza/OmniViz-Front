@@ -4,9 +4,9 @@
     <v-container style="display: flex; justify-content: space-around;">
       <div>
         <h3>TEACHER: </h3>
-        <p>{{ this.roomInfos[0].authorFirstname }} {{ this.roomInfos[0].authorLastname }}</p>
+        <p>{{ this.rooms[0].authorFirstname }} {{ this.rooms[0].authorLastname }}</p>
         <h3>CLASS:  </h3>
-        <p>{{ this.roomInfos[0].roomName }}</p>
+        <p>{{ this.rooms[0].title }}</p>
 
       </div>
       <v-btn color="red" @click="closeRoom()">close</v-btn>
@@ -72,7 +72,9 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
+import {
+  mapState, mapGetters, mapActions, mapMutations,
+} from 'vuex';
 import moment from 'moment';
 import router from '../router';
 import RedBtn from './RedButton.vue';
@@ -106,12 +108,30 @@ export default {
   },
 
   updated() {
+    const id = this.$store.state.route.params.roomID;
+
+    this.fetchRoomsById(id)
+      .then(() => {
+        this.roomInfos.push(this.rooms);
+
+        if (this.rooms[0].authorID === this.user.userID) {
+          this.messages.push(`You've joined ${this.rooms[0].title}`);
+        }
+
+        if (this.user.role === 'teacher') {
+          this.teacher.push(this.user);
+        }
+      });
+
     this.scrollToBottom();
   },
 
   computed: {
     ...mapState('authentication', [
       'user',
+    ]),
+    ...mapState('rooms', [
+      'rooms',
     ]),
     ...mapGetters('authentication', [
       'isLoggedIn',
@@ -131,10 +151,10 @@ export default {
       const { roomName } = data.roomData;
       console.log('room', roomName);
 
-      if (this.roomInfos.length === 0) {
-        this.roomInfos.push(data.roomData);
-        console.log('this.roomInfos', this.roomInfos);
-      }
+      // if (this.roomInfos.length === 0) {
+      //   this.roomInfos.push(data.roomData);
+      //   console.log('this.roomInfos', this.roomInfos);
+      // }
       // console.log('data joining event', data);
       // console.log('this infos', this.roomInfos[0].authorFirstname);
       const connectedUser = {
@@ -146,56 +166,16 @@ export default {
       const connectedUserID = data.user_id;
       console.log('logged user id', loggedUserID);
       console.log('conncected user id', connectedUserID);
-      if (connectedUserID === loggedUserID) {
-        this.messages.push(`You've joined ${roomName}`);
-      } else {
+
+      if (connectedUserID !== loggedUserID) {
         this.messages.push(data.message);
       }
 
-      // this.participants.push({
-      //   username: data.username,
-      //   id: data.user_id,
-      //   role: data.user_role,
-      // });
-
-      if (connectedUser.role === 'teacher') {
-        this.teacher.push(connectedUser);
-      } else if (connectedUser.role === 'student') {
+      if (connectedUser.role === 'student') {
         this.students.push(connectedUser);
       }
     },
 
-    // joiningEvent(data) {
-    //   console.log('data :', data);
-    //   const { room } = data.roomData;
-
-    //   const connectedUser = {
-    //     username: data.username,
-    //     id: data.user_id,
-    //     role: data.user_role,
-    //   };
-    //   const loggedUserID = this.user.userID;
-    //   const connectedUserID = data.user_id;
-    //   console.log(loggedUserID);
-    //   console.log(connectedUserID);
-    //   if (connectedUserID === loggedUserID) {
-    //     this.messages.push(`You've joined ${room}`);
-    //   } else {
-    //     this.messages.push(data.message);
-    //   }
-
-    //   this.participants.push({
-    //     username: data.username,
-    //     id: data.user_id,
-    //     role: data.user_role,
-    //   });
-
-    //   if (connectedUser.role === 'teacher') {
-    //     this.teacher.push(connectedUser);
-    //   } else if (connectedUser.role === 'student') {
-    //     this.students.push(connectedUser);
-    //   }
-    // },
     leavingEvent(data) {
       this.messages.push(data.message);
       this.students = this.students.filter(student => student.id !== data.user_id);
@@ -233,6 +213,12 @@ export default {
   },
 
   methods: {
+    ...mapMutations('rooms', [
+      'setRooms',
+    ]),
+    ...mapActions('rooms', [
+      'fetchRoomsById',
+    ]),
     // permet d'afficher les derniers messages en bas du chatbox
     scrollToBottom() {
       const messageBox = document.getElementById('chatbox');
@@ -240,7 +226,7 @@ export default {
     },
 
     alertTags() {
-      return ['green', 'yellow', 'red'].filter(x => this.events.filter(y => Date.now() - y.timestamp < 30000).filter(y => y.tag === x).length > ((this.students.length) / 2));
+      return ['red'].filter(x => this.events.filter(y => (Date.now() / 1000) - y.timestamp < 30000).filter(y => y.tag === x).length > ((this.students.length) / 2));
     },
 
     closeRoom(data) {
