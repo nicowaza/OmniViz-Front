@@ -104,10 +104,6 @@ export default {
   },
 
   mounted() {
-    this.scrollToBottom();
-  },
-
-  updated() {
     const id = this.$store.state.route.params.roomID;
 
     this.fetchRoomsById(id)
