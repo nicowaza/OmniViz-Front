@@ -5,19 +5,19 @@
         <div class="timeline">
           <transition name="fade">
             <div v-if="this.activeIndexStyle[0].backgroundColor === 'blue'" key="blue" :style="this.activeIndexStyle[0]">
-              <p class="centerText">{{ this.activeIndexStyle[0].user }} had a question</p>
+              <p class="centerText">{{ this.activeIndexStyle[0].username }} had a question</p>
               <v-icon class="alignCancel" v-on:click="closeModal()">cancel</v-icon>
             </div>
             <div v-else-if="this.activeIndexStyle[0].backgroundColor === 'red'" key="red" :style="this.activeIndexStyle[0]">
-              <p class="centerText">{{ this.activeIndexStyle[0].user }} didn't understand</p>
+              <p class="centerText">{{ this.activeIndexStyle[0].username }} didn't understand</p>
               <v-icon class="alignCancel" v-on:click="closeModal()">cancel</v-icon>
             </div>
             <div v-else-if="this.activeIndexStyle[0].backgroundColor === 'yellow'" key="yellow" :style="this.activeIndexStyle[0]">
-              <p class="centerText">{{ this.activeIndexStyle[0].user }} needs more infos</p>
+              <p class="centerText">{{ this.activeIndexStyle[0].username }} needs more infos</p>
               <v-icon class="alignCancel" v-on:click="closeModal()">cancel</v-icon>
             </div>
             <div v-else-if="this.activeIndexStyle[0].backgroundColor === 'green'" key="green" :style="this.activeIndexStyle[0]">
-              <p class="centerText">{{ this.activeIndexStyle[0].user }} loves it ! </p>
+              <p class="centerText">{{ this.activeIndexStyle[0].username }} loves it ! </p>
               <v-icon class="alignCancel" v-on:click="closeModal()">cancel</v-icon>
             </div>
             <div v-else :style="this.activeIndexStyle[0]"></div>
