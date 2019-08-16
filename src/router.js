@@ -48,6 +48,7 @@ const router = new Router({
       path: '/rooms/:roomID',
       name: 'Timeline',
       component: () => import('./views/Timeline.vue'),
+      meta: { requiresAuth: true },
     },
 
     {
@@ -73,13 +74,16 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   console.log(`navigation to ${to.name} from ${from.name}`);
-  if (to.meta.requiresAuth) {
-    if (authentication.getters.isLoggedIn) {
-      next();
-    } else {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    console.log(authentication.state.isLoggedIn);
+    if (!authentication.state.isLoggedIn) {
+      alert('vous devez être connecté pour accéder à cette page')
       next({
-        name: 'login',
+        path: '/login',
+        query: { redirect: to.fullPath },
       });
+    } else {
+      next();
     }
   } else {
     next();
