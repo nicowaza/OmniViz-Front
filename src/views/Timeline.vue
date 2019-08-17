@@ -1,23 +1,23 @@
 <template>
   <div>
     <div style="display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%;">
-      <div style="overflow-x: scroll; width: 80%; position: relative; height: 28%">
+      <div style="overflow-x: scroll; width: 80%; position: relative; height: 240px">
         <div class="timeline">
           <transition name="fade">
             <div v-if="this.activeIndexStyle[0].backgroundColor === 'blue'" key="blue" :style="this.activeIndexStyle[0]">
-              <p class="centerText">{{ this.activeIndexStyle[0].username }} had a question</p>
+              <p class="centerText">At {{ moment((this.activeIndexStyle[0].time) * 1000).format('HH:mm:ss') }}: {{ this.activeIndexStyle[0].username }} had a question</p>
               <v-icon class="alignCancel" v-on:click="closeModal()">cancel</v-icon>
             </div>
             <div v-else-if="this.activeIndexStyle[0].backgroundColor === 'red'" key="red" :style="this.activeIndexStyle[0]">
-              <p class="centerText">{{ this.activeIndexStyle[0].username }} didn't understand</p>
+              <p class="centerText">At {{ moment((this.activeIndexStyle[0].time) * 1000).format('HH:mm:ss') }}: {{ this.activeIndexStyle[0].username }} didn't understand </p>
               <v-icon class="alignCancel" v-on:click="closeModal()">cancel</v-icon>
             </div>
             <div v-else-if="this.activeIndexStyle[0].backgroundColor === 'yellow'" key="yellow" :style="this.activeIndexStyle[0]">
-              <p class="centerText">{{ this.activeIndexStyle[0].username }} needs more infos</p>
+              <p class="centerText">At {{ moment((this.activeIndexStyle[0].time) * 1000).format('HH:mm:ss') }}: {{ this.activeIndexStyle[0].username }} needs more infos</p>
               <v-icon class="alignCancel" v-on:click="closeModal()">cancel</v-icon>
             </div>
             <div v-else-if="this.activeIndexStyle[0].backgroundColor === 'green'" key="green" :style="this.activeIndexStyle[0]">
-              <p class="centerText">{{ this.activeIndexStyle[0].username }} loves it ! </p>
+              <p class="centerText">At {{ moment((this.activeIndexStyle[0].time) * 1000).format('HH:mm:ss') }}: {{ this.activeIndexStyle[0].username }} loves it ! </p>
               <v-icon class="alignCancel" v-on:click="closeModal()">cancel</v-icon>
             </div>
             <div v-else :style="this.activeIndexStyle[0]"></div>
@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import moment from 'moment';
 import HTTP from '../http';
 
 export default {
@@ -70,8 +71,8 @@ export default {
         color: 'black',
         backgroundColor: tag.color,
         user: `${tag.userID}`,
-        top: '-125px',
-        height: '75px',
+        top: '-140px',
+        height: 'auto',
         width: '130px',
 
         position: 'absolute',

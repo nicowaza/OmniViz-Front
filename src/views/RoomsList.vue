@@ -40,7 +40,7 @@
                 </v-flex>
                 <v-spacer></v-spacer>
                 <v-spacer></v-spacer>
-                <v-flex>
+                <v-flex style="align-self: center; padding-right: 15px;">
                   <v-avatar
                     size="56px"
                   >
@@ -207,11 +207,12 @@ export default {
 
 <style scoped  lang="scss">
   .v-card {
-    min-width: 250px;
+    width: 250px;
     height: auto;
     padding: 5px;
     margin: 15px;
     background-color:#a592a4;
+    border-radius: 10px;
   }
   .theme--light.v-btn:not(.v-btn--icon):not(.v-btn--flat) {
     @include submitBtn()
