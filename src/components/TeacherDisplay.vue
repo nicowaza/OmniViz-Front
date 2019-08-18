@@ -14,9 +14,17 @@
     <v-container class="test" style="height: 100%; display: flex; justify-content: space-around; flex-wrap: wrap; margin-top: 0px;">
       <!-- <div class="interactiveBox"> -->
       <div>
-        <div v-if="alerts.includes('red')"><RedBtn class="wiggle" /></div>
-        <div v-else class="elevation-24"><GreenBtn /></div>
-
+        <div v-if="alerts.includes('red')"> <v-img
+          height="250px"
+          width="250px"
+          src="/img/icons/bell-alarm_04_red.png"
+          class="wiggle"
+        ></v-img></div>
+        <div v-else><v-img
+          height="250px"
+          width="250px"
+          src="/img/icons/bell-alarm_04_green.png"
+        ></v-img></div>
         <audio id=audio controls loop>
           <source src="../../public/sounds/Wrong-alert-beep-sound.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
@@ -253,7 +261,7 @@ h1 {
   overflow-y: scroll;
   margin: 10px 30px;
   padding: 0 30px;
-  border-radius: 50px
+  border-radius: 10px
 }
 #chatbox p {
   padding: 5px 0;
@@ -277,7 +285,7 @@ h1 {
 @media (min-width: 1560px) {
   #chatbox {
     width: 380px;
-    height: 380px;
+    height: 250px;
   }
 }
 
