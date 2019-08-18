@@ -18,9 +18,21 @@
         <h3 v-show="alerts.includes('green')">alerte verte</h3>
       </transition> -->
         <!-- <transition mode="in-out" name="animate" enter-active-class="animated flash" leave-active-class="animated flipOutX"> -->
-        <div v-if="alerts.includes('red')"><RedBtn class="wiggle" /></div>
-        <div v-else class="elevation-24"><GreenBtn /></div>
-
+        <div v-if="alerts.includes('red')">
+          <v-img
+            height="250px"
+            width="250px"
+            src="/img/icons/bell-alarm_04_red.png"
+            class="wiggle">
+          </v-img>
+        </div>
+        <div v-else>
+          <v-img
+            height="250px"
+            width="250px"
+            src="/img/icons/bell-alarm_04_green.png">
+          </v-img>
+        </div>
         <audio id=audio controls loop>
           <source src="../../public/sounds/Wrong-alert-beep-sound.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
@@ -188,7 +200,8 @@ export default {
         console.log('time', timeToString);
         this.messages.push(`At ${timeToString}: ${data.username} has a question `);
 
-        window.navigator.vibrate(6000); // vibrate the device for 5s
+        // vibrate the device for 2s
+        window.navigator.vibrate(2000);
         setTimeout(this.resetAlerts(), 6000);
       }
       console.log('this alert tags()', this.alertTags());
@@ -201,6 +214,7 @@ export default {
           alerts.push(color);
           // this.playAudio();
           this.playAudio();
+          window.navigator.vibrate(6000);
           setTimeout(() => { this.resetAlerts(); this.pauseAudio(); }, 6000);
           this.events = this.events.filter(x => x.tag !== color);
         });
@@ -276,7 +290,7 @@ h1 {
   overflow-y: scroll;
   margin: 10px 30px;
   padding: 0 30px;
-  border-radius: 50px
+  border-radius: 10px
 }
 #chatbox p {
   padding: 5px 0;
@@ -300,7 +314,7 @@ h1 {
 @media (min-width: 1560px) {
   #chatbox {
     width: 380px;
-    height: 380px;
+    height: 250px;
   }
 }
 
