@@ -1,28 +1,48 @@
 <template>
-  <div>
-    <div style="display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%;">
-      <div style="overflow-x: scroll; width: 80%; position: relative; height: 240px">
-        <div class="timeline">
-          <transition name="fade">
-            <div v-if="this.activeIndexStyle[0].backgroundColor === 'blue'" key="blue" :style="this.activeIndexStyle[0]">
-              <p class="centerText">At {{ moment((this.activeIndexStyle[0].time) * 1000).format('HH:mm:ss') }}: {{ this.activeIndexStyle[0].username }} had a question</p>
-              <v-icon class="alignCancel" v-on:click="closeModal()">cancel</v-icon>
-            </div>
-            <div v-else-if="this.activeIndexStyle[0].backgroundColor === 'red'" key="red" :style="this.activeIndexStyle[0]">
-              <p class="centerText">At {{ moment((this.activeIndexStyle[0].time) * 1000).format('HH:mm:ss') }}: {{ this.activeIndexStyle[0].username }} didn't understand</p>
-              <v-icon class="alignCancel" v-on:click="closeModal()">cancel</v-icon>
-            </div>
-            <div v-else-if="this.activeIndexStyle[0].backgroundColor === 'yellow'" key="yellow" :style="this.activeIndexStyle[0]">
-              <p class="centerText">At {{ moment((this.activeIndexStyle[0].time) * 1000).format('HH:mm:ss') }}: {{ this.activeIndexStyle[0].username }} needs more infos</p>
-              <v-icon class="alignCancel" v-on:click="closeModal()">cancel</v-icon>
-            </div>
-            <div v-else-if="this.activeIndexStyle[0].backgroundColor === 'green'" key="green" :style="this.activeIndexStyle[0]">
-              <p class="centerText">At {{ moment((this.activeIndexStyle[0].time) * 1000).format('HH:mm:ss') }}: {{ this.activeIndexStyle[0].username }} loves it ! </p>
-              <v-icon class="alignCancel" v-on:click="closeModal()">cancel</v-icon>
-            </div>
-            <div v-else :style="this.activeIndexStyle[0]"></div>
-          </transition>
-          <div v-for="(tag, index) in tagsStyle" :key="tag.id" :style="tag" v-on:click="showModal(index)"></div>
+ <div>
+    <div style="height: inherit">
+      <div class="text-center" style="padding: 40px 9% 0;">
+        <v-menu offset-y>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              color="#463e54"
+              v-on="on"
+            ><v-icon left>expand_more</v-icon>
+            <span>Participants</span>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-tile @click="filterTagsReset()">all</v-list-tile>
+          </v-list>
+          <v-list v-for="participant in participants" :key="participant.id">
+            <v-list-tile @click="filterTags(participant.userID)">{{ participant.username }}</v-list-tile>
+          </v-list>
+        </v-menu>
+      </div>
+      <div style="display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 80%;">
+        <div style="overflow-x: scroll; width: 80%; position: relative; height: 240px">
+          <div class="timeline">
+            <transition name="fade">
+              <div v-if="this.activeIndexStyle[0].backgroundColor === 'blue'" key="blue" :style="this.activeIndexStyle[0]">
+                <p class="centerText">At {{ moment((this.activeIndexStyle[0].time) * 1000).format('HH:mm:ss') }}: {{ this.activeIndexStyle[0].username }} had a question</p>
+                <v-icon class="alignCancel" v-on:click="closeModal()">cancel</v-icon>
+              </div>
+              <div v-else-if="this.activeIndexStyle[0].backgroundColor === 'red'" key="red" :style="this.activeIndexStyle[0]">
+                <p class="centerText">At {{ moment((this.activeIndexStyle[0].time) * 1000).format('HH:mm:ss') }}: {{ this.activeIndexStyle[0].username }} didn't understand </p>
+                <v-icon class="alignCancel" v-on:click="closeModal()">cancel</v-icon>
+              </div>
+              <div v-else-if="this.activeIndexStyle[0].backgroundColor === 'yellow'" key="yellow" :style="this.activeIndexStyle[0]">
+                <p class="centerText">At {{ moment((this.activeIndexStyle[0].time) * 1000).format('HH:mm:ss') }}: {{ this.activeIndexStyle[0].username }} needs more infos</p>
+                <v-icon class="alignCancel" v-on:click="closeModal()">cancel</v-icon>
+              </div>
+              <div v-else-if="this.activeIndexStyle[0].backgroundColor === 'green'" key="green" :style="this.activeIndexStyle[0]">
+                <p class="centerText">At {{ moment((this.activeIndexStyle[0].time) * 1000).format('HH:mm:ss') }}: {{ this.activeIndexStyle[0].username }} loves it ! </p>
+                <v-icon class="alignCancel" v-on:click="closeModal()">cancel</v-icon>
+              </div>
+              <div v-else :style="this.activeIndexStyle[0]"></div>
+            </transition>
+            <div v-for="(tag, index) in tagsStyle" :key="tag.id" :style="tag" v-on:click="showModal(index)"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -39,8 +59,10 @@ export default {
       roomInfos: [],
       classDuration: '',
       tags: [],
+      tagsRef: [],
       activeIndex: '',
       activeIndexStyle: [{}],
+      participants: [],
     };
   },
 
@@ -48,6 +70,7 @@ export default {
     // permet de récupérer l'id de la room présente dans l'url
     const id = this.$store.state.route.params.roomID;
     this.fetchRoom(id);
+    this.fetchParticipants(id);
   },
 
   computed: {
@@ -114,6 +137,7 @@ export default {
             this.classDuration = classDuration;
 
             this.tags = roomData.content2;
+            this.tagsRef = roomData.content2;
 
             console.log('this tags before', this.tags);
 
@@ -124,6 +148,22 @@ export default {
         .catch(() => {
           // ne marche pas...les erreurs sont attrapées dans le else if précédent...to fix
 
+        });
+    },
+
+    fetchParticipants(roomID) {
+      HTTP().get(`/rooms/participants/${roomID}`, {
+      })
+        .then(({ data, err }) => {
+          if (err) {
+            console.log(err);
+          } else if (data.status === 200) {
+            console.log(data.results);
+            this.participants = data.results;
+          }
+        })
+        .catch(() => {
+          // ne marche pas...les erreurs sont attrapées dans le else if précédent...to fix
         });
     },
 
@@ -143,6 +183,16 @@ export default {
     // ferme le modal
     closeModal() {
       this.activeIndexStyle[0].display = 'none';
+    },
+
+    filterTags(id) {
+      console.log('participantsID', id);
+      this.tags = this.tagsRef;
+      this.tags = this.tags.filter(tag => tag.userID === id);
+      console.log('new tags', this.tags);
+    },
+    filterTagsReset() {
+      this.tags = this.tagsRef;
     },
   },
 };
