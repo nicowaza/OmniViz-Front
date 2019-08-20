@@ -20,16 +20,15 @@
         <!-- <transition mode="in-out" name="animate" enter-active-class="animated flash" leave-active-class="animated flipOutX"> -->
         <div v-if="alerts.includes('red')">
           <v-img
-            height="250px"
-            width="250px"
+            height="200px"
+            width="200px"
             src="/img/icons/bell-alarm_04_red.png"
             class="wiggle">
           </v-img>
         </div>
         <div v-else>
           <v-img
-            height="250px"
-            width="250px"
+            class="imgSize"
             src="/img/icons/bell-alarm_04_green.png">
           </v-img>
         </div>
@@ -282,15 +281,21 @@ h1 {
   margin-top: 80px;
 }
 
+.imgSize {
+  height: 200px;
+  width: 200px;
+}
+
 #chatbox {
-  background-color: #ffffff;
+background-color: #ffffff;
   height: 100px;
   width: 300px;
   /* min-width: 300px; */
   overflow-y: scroll;
   margin: 10px 30px;
   padding: 0 30px;
-  border-radius: 10px
+   border-radius: 10px;
+  text-align: center;
 }
 #chatbox p {
   padding: 5px 0;
@@ -311,11 +316,15 @@ h1 {
   }
 }
 
-@media (min-width: 1560px) {
+@media (min-width: 1240px) {
   #chatbox {
     width: 380px;
     height: 250px;
   }
+  .imgSize {
+  height: 250px;
+  width: 250px;
+}
 }
 
 @media (max-height: 740px ) {

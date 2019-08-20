@@ -6,6 +6,7 @@
           <v-menu offset-y>
             <template v-slot:activator="{ on }">
               <v-btn
+                class="btnRectangle"
                 color="#463e54"
                 v-on="on"
               ><v-icon left>expand_more</v-icon>
@@ -29,14 +30,23 @@
               class="elevation-24"
             >
               <v-img
-                height="100px"
+                height="110px"
                 src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
               >
-                <v-card-title style="color: white; font-size: 20px; text-transform: uppercase">{{ paginatedData.title }}</v-card-title>
+                <div style="display: flex; justify-content: flex-end;">
+
+                  <v-btn class="elevation-24" id="Edit" ><v-icon style="border: purple; color: black">edit</v-icon></v-btn>
+
+                  <v-btn class="elevation-24" id="Delete" ><v-icon style="color: black">delete</v-icon></v-btn>
+
+                  <v-btn class="elevation-24" id="OpenCard" @click="toogleOpening()"><v-icon style="color: black">swap_vertical_circle</v-icon></v-btn>
+                </div>
+                <v-card-title style="color: white; font-size: 15px; overflow: auto; text-transform: uppercase">{{ paginatedData.title }}
+                </v-card-title>
               </v-img>
               <v-layout style="margin-top: 15px">
                 <v-flex>
-                  <h2 style="padding: 15px">teacher: {{ paginatedData.authorUsername }}</h2>
+                  <h3 style="padding: 15px">teacher: {{ paginatedData.authorUsername }}</h3>
                 </v-flex>
                 <v-spacer></v-spacer>
                 <v-spacer></v-spacer>
@@ -51,36 +61,37 @@
                   </v-avatar>
                 </v-flex>
               </v-layout>
-              <h3 style="padding-left: 15px; margin: 10px 0;">Day:  {{ moment(paginatedData.startClass * 1000).format('Do MMM') }}</h3>
-              <div style="display: flex; margin: 10px 0; ">
-                <div style="padding-left: 15px">begining: {{ moment(paginatedData.startClass * 1000).format('HH mm') }} </div>
-                <div style="padding-left: 15px">finishing: {{ moment(paginatedData.endClass * 1000).format('HH mm')}}
+                <div class="hiddenInfos" v-bind:class="{ visibleInfos: isOpen }">
+                  <h3 style="padding-left: 15px; margin: 20px 0 10px;">Day:  {{ moment(paginatedData.startClass * 1000).format('Do MMM') }}</h3>
+                  <div style="display: flex; margin: 10px 0; ">
+                    <div style="padding-left: 15px">begining at: {{ moment(paginatedData.startClass * 1000).format('HH mm') }} </div>
+                    <div style="padding-left: 15px">finishing at: {{ moment(paginatedData.endClass * 1000).format('HH mm')}}
+                    </div>
+                  </div>
+                  <h3 style="padding-left: 15px;">Subject: </h3>
+                  <p style="height: 60px; width: 210px; overflow: auto; padding: 5px 15px 15px 15px; margin-bottom: 0;"
+                  >{{ paginatedData.description }}</p>
                 </div>
-              </div>
-              <h3 style="padding-left: 15px;">Subject: </h3>
-              <p style="height: 60px; width: 210px; overflow: auto; padding: 5px 15px 15px 15px; margin-bottom: 0;"
-              >{{ paginatedData.description }}</p>
               <v-layout justify-space-around>
                 <div>
-                  <v-btn v-if="isValidTime(index)" @click="join(paginatedData.roomID,  paginatedData.title, paginatedData.authorID, paginatedData.authorLastname, paginatedData.authorFirstname)">Join
+                  <v-btn class="btnRectangle" v-if="isValidTime(index)" @click="join(paginatedData.roomID,  paginatedData.title, paginatedData.authorID, paginatedData.authorLastname, paginatedData.authorFirstname)">Join
                   </v-btn>
-                  <v-btn v-else @click="viewRoom(paginatedData.roomID)">Timeline</v-btn>
-                </div>
-                <div>
-                  <v-btn >edit</v-btn>
+                  <v-btn class="btnCard" v-else @click="viewRoom(paginatedData.roomID)">Timeline</v-btn>
                 </div>
               </v-layout>
             </v-card>
             <br>
           </div>
         </div>
-        <div style="display: flex; justify-content: space-around">
+        <div style="display: flex; justify-content: space-between">
           <v-btn
+              class="btnRectangle"
               :disabled="pageNumber === 0"
               @click="prevPage">
               Previous
           </v-btn>
           <v-btn
+              class="btnRectangle"
               :disabled="pageNumber >= pageCount -1"
               @click="nextPage">
               Next
@@ -105,7 +116,7 @@ export default {
       roomInfos: [],
       pageNumber: 0, // default to page 0
       size: 6, // nombre de cours affichés par page
-      // avatar: '../public/img/avatar/slash.jpg',
+      isOpen: false,
     };
   },
 
@@ -201,8 +212,14 @@ export default {
     nextPage() {
       this.pageNumber += 1;
     },
+
     prevPage() {
       this.pageNumber -= 1;
+    },
+
+    toogleOpening() {
+      this.isOpen = !this.isOpen;
+      console.log(this.isOpen);
     },
   },
 };
@@ -210,17 +227,56 @@ export default {
 
 <style scoped  lang="scss">
   .v-card {
-    width: 250px;
+    width: 220px;
     height: auto;
     padding: 5px;
     margin: 15px;
     background-color:#a592a4;
     border-radius: 10px;
+    overflow: hidden;
   }
   .theme--light.v-btn:not(.v-btn--icon):not(.v-btn--flat) {
     @include submitBtn()
   }
   .v-btn {
+    min-width: 0;
+  }
+  .btnCard {
+    min-width: 85px;
+    height: 36px;
+    font-size: 12px;
+  }
+  .btnrectangle {
     min-width: 100px;
+    height: 36px;
+  }
+  #OpenCard {
+    width: 30px;
+    height:30px;
+    padding: 0;
+    background-color: #6c9788;
+    border-radius: 50%;
+  }
+  #Edit {
+    width: 30px;
+    height:30px;
+    padding: 0;
+    background-color: #76e61a;
+    border-radius: 50%;
+  }
+  #Delete {
+    width: 30px;
+    height:30px;
+    padding: 0;
+    background-color: #f30909;
+    border-radius: 50%;
+  }
+  .hiddenInfos {
+    overflow: hidden;
+    height:0;
+  }
+  .visibleInfos {
+    overflow: visible;
+    height: auto;
   }
 </style>
