@@ -1,8 +1,8 @@
 <template>
   <div>
-    <v-container style="padding-bottom: 64px" >
+    <v-container class="container">
       <div style="width: auto" >
-        <div class="text-center">
+        <div style="margin: 3%">
           <v-menu offset-y>
             <template v-slot:activator="{ on }">
               <v-btn
@@ -83,7 +83,7 @@
             <br>
           </div>
         </div>
-        <div style="display: flex; justify-content: space-between">
+        <div style="display: flex; justify-content: space-between; margin: 3%">
           <v-btn
               class="btnrectangle"
               :disabled="pageNumber === 0"
@@ -221,6 +221,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  .container {
+    padding: 15% 2% 20%;
+  }
   .v-card {
     width: 220px;
     height: auto;
@@ -277,5 +280,10 @@ export default {
   .visibleInfos {
     overflow: visible;
     height: auto;
+  }
+  @media only screen and (min-width: 960px) {
+  .container {
+        max-width: 900px;
+    }
   }
 </style>

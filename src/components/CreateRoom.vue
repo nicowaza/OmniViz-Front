@@ -2,7 +2,7 @@
   <v-layout row justify-center>
     <v-dialog v-model="dialog" width= "300px" height="70%">
       <template v-slot:activator="{ on }">
-        <v-btn flat v-on="on">Create Class</v-btn>
+        <v-btn flat v-on="on"><span class="titleColor">Create Class</span></v-btn>
       </template>
       <v-card>
         <v-card-title>
@@ -148,7 +148,7 @@
               </v-layout>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" flat @click="dialog = false">Close</v-btn>
+                <v-btn color="blue darken-1" flat @click="dialog = false">Closee</v-btn>
                 <v-btn color="blue darken-1" flat @click="submit">Save</v-btn>
               </v-card-actions>
               <v-alert v-if="this.Error"
@@ -291,6 +291,8 @@ export default {
 };
 </script>
 
-<style>
-
+<style lang='scss'>
+  .titleColor {
+    @include v-btnIvory()
+  }
 </style>

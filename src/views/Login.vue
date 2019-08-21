@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-layout row wrap style= "height: auto;">
-      <v-flex style= "margin-top: 25vh;" xs6 offset-xs3>
+      <v-flex style= "margin-top: 14vh;" xs6 offset-xs3>
         <h1>Login</h1>
         <br>
         <form action=""
@@ -36,8 +36,6 @@
           Login
           </v-btn>
         </div>
-
-        <br>
         <br>
         <v-alert type="error" :value="loginError">
           {{loginError}}
@@ -80,11 +78,10 @@ export default {
 <style scoped lang="scss">
 // @import "../scss/style.scss";
   h1 {
-    color: map-get($colors, custom-pink);
-    text-align: center;
+    @include formTitle();
   }
   .theme--dark.v-btn:not(.v-btn--icon):not(.v-btn--flat) {
-  @include submitBtn()
+  @include submitBtn();
   }
   // .v-input__control {
   //   padding: 0 10px;

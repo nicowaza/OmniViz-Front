@@ -163,8 +163,7 @@ export default {
 
 <style scoped lang="scss">
   h1 {
-    color: map-get($colors, custom-pink);
-    text-align: center;
+    @include formTitle();
   }
   .theme--dark.v-btn:not(.v-btn--icon):not(.v-btn--flat) {
   @include submitBtn()

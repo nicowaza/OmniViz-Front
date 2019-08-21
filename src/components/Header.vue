@@ -7,24 +7,24 @@
     <v-toolbar-title v-else>Welcome To Omnilive</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-toolbar-items class="hidden-xs-only">
-      <v-btn flat to="/roomsList" v-if="isLoggedIn">
+      <v-btn class="btnStyle" flat to="/roomsList" v-if="isLoggedIn">
         <v-icon class="mr-2">account_box</v-icon>
         Classes
       </v-btn>
-      <v-btn flat to="/home" v-if="isLoggedIn">
+      <v-btn class="btnStyle" flat to="/home" v-if="isLoggedIn">
         <v-icon class="mr-2">home</v-icon>
         Home
       </v-btn>
       <CreateRoom v-if="isLoggedIn && this.user.role === 'teacher'"/>
-      <v-btn flat to="/register" v-if="!isLoggedIn">
+      <v-btn class="btnStyle" flat to="/register" v-if="!isLoggedIn">
         <v-icon class="mr-2">account_box</v-icon>
         Register
       </v-btn>
-      <v-btn flat to="/login" v-if="!isLoggedIn">
+      <v-btn class="btnStyle" flat to="/login" v-if="!isLoggedIn">
         <v-icon class="mr-2">fingerprint</v-icon>
         Login
       </v-btn>
-      <v-btn flat to="/login" v-if="isLoggedIn" @click="logout">
+      <v-btn class="btnStyle" flat to="/login" v-if="isLoggedIn" @click="logout">
         <v-icon class="mr-2">exit_to_app</v-icon>
         Logout
       </v-btn>
@@ -93,6 +93,11 @@ export default {
 };
 </script>
 
-<style>
-
+<style scoped lang="scss">
+  .btnStyle {
+    @include v-btnIvory()
+  }
+  .v-toolbar {
+    font-weight: bold;
+  }
 </style>

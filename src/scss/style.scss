@@ -1,24 +1,43 @@
-$colors: (custom-pink: #B39DDB, dark-purple: #231846);
+$colors: (custom-pink: #B39DDB, dark-purple: #231846, custom-cyan:  #a4ddd8, custom-light-cyan: #cae1dd, custom-ivory: #f6f6e5);
 $radius-default: 10px;
 
+@mixin formTitle() {
+  color: map-get($colors, custom-light-cyan);
+  text-align: center;
+}
 @mixin submitBtn() {
   background-color: map-get($colors, dark-purple);
-  color: map-get($colors, custom-pink);
+  color: map-get($colors, custom-ivory);
   border-radius: $radius-default;
 }
 
 @mixin formInputBox() {
-  background-color: map-get($colors, custom-pink);
+  background-color: map-get($colors, custom-ivory);
   border-radius: $radius-default;
   color: map-get($colors, dark-purple)
 }
 
-@mixin flexCenter {
+@mixin flexCenter() {
   display: flex;
   justify-content: center;
 }
 
-@mixin btn{
+@mixin btn() {
   border-radius: $radius-default
+}
+
+@mixin v-btnCyan() {
+  color: map-get($colors, custom-light-cyan);
+  font-weight: bold;
+}
+
+@mixin v-btnDark() {
+  color: black;
+  font-weight: bold;
+}
+
+@mixin v-btnIvory() {
+  color: map-get($colors, custom-ivory);
+  font-weight: bold;
 }
 
