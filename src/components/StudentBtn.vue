@@ -163,7 +163,6 @@ export default {
   white-space: normal;
   }
   #btnGreen {
-    color: #1f7709;
     background-color: #06b57e;
     -webkit-box-shadow:inset 2px -6px 15px #202520;
     -moz-box-shadow:    inset 2px -6px 15px #202520;
