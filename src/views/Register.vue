@@ -40,21 +40,14 @@
             @input="setRegisterUniversity"
           ></v-text-field>
           <br>
-          <v-text-field
-            class="elevation-24"
+          <v-select
+            :items="role"
             label="Enter your status"
             :value="registerRole"
             @input="setRegisterRole"
-          ></v-text-field>
+          ></v-select>
           <br>
-          <!-- <v-text-field
-            class="elevation-24"
-            label="Enter your avatar"
-            :value="registerAvatar"
-            @input="setRegisterAvatar"
-          >{{ selectedFile }}</v-text-field> -->
-          <br>
-          <div>
+          <!-- <div>
             <label for="file" class="label"></label>
             <input
             style="display: none;"
@@ -65,7 +58,7 @@
             @input="setRegisterAvatar"
             >
           </div>
-          <v-btn @click="onChooseFile">Upload an image</v-btn>
+          <v-btn @click="onChooseFile">Upload an image</v-btn> -->
           <br>
           <v-text-field
             class="elevation-24"
@@ -112,6 +105,7 @@ export default {
   name: 'register',
   data: () => ({
     selectedFile: null,
+    role: ['student', 'teacher'],
   }),
 
   computed: {
