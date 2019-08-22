@@ -24,19 +24,19 @@
           <div class="timeline">
             <transition name="fade">
               <div v-if="this.activeIndexStyle[0].backgroundColor === 'blue'" key="blue" :style="this.activeIndexStyle[0]">
-                <p class="centerText">At {{ moment((this.activeIndexStyle[0].time) * 1000).format('HH:mm:ss') }}: {{ this.activeIndexStyle[0].username }} had a question</p>
+                <p class="centerText">At {{ moment.utc(((this.activeIndexStyle[0].time - this.roomInfos[0].startClass)) * 1000).format('HH:mm:ss') }}: {{ this.activeIndexStyle[0].username }} had a question</p>
                 <v-icon class="alignCancel" v-on:click="closeModal()">cancel</v-icon>
               </div>
               <div v-else-if="this.activeIndexStyle[0].backgroundColor === 'red'" key="red" :style="this.activeIndexStyle[0]">
-                <p class="centerText">At {{ moment((this.activeIndexStyle[0].time) * 1000).format('HH:mm:ss') }}: {{ this.activeIndexStyle[0].username }} didn't understand </p>
+                <p class="centerText">At {{ moment.utc(((this.activeIndexStyle[0].time - this.roomInfos[0].startClass)) * 1000).format('HH:mm:ss') }}: {{ this.activeIndexStyle[0].username }} didn't understand </p>
                 <v-icon class="alignCancel" v-on:click="closeModal()">cancel</v-icon>
               </div>
               <div v-else-if="this.activeIndexStyle[0].backgroundColor === 'yellow'" key="yellow" :style="this.activeIndexStyle[0]">
-                <p class="centerText">At {{ moment((this.activeIndexStyle[0].time) * 1000).format('HH:mm:ss') }}: {{ this.activeIndexStyle[0].username }} needs more infos</p>
+                <p class="centerText">At {{ moment.utc(((this.activeIndexStyle[0].time - this.roomInfos[0].startClass)) * 1000).format('HH:mm:ss') }}: {{ this.activeIndexStyle[0].username }} needs more infos</p>
                 <v-icon class="alignCancel" v-on:click="closeModal()">cancel</v-icon>
               </div>
               <div v-else-if="this.activeIndexStyle[0].backgroundColor === 'green'" key="green" :style="this.activeIndexStyle[0]">
-                <p class="centerText">At {{ moment((this.activeIndexStyle[0].time) * 1000).format('HH:mm:ss') }}: {{ this.activeIndexStyle[0].username }} loves it ! </p>
+                <p class="centerText">At {{ moment.utc(((this.activeIndexStyle[0].time - this.roomInfos[0].startClass)) * 1000).format('HH:mm:ss') }}: {{ this.activeIndexStyle[0].username }} loves it ! </p>
                 <v-icon class="alignCancel" v-on:click="closeModal()">cancel</v-icon>
               </div>
               <div v-else :style="this.activeIndexStyle[0]"></div>
@@ -86,6 +86,7 @@ export default {
         width: '5px',
         position: 'absolute',
         cursor: 'pointer',
+
       }));
     },
 
@@ -174,7 +175,7 @@ export default {
       this.activeIndex = index;
       // stocke l'élément du tableau de modal correspondant à l'index de l'élément séléctionné dans le tableau des tags
       const activeStyle = this.tagModal[this.activeIndex];
-      // l'élément isolé est pousser dans le tableau activeIndexStyle si celui ci est vide, sinon on remplace l'élément présent par le nvl élément séléctionné
+      // l'élément isolé est poussé dans le tableau activeIndexStyle si celui ci est vide, sinon on remplace l'élément présent par le nvl élément séléctionné
       if (this.activeIndexStyle[0]) {
         this.activeIndexStyle.splice(0, 1, activeStyle);
       } else this.activeIndexStyle.push(activeStyle);
