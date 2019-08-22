@@ -20,23 +20,39 @@
         </v-menu>
       </div>
       <div style="display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 80%;">
-        <div style="overflow-x: scroll; width: 80%; position: relative; height: 240px">
+        <div style="overflow-x: auto; text-align: center; width: 80%; position: relative; height: 275px">
           <div class="timeline">
             <transition name="fade">
               <div v-if="this.activeIndexStyle[0].backgroundColor === 'blue'" key="blue" :style="this.activeIndexStyle[0]">
-                <p class="centerText">At {{ moment.utc(((this.activeIndexStyle[0].time - this.roomInfos[0].startClass)) * 1000).format('HH:mm:ss') }}: {{ this.activeIndexStyle[0].username }} had a question</p>
+                <div>
+                  <p style="padding: 20px 10px 0;">At {{ moment.utc(((this.activeIndexStyle[0].time - this.roomInfos[0].startClass)) * 1000).format('HH:mm:ss') }}:</p>
+                  <p>{{ this.activeIndexStyle[0].username }}</p>
+                  <p style="padding: 0 10px 10px;">had a question</p>
+                </div>
                 <v-icon class="alignCancel" v-on:click="closeModal()">cancel</v-icon>
               </div>
               <div v-else-if="this.activeIndexStyle[0].backgroundColor === 'red'" key="red" :style="this.activeIndexStyle[0]">
-                <p class="centerText">At {{ moment.utc(((this.activeIndexStyle[0].time - this.roomInfos[0].startClass)) * 1000).format('HH:mm:ss') }}: {{ this.activeIndexStyle[0].username }} didn't understand </p>
+                <div>
+                  <p style="padding: 20px 10px 0;">At {{ moment.utc(((this.activeIndexStyle[0].time - this.roomInfos[0].startClass)) * 1000).format('HH:mm:ss') }}:</p>
+                  <p>{{ this.activeIndexStyle[0].username }}</p>
+                  <p style="padding: 0 10px 10px;">didn't understand</p>
+                </div>
                 <v-icon class="alignCancel" v-on:click="closeModal()">cancel</v-icon>
               </div>
               <div v-else-if="this.activeIndexStyle[0].backgroundColor === 'yellow'" key="yellow" :style="this.activeIndexStyle[0]">
-                <p class="centerText">At {{ moment.utc(((this.activeIndexStyle[0].time - this.roomInfos[0].startClass)) * 1000).format('HH:mm:ss') }}: {{ this.activeIndexStyle[0].username }} needs more infos</p>
+                <div>
+                  <p style="padding: 20px 10px 0;">At {{ moment.utc(((this.activeIndexStyle[0].time - this.roomInfos[0].startClass)) * 1000).format('HH:mm:ss') }}:</p>
+                  <p>{{ this.activeIndexStyle[0].username }}</p>
+                  <p style="padding: 0 10px 10px;">needs more infos</p>
+                </div>
                 <v-icon class="alignCancel" v-on:click="closeModal()">cancel</v-icon>
               </div>
               <div v-else-if="this.activeIndexStyle[0].backgroundColor === 'green'" key="green" :style="this.activeIndexStyle[0]">
-                <p class="centerText">At {{ moment.utc(((this.activeIndexStyle[0].time - this.roomInfos[0].startClass)) * 1000).format('HH:mm:ss') }}: {{ this.activeIndexStyle[0].username }} loves it ! </p>
+                <div>
+                  <p style="padding: 20px 10px 0;">At {{ moment.utc(((this.activeIndexStyle[0].time - this.roomInfos[0].startClass)) * 1000).format('HH:mm:ss') }}:</p>
+                  <p>{{ this.activeIndexStyle[0].username }}</p>
+                  <p style="padding: 0 10px 10px;">loves it !</p>
+                </div>
                 <v-icon class="alignCancel" v-on:click="closeModal()">cancel</v-icon>
               </div>
               <div v-else :style="this.activeIndexStyle[0]"></div>
@@ -79,7 +95,7 @@ export default {
         ...tag,
         backgroundColor: tag.color,
         top: '-30px',
-        left: `${(((tag.time - this.roomInfos[0].startClass) * (1800 / this.classDuration)) / 18)}%`, // calcul de la position du tag en pourcentage par rapport à son timestamp : (tag timestamp- timestamp du début du cours) * (width de la div de la timeline (ici définie à 1800px) / durée du cours en secondes). Et ce résultat est divisé par la width de la div / 100 pour obtenir un nombre correspondant à un pourcentage de distance par rapport au début de la div donc du cours
+        left: `${(((tag.time - this.roomInfos[0].startClass) * (5400 / this.classDuration)) / 54)}%`, // calcul de la position du tag en pourcentage par rapport à son timestamp : (tag timestamp- timestamp du début du cours) * (width de la div de la timeline (ici définie à 1800px) / durée du cours en secondes). Et ce résultat est divisé par la width de la div / 100 pour obtenir un nombre correspondant à un pourcentage de distance par rapport au début de la div donc du cours
         height: '20px',
         width: '5px',
         position: 'absolute',
@@ -93,12 +109,12 @@ export default {
         color: 'black',
         backgroundColor: tag.color,
         user: `${tag.userID}`,
-        top: '-140px',
-        height: 'auto',
-        width: '130px',
+        top: '-160px',
+        height: '100px',
+        width: '250px',
 
         position: 'absolute',
-        left: `${(((tag.time - this.roomInfos[0].startClass) * (1800 / this.classDuration) - 62.5) / 18)}%`,
+        left: `${(((tag.time - this.roomInfos[0].startClass) * (5400 / this.classDuration) - 125) / 54)}%`,
         display: 'flex',
         justifyContent: 'space-around',
         borderRadius: '15px',
@@ -203,7 +219,7 @@ export default {
       position: relative;
       top: 60%;
       border: 1px solid #000;
-      width: 1800px;
+      width: 5400px;
       margin: auto;
       margin-top: 1%;
       margin-bottom: 5%;
@@ -213,15 +229,13 @@ export default {
     cursor: pointer;
     color: black
   }
-  .centerText {
-    margin: 15px 5px;
-    text-align: center;
-  }
   .fade-enter-active, .fade-leave-active {
   transition: opacity 1s;
   }
-
   .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
+  }
+  p{
+    margin-bottom: 0;
   }
 </style>
