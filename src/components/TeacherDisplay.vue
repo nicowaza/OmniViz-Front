@@ -1,7 +1,7 @@
 
 <template>
   <div id="1s">
-    <v-container style="display: flex; justify-content: space-around;">
+    <v-container style="display: flex; justify-content: space-around; color: #eaeada">
       <div>
         <h3>TEACHER: </h3>
         <p>{{ this.rooms[0].authorFirstname }} {{ this.rooms[0].authorLastname }}</p>
@@ -9,7 +9,7 @@
         <p>{{ this.rooms[0].title }}</p>
 
       </div>
-      <v-btn color="red" @click="closeRoom()">close</v-btn>
+      <v-btn id="closeBtn" @click="closeRoom()"><v-icon style="color: black">clear</v-icon></v-btn>
     </v-container>
     <v-container class="test" style="height: 100%; display: flex; justify-content: space-around; flex-wrap: wrap; margin-top: 0px;">
       <!-- <div class="interactiveBox"> -->
@@ -273,7 +273,16 @@ export default {
 h1 {
   font-size: 3em;
 }
-
+v-btn {
+    min-width: 0;
+  }
+#closeBtn {
+    width: 30px;
+    height:30px;
+    padding: 0;
+    background-color: #f30909;
+    border-radius: 50%;
+  }
 .interactiveBox {
   display: flex;
   justify-content: space-around;

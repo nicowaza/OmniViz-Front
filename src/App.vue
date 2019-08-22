@@ -42,6 +42,9 @@ export default {
 
 <style lang="scss">
 
+#app {
+  font-family: 'Catamaran', sans-serif;
+}
 .contentStyle {
   height: 100%;
   background-color: #231846;

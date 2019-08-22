@@ -4,7 +4,7 @@
       <p>{{ message }}</p>
     </div> -->
     <div class="btnRow1">
-      <v-btn id="btnGreen" round light class="button btnGreen" @click="clickTag('green')"><span class="text-wrap" >GOT IT</span></v-btn>
+      <v-btn id="btnGreen" round light class="button btnGreen" @click="clickTag('green')"><span class="text-wrap" >GOT IT !</span></v-btn>
       <v-btn id="btnRed" class="button btnRed" @click="clickTag('red')"><span class="text-wrap">NOT UNDERSTOOD</span></v-btn>
     </div>
     <div class="btnRow2">
@@ -127,7 +127,6 @@ export default {
   }
 
   .btnContainer {
-    border: 1px solid red;
     display: inline-block;
     text-align: center;
     min-width: 320px;
@@ -136,45 +135,73 @@ export default {
   white-space: normal;
   }
   #btnGreen {
-    color: rgb(51, 255, 0);
-    background-color: green;
+    color: #1f7709;
+    background-color: #06b57e;
+    -webkit-box-shadow:inset 2px -6px 15px #202520;
+    -moz-box-shadow:    inset 2px -6px 15px #202520;
+    box-shadow:        inset 2px -6px 15px #202520;
   }
-  .btnGreen {
+  #btnGreen span {
+    color: white;
+    text-shadow: 1px 1px 2px black;
+  }
+  .btnGreen span{
     color: rgb(51, 255, 0);
     background-color: green;
   }
   #btnRed {
-    background-color: red;
+    background-color: #c71f4c;
+    -webkit-box-shadow:inset 2px -6px 15px #202520;
+   -moz-box-shadow:    inset 2px -6px 15px #202520;
+   box-shadow:        inset 2px -6px 15px #202520;
+  }
+  #btnRed span {
+    color: white;
+    text-shadow: 1px 1px 2px black;
   }
   .btnRed {
     color: #fff;
     background-color: red;
   }
   #btnBlue {
-    background-color: blue;
+    background-color:#1591b1;
+    -webkit-box-shadow:inset 2px -6px 15px #202520;
+   -moz-box-shadow:    inset 2px -6px 15px #202520;
+   box-shadow:        inset 2px -6px 15px #202520;
+  }
+ #btnBlue span {
+    color: white;
+    text-shadow: 1px 1px 2px black;
   }
   .btnBlue {
     color: #fff;
     background-color: Blue;
   }
   #btnYellow {
-    background-color: yellow;
+    background-color: #c6da61;
+     -webkit-box-shadow:inset 2px -6px 15px #25210b;
+   -moz-box-shadow:    inset 2px -6px 15px #25210b;
+   box-shadow:        inset 2px -6px 15px #25210b;
+  }
+  #btnYellow span {
+    color: white;
+    text-shadow: 1px 1px 2px black;
   }
   .btnYellow {
-    color: rgb(195, 182, 0);
-    background-color: yellow;
+    color: #fff;
+    background-color: #d6ef5d;
   }
   .button {
     width: 125px;
     height: 125px;
     padding: 0px 25px;
-    font-size: 14px;
+    font-size: 15px;
+    font-style: italic;
     text-align: center;
     cursor: pointer;
     outline: none;
     border: none;
     border-radius: 15px;
-    box-shadow: 0 9px #999;
     white-space: pre-wrap;
   }
 
