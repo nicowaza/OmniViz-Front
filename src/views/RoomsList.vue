@@ -184,7 +184,7 @@ export default {
 
       if (this.user) {
         if (this.user.role === 'student') {
-          this.$router.push('/student/viz');
+          this.$router.push(`/student/${roomID}`);
         } else if (this.user.role === 'teacher') {
           this.$router.push(`/teacher/${roomID}`);
         }

@@ -1,8 +1,12 @@
 <template>
   <div class="btnContainer">
-    <!-- <div v-for="message in messages" :key="message.id">
-      <p>{{ message }}</p>
-    </div> -->
+    <div style="text-align: left; padding-left: 15px; color: #f6f6e5;">
+      <h3>TEACHER: </h3>
+      <p>{{ this.rooms[0].authorFirstname }} {{ this.rooms[0].authorLastname }}</p>
+      <h3>CLASS:  </h3>
+      <p>{{ this.rooms[0].title }}</p>
+
+    </div>
     <div class="btnRow1">
       <v-btn id="btnGreen" round light class="button btnGreen" @click="clickTag('green')"><span class="text-wrap" >GOT IT !</span></v-btn>
       <v-btn id="btnRed" class="button btnRed" @click="clickTag('red')"><span class="text-wrap">NOT UNDERSTOOD</span></v-btn>
@@ -17,7 +21,12 @@
 
 <script>
 
-import { mapState, mapGetters } from 'vuex';
+import {
+  mapState,
+  mapGetters,
+  mapMutations,
+  mapActions
+} from 'vuex';
 import router from '../router';
 
 export default {
@@ -30,6 +39,7 @@ export default {
       participants: [],
       students: [],
       teacher: [],
+      roomInfos: '',
     };
   },
   beforeDestroy() {
@@ -44,13 +54,23 @@ export default {
     }
   },
 
+  mounted() {
+    const id = this.$store.state.route.params.roomID;
+    this.fetchRoomsById(id)
+      .then(() => {
+        this.roomInfos = this.rooms;
+      });
+  },
+
   computed: {
     ...mapState('authentication', [
       'user',
     ]),
+
     ...mapState('rooms', [
       'rooms',
     ]),
+
     ...mapGetters('authentication', [
       'isLoggedIn',
       'isConnected',
@@ -104,6 +124,14 @@ export default {
     },
   },
   methods: {
+    ...mapMutations('rooms', [
+      'setRooms',
+    ]),
+
+    ...mapActions('rooms', [
+      'fetchRoomsById',
+    ]),
+
     clickTag(color) {
       const timestamp = Date.now() / 1000;
       console.log(timestamp);
