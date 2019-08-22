@@ -3,6 +3,13 @@
     <!-- <div v-for="message in messages" :key="message.id">
       <p>{{ message }}</p>
     </div> -->
+    <div style="text-align: left; padding-left: 15px; color: #f6f6e5;">
+      <h3>TEACHER: </h3>
+      <p>{{ this.rooms[0].authorFirstname }} {{ this.rooms[0].authorLastname }}</p>
+      <h3>CLASS:  </h3>
+      <p>{{ this.rooms[0].title }}</p>
+
+    </div>
     <div class="btnRow1">
       <v-btn id="btnGreen" round light class="button btnGreen" @click="clickTag('green')"><span class="text-wrap" >GOT IT !</span></v-btn>
       <v-btn id="btnRed" class="button btnRed" @click="clickTag('red')"><span class="text-wrap">NOT UNDERSTOOD</span></v-btn>
@@ -17,7 +24,12 @@
 
 <script>
 
-import { mapState, mapGetters } from 'vuex';
+import {
+  mapState,
+  mapGetters,
+  mapMutations,
+  mapActions
+} from 'vuex';
 import router from '../router';
 
 export default {
@@ -30,6 +42,7 @@ export default {
       participants: [],
       students: [],
       teacher: [],
+      roomInfos: '',
     };
   },
   beforeDestroy() {
@@ -44,6 +57,28 @@ export default {
     }
   },
 
+  mounted() {
+    const id = this.$store.state.route.params.roomID;
+    this.fetchRoomsById(id)
+      .then(() => {
+        this.roomInfos = this.rooms;
+        // if (this.rooms[0].authorID === this.user.userID) {
+        //   this.messages.push(`You've joined ${this.rooms[0].title}`);
+        // }
+        //  else {
+        //   this.messages.push(`${this.user.username} has joined ${this.rooms[0].title}`);
+        // }
+
+        // if (this.user.role === 'teacher') {
+        //   this.teacher.push(this.user);
+        // }
+        // else if (this.user.role === 'student') {
+        //   this.students.push(this.user);
+        // }
+      });
+
+    // this.scrollToBottom();
+  },
   computed: {
     ...mapState('authentication', [
       'user',
@@ -106,6 +141,12 @@ export default {
     },
   },
   methods: {
+    ...mapMutations('rooms', [
+      'setRooms',
+    ]),
+    ...mapActions('rooms', [
+      'fetchRoomsById',
+    ]),
     clickTag(color) {
       const timestamp = Date.now() / 1000;
       console.log('tag timestamp', timestamp);
