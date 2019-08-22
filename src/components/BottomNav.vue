@@ -40,8 +40,8 @@
         to="/roomsList"
         v-if="isLoggedIn"
       >
-        <span>Classes</span>
-        <v-icon>account_box</v-icon>
+        <span class='btnColor'>Classes</span>
+        <v-icon class='btnColor'>account_box</v-icon>
       </v-btn>
 
       <v-btn
@@ -63,8 +63,8 @@
         v-if="isLoggedIn"
         @click="logout"
       >
-        <span>Logout</span>
         <span class='btnColor'>Logout</span>
+        <v-icon>exit_to_app</v-icon>
       </v-btn>
     </v-bottom-nav>
 </template>

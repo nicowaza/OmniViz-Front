@@ -172,7 +172,7 @@ export default {
       this.activeIndex = index;
       // stocke l'élément du tableau de modal correspondant à l'index de l'élément séléctionné dans le tableau des tags
       const activeStyle = this.tagModal[this.activeIndex];
-      // l'élément isolé est pousser dans le tableau activeIndexStyle si celui ci est vide, sinon on remplace l'élément présent par le nvl élément séléctionné
+      // l'élément isolé est poussé dans le tableau activeIndexStyle si celui ci est vide, sinon on remplace l'élément présent par le nvl élément séléctionné
       if (this.activeIndexStyle[0]) {
         this.activeIndexStyle.splice(0, 1, activeStyle);
       } else this.activeIndexStyle.push(activeStyle);

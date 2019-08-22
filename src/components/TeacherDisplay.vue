@@ -273,7 +273,7 @@ export default {
 h1 {
   font-size: 3em;
 }
-v-btn {
+.v-btn {
     min-width: 0;
   }
 #closeBtn {
@@ -296,7 +296,7 @@ v-btn {
 }
 
 #chatbox {
-background-color: #ffffff;
+  background-color: #ffffff;
   height: 100px;
   width: 300px;
   /* min-width: 300px; */
