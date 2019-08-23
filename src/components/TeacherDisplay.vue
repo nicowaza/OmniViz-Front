@@ -1,5 +1,15 @@
 
 <template>
+<div>
+  <transition name="slide-fade">
+    <alert-popup v-if="this.confirm">
+      <div slot="confirmMessage">{{ confirm }} </div>
+      <div slot="alert-controls">
+        <v-btn class="v-btn v-btn--flat v-btn--text theme--light v-size--default green--text text--darken-1" @click="closeConfirmModal()">non</v-btn>
+        <v-btn class="v-btn v-btn--flat v-btn--text theme--light v-size--default green--text text--darken-1" @click="closeRoom()">oui</v-btn>
+      </div>
+    </alert-popup>
+  </transition>
   <div id="1s">
     <v-container style="display: flex; justify-content: space-around; color: #eaeada">
       <div>
@@ -9,7 +19,7 @@
         <p>{{ this.rooms[0].title }}</p>
 
       </div>
-      <v-btn id="closeBtn" @click="closeRoom()"><v-icon style="color: black">clear</v-icon></v-btn>
+      <v-btn id="closeBtn" @click="openConfirmModal()"><v-icon style="color: black">clear</v-icon></v-btn>
     </v-container>
     <v-container class="test" style="height: 100%; display: flex; justify-content: space-around; flex-wrap: wrap; margin-top: 0px;">
       <!-- <div class="interactiveBox"> -->
@@ -32,13 +42,15 @@
         <br>
         <br>
       </div>
-    <div id="chatbox" class="elevation-24">
-      <div style="padding: 5px 0" v-for="message in messages" :key="message.id">
-      <p style="margin: 5px 0;">{{ message }}</p>
+      <div id="chatbox" class="elevation-24">
+        <div style="padding: 5px 0" v-for="message in messages" :key="message.id">
+        <p style="margin: 5px 0;">{{ message }}</p>
+        </div>
       </div>
-    </div>
-  </v-container>
+    </v-container>
+  </div>
 </div>
+
 
 </template>
 
@@ -48,18 +60,14 @@ import {
 } from 'vuex';
 import moment from 'moment';
 import router from '../router';
-import RedBtn from './RedButton.vue';
-// import BlueBtn from './BlueButton.vue';
-import GreenBtn from './GreenButton.vue';
-
+import HTTP from '../http';
+import PopUpVue from './PopUp.vue';
 
 export default {
   name: 'TeacherDisplay',
   components: {
-    RedBtn,
-    GreenBtn,
+    'alert-popup': PopUpVue,
   },
-
   data() {
     return {
       messages: [],
@@ -70,6 +78,7 @@ export default {
       students: [],
       teacher: [],
       host: [],
+      confirm: '',
     };
   },
 
@@ -208,13 +217,31 @@ export default {
     alertTags() {
       return ['red'].filter(x => this.events.filter(y => (Date.now() / 1000) - y.timestamp < 30000).filter(y => y.tag === x).length > ((this.students.length) / 2));
     },
-
+    openConfirmModal() {
+      this.confirm = 'Etes vous sûr de vouloir fermer ce cours ?';
+    },
+    closeConfirmModal() {
+      this.confirm = '';
+    },
     closeRoom(data) {
-      alert('Vous allez fermer ce cours'); // remplacer par une fenêtre de confirmation
+      const id = this.$store.state.route.params.roomID;
+      console.log((Date.now()) / 1000);
       this.$socket.emit('closeRoom', console.log('fermeture'), {
         data,
       });
-      router.push('/about');
+      return HTTP().put(`/rooms/${id}`, {
+        endClass: (Date.now()) / 1000,
+      })
+        .then((res) => {
+          console.log('data', res);
+          if (res.status === 200) {
+            console.log('succes endclass', res.data.success);
+            router.push('/roomsList');
+          } else if (res.status === 400) {
+            console.log('error endclass', res.datat.errors);
+          }
+          this.confirm = '';
+        });
     },
     resetAlerts() {
       const { alerts } = this;
@@ -323,6 +350,13 @@ h1 {
 }
 #audio {
   display: none;
+}
+
+.slide-fade-enter-active, .fade-leave-active {
+transition: opacity 1s;
+}
+.slide-fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+opacity: 0;
 }
 
 </style>

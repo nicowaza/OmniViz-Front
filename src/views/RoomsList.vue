@@ -127,6 +127,7 @@ export default {
       console.log('opening socket');
       console.log('user looged in', this.isLoggedIn);
     } else console.log('user logged ?', this.isLoggedIn);
+    this.fetchRooms();
   },
 
   computed: {
