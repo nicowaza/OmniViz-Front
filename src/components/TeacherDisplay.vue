@@ -1,85 +1,72 @@
 
 <template>
-  <div id="1s">
-    <v-container style="display: flex; justify-content: space-around; color: #eaeada">
-      <div>
-        <h3>TEACHER: </h3>
-        <p>{{ this.rooms[0].authorFirstname }} {{ this.rooms[0].authorLastname }}</p>
-        <h3>CLASS:  </h3>
-        <p>{{ this.rooms[0].title }}</p>
-
-      </div>
-      <v-btn id="closeBtn" @click="closeRoom()"><v-icon style="color: black">clear</v-icon></v-btn>
-    </v-container>
-    <v-container class="test" style="height: 100%; display: flex; justify-content: space-around; flex-wrap: wrap; margin-top: 0px;">
-      <!-- <div class="interactiveBox"> -->
-      <div>
-      <!-- <transition mode="in-out" name="animate" enter-active-class="animated flash" leave-active-class="animated flipOutX">
-        <h3 v-show="alerts.includes('green')">alerte verte</h3>
-      </transition> -->
-        <!-- <transition mode="in-out" name="animate" enter-active-class="animated flash" leave-active-class="animated flipOutX"> -->
-        <div v-if="alerts.includes('red')">
-          <v-img
-            height="200px"
-            width="200px"
-            src="/img/icons/bell-alarm_04_red.png"
-            class="wiggle">
-          </v-img>
+  <div>
+    <transition name="slide-fade">
+      <alert-popup v-if="this.confirm">
+        <div slot="confirmMessage">{{ confirm }} </div>
+        <div slot="alert-controls">
+          <v-btn class="v-btn v-btn--flat v-btn--text theme--light v-size--default green--text text--darken-1" @click="closeConfirmModal()">non</v-btn>
+          <v-btn class="v-btn v-btn--flat v-btn--text theme--light v-size--default green--text text--darken-1" @click="closeRoom()">oui</v-btn>
         </div>
-        <div v-else>
-          <v-img
-            class="imgSize"
-            src="/img/icons/bell-alarm_04_green.png">
-          </v-img>
-        </div>
-        <audio id=audio controls loop>
-          <source src="../../public/sounds/Wrong-alert-beep-sound.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-        </audio>
+      </alert-popup>
+    </transition>
+    <div id="1s">
+      <v-container style="display: flex; justify-content: space-around; color: #eaeada">
+        <div>
+          <h3>TEACHER: </h3>
+          <p>{{ this.rooms[0].authorFirstname }} {{ this.rooms[0].authorLastname }}</p>
+          <h3>CLASS:  </h3>
+          <p>{{ this.rooms[0].title }}</p>
 
-        <!-- </transition>
-        <br>
-        <br> -->
-        <br>
-        <br>
-      <!-- <transition mode="out-in" name="heartBeat" enter-active-class="animated flash" leave-active-class="animated flipOutX">
-        <div v-show="alerts.includes('blue')"><BlueBtn /></div>
-      </transition>
-      <transition mode="out-in" name="heartBeat" enter-active-class="animated flash" leave-active-class="animated flipOutX">
-        <h3 v-if="alerts.includes('yellow')">alerte jaune</h3>
-      </transition> -->
-      </div>
-    <div id="chatbox" class="elevation-24">
-      <div style="padding: 5px 0" v-for="message in messages" :key="message.id">
-      <p style="margin: 5px 0;">{{ message }}</p>
-      </div>
+        </div>
+        <v-btn id="closeBtn" @click="openConfirmModal()"><v-icon style="color: black">clear</v-icon></v-btn>
+      </v-container>
+      <v-container class="test" style="height: 100%; display: flex; justify-content: space-around; flex-wrap: wrap; margin-top: 0px;">
+        <!-- <div class="interactiveBox"> -->
+        <div>
+        <!-- <transition mode="in-out" name="animate" enter-active-class="animated flash" leave-active-class="animated flipOutX">
+          <h3 v-show="alerts.includes('green')">alerte verte</h3>
+        </transition> -->
+          <!-- <transition mode="in-out" name="animate" enter-active-class="animated flash" leave-active-class="animated flipOutX"> -->
+          <div v-if="alerts.includes('red')">
+            <v-img
+              height="200px"
+              width="200px"
+              src="/img/icons/bell-alarm_04_red.png"
+              class="wiggle">
+            </v-img>
+          </div>
+          <div v-else>
+            <v-img
+              class="imgSize"
+              src="/img/icons/bell-alarm_04_green.png">
+            </v-img>
+          </div>
+          <audio id=audio controls loop>
+            <source src="../../public/sounds/Wrong-alert-beep-sound.mp3" type="audio/mpeg">
+          Your browser does not support the audio element.
+          </audio>
+
+          <!-- </transition>
+          <br>
+          <br> -->
+          <br>
+          <br>
+        <!-- <transition mode="out-in" name="heartBeat" enter-active-class="animated flash" leave-active-class="animated flipOutX">
+          <div v-show="alerts.includes('blue')"><BlueBtn /></div>
+        </transition>
+        <transition mode="out-in" name="heartBeat" enter-active-class="animated flash" leave-active-class="animated flipOutX">
+          <h3 v-if="alerts.includes('yellow')">alerte jaune</h3>
+        </transition> -->
+        </div>
+        <div id="chatbox" class="elevation-24">
+          <div style="padding: 5px 0" v-for="message in messages" :key="message.id">
+          <p style="margin: 5px 0;">{{ message }}</p>
+          </div>
+        </div>
+      </v-container>
     </div>
-    <!-- </div> -->
-  </v-container>
-</div>
-
-    <!-- <div style="display: flex; justify-content: space-around; width: 300px;">
-      <div style="display: flex">
-        <div style="width: 20px; height: 20px; background-color: green; margin-left: 10px">
-        </div>
-        <p style="margin-left: 3px"># {{ events.filter(x => x.tag=="green").length }}</p>
-      </div>
-      <div style="display: flex">
-        <div style="width: 20px; height: 20px; background-color: red; margin-left: 10px">
-        </div>
-        <p style="margin-left: 3px;"># {{ events.filter(x => x.tag=="red").length }}</p>
-      </div>
-      <div style="display: flex">
-        <div style="width: 20px; height: 20px; background-color: blue; margin-left: 10px">
-        </div>
-        <p style="margin-left: 3px;"># {{ events.filter(x => x.tag=="blue").length }}</p>
-      </div>
-      <div style="display: flex">
-        <div style="width: 20px; height: 20px; background-color: yellow; margin-left: 10px">
-        </div>
-        <p style="margin-left: 3px;"># {{ events.filter(x => x.tag=="yellow").length }}</p>
-      </div> -->
-
+  </div>
 </template>
 
 <script>
@@ -88,17 +75,14 @@ import {
 } from 'vuex';
 import moment from 'moment';
 import router from '../router';
-import RedBtn from './RedButton.vue';
-import BlueBtn from './BlueButton.vue';
-import GreenBtn from './GreenButton.vue';
+import HTTP from '../http';
+import PopUpVue from './PopUp.vue';
 
 
 export default {
   name: 'TeacherDisplay',
   components: {
-    RedBtn,
-    BlueBtn,
-    GreenBtn,
+    'alert-popup': PopUpVue,
   },
 
   data() {
@@ -111,6 +95,7 @@ export default {
       students: [],
       teacher: [],
       host: [],
+      confirm: '',
     };
   },
 
@@ -225,9 +210,11 @@ export default {
     ...mapMutations('rooms', [
       'setRooms',
     ]),
+
     ...mapActions('rooms', [
       'fetchRoomsById',
     ]),
+
     // permet d'afficher les derniers messages en bas du chatbox
     scrollToBottom() {
       const messageBox = document.getElementById('chatbox');
@@ -238,20 +225,41 @@ export default {
       return ['red'].filter(x => this.events.filter(y => (Date.now() / 1000) - y.timestamp < 30000).filter(y => y.tag === x).length > ((this.students.length) / 2));
     },
 
+    openConfirmModal() {
+      this.confirm = 'Etes vous sûr de vouloir fermer ce cours ?';
+    },
+
+    closeConfirmModal() {
+      this.confirm = '';
+    },
+
     closeRoom(data) {
-      alert('Vous allez fermer ce cours'); // remplacer par une fenêtre de confirmation
+      const id = this.$store.state.route.params.roomID;
+      const currentTime = (Date.now()) / 1000;
       this.$socket.emit('closeRoom', console.log('fermeture'), {
         data,
       });
-      router.push('/about');
+      return HTTP().put(`/rooms/${id}`, {
+        endClass: currentTime,
+      })
+        .then((res) => {
+          console.log('data', res);
+          if (res.status === 200) {
+            console.log('succes endclass', res.data.success);
+            router.push('/roomsList');
+          } else if (res.status === 400) {
+            console.log('error endclass', res.datat.errors);
+          }
+          this.confirm = '';
+        });
     },
+
     resetAlerts() {
       const { alerts } = this;
       console.log('reset this alerts', alerts);
       console.log('setime out');
       alerts.splice(0, 1);
     },
-
 
     playAudio() {
       const x = document.getElementById('audio');
@@ -289,12 +297,10 @@ h1 {
   flex-wrap: wrap;
   margin-top: 80px;
 }
-
 .imgSize {
   height: 200px;
   width: 200px;
 }
-
 #chatbox {
   background-color: #ffffff;
   height: 100px;
@@ -313,18 +319,15 @@ h1 {
 .theme--light.v-btn:not(.v-btn--icon):not(.v-btn--flat) {
   border-radius: 25px;
 }
-
 .v-btn__content {
   color: #231846;
 }
-
 @media (min-width: 820px) {
   #chatbox {
     width: 380px;
     height: 100px;
   }
 }
-
 @media (min-width: 1240px) {
   #chatbox {
     width: 380px;
@@ -333,9 +336,8 @@ h1 {
   .imgSize {
   height: 250px;
   width: 250px;
+  }
 }
-}
-
 @media (max-height: 740px ) {
   .interactiveBox {
     margin-top: 30px;
@@ -345,7 +347,6 @@ h1 {
   animation: wiggle 75ms infinite;
   animation-timing-function: linear;
 }
-
 @keyframes wiggle {
   0% { transform: translate(5px, 0); }
   50% { transform: translate(-5px, 0); }
@@ -354,5 +355,10 @@ h1 {
 #audio {
   display: none;
 }
-
+.slide-fade-enter-active, .fade-leave-active {
+transition: opacity 1s;
+}
+.slide-fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+opacity: 0;
+}
 </style>
