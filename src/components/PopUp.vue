@@ -1,5 +1,5 @@
 <template>
-<div style="position: absolute; width: 100vw; height: 100vh; background:rgba(160, 152, 152, 0.5); left: 0; bottom: 0; z-index: 10">
+<div style="position: absolute; width: 100%; height: 100%; background:rgba(160, 152, 152, 0.5); left: 0; bottom: 0; z-index: 10">
   <div class="popUp">
     <div class="confirmMessage">
       <slot name="confirmMessage"></slot>
