@@ -76,7 +76,7 @@
                 <div>
                   <v-btn class="btnRectangle" v-if="isValidTime(index)" @click="join(paginatedData.roomID,  paginatedData.title, paginatedData.authorID, paginatedData.authorLastname, paginatedData.authorFirstname)">Join
                   </v-btn>
-                  <v-btn class="btnCard" v-else @click="viewRoom(paginatedData.roomID)">Timeline</v-btn>
+                  <v-btn class="btnCard" v-else @click="viewRoom(paginatedData.roomID)">View</v-btn>
                 </div>
               </v-layout>
             </v-card>
