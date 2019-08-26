@@ -12,7 +12,7 @@
         >
           <v-text-field
           class="elevation-24"
-          label="Enter your email"
+          label="Enter your email*"
           :value="registerEmail"
           @input="setRegisterEmail"
           v-model="email"
@@ -22,7 +22,7 @@
           <br>
           <v-text-field
             class="elevation-24"
-            label="Enter a username"
+            label="Enter a username*"
             :value="registerUsername"
             @input="setRegisterUsername"
             v-model="username"
@@ -53,7 +53,7 @@
           <br>
           <v-select
             :items="role"
-            label="Enter your status"
+            label="Enter your status*"
             :value="registerRole"
             @input="setRegisterRole"
             :rules="[v => !!v || 'Role is required']"
@@ -76,7 +76,7 @@
           <v-text-field
             v-model="password"
             class="elevation-24"
-            label="Enter your password"
+            label="Enter your password*"
             type="password"
             :value="registerPassword"
             @input="setRegisterPassword"
@@ -86,7 +86,7 @@
           <br>
           <v-text-field
             class="elevation-24"
-            label="Confirm your password"
+            label="Confirm your password*"
             type="password"
             :value="registerConfirmedPassword"
             @input="setRegisterConfirmedPassword"
@@ -94,6 +94,8 @@
             :rules="[passwordConfirmationRule]"
             required
           ></v-text-field>
+          <br>
+          <small style="color: #f6f6e5;">*indicates required field</small>
           <br>
           <div class=center>
             <v-btn
