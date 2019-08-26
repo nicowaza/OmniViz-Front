@@ -126,7 +126,7 @@ export default {
     ],
     username: '',
     usernameRules: [
-      v => !!v || 'Name is required',
+      v => !!v || 'Username is required',
       v => (v && v.length >= 5) || 'Username must be at least 5 characters',
       v => (v && v.length <= 20) || 'Username must be less than 20 characters',
     ],
@@ -135,8 +135,8 @@ export default {
     passwordRules: [
       v => !!v || 'password is required',
       v => /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.* )(?=.*[^a-zA-Z0-9]).{8,}$/.test(v) || 'Your Password must include one lowercase character, one uppercase character, one number, and one special character',
-      v => (v && v.length >= 8) || 'Username must be at least 8 characters',
-      v => (v && v.length <= 50) || 'Username must be less than 50 characters',
+      v => (v && v.length >= 8) || 'Password must be at least 8 characters',
+      v => (v && v.length <= 50) || 'Password must be less than 50 characters',
     ],
     confirmedPassword: '',
   }),
@@ -155,7 +155,7 @@ export default {
       'registerErrors',
     ]),
     passwordConfirmationRule() {
-      return () => (this.password === this.confirmedPassword) || 'Password must match';
+      return () => (this.password === this.confirmedPassword) || 'Passwords must match';
     },
   },
 
