@@ -4,12 +4,20 @@
       <v-flex style= "margin-top: 10vh; margin-bottom: 5vh;" xs8 offset-xs2>
         <h1>Register</h1>
         <br>
-        <form autocomplete="off">
+        <v-form
+        autocomplete="off"
+        ref="form"
+        v-model="valid"
+        lazy-validation
+        >
           <v-text-field
           class="elevation-24"
           label="Enter your email"
           :value="registerEmail"
           @input="setRegisterEmail"
+          v-model="email"
+          :rules="emailRules"
+          required
           ></v-text-field>
           <br>
           <v-text-field
@@ -17,6 +25,9 @@
             label="Enter a username"
             :value="registerUsername"
             @input="setRegisterUsername"
+            v-model="username"
+            :rules="usernameRules"
+            required
           ></v-text-field>
           <br>
           <v-text-field
@@ -45,6 +56,8 @@
             label="Enter your status"
             :value="registerRole"
             @input="setRegisterRole"
+            :rules="[v => !!v || 'Role is required']"
+            required
           ></v-select>
           <br>
           <!-- <div>
@@ -61,11 +74,14 @@
           <v-btn @click="onChooseFile">Upload an image</v-btn> -->
           <br>
           <v-text-field
+            v-model="password"
             class="elevation-24"
             label="Enter your password"
             type="password"
             :value="registerPassword"
             @input="setRegisterPassword"
+            :rules="passwordRules"
+            required
           ></v-text-field>
           <br>
           <v-text-field
@@ -74,24 +90,21 @@
             type="password"
             :value="registerConfirmedPassword"
             @input="setRegisterConfirmedPassword"
+            v-model="confirmedPassword"
+            :rules="[passwordConfirmationRule]"
+            required
           ></v-text-field>
           <br>
           <div class=center>
-            <v-btn dark @click="register()">
+            <v-btn
+            dark
+            :disabled="!valid"
+            @click="validate()">
             <v-icon class="mr-2">fingerprint</v-icon>
             Register
             </v-btn>
           </div>
-        </form>
-        <br>
-        <br>
-        <div v-for="registerError in registerErrors" :key="registerError.id">
-          <v-alert v-show="registerError" type="error">
-            {{ registerError }}
-          </v-alert>
-        </div>
-
-
+        </v-form>
       </v-flex>
     </v-layout>
   </v-container>
@@ -105,7 +118,27 @@ export default {
   name: 'register',
   data: () => ({
     selectedFile: null,
+    valid: true,
+    email: '',
+    emailRules: [
+      v => !!v || 'E-mail is required',
+      v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+    ],
+    username: '',
+    usernameRules: [
+      v => !!v || 'Name is required',
+      v => (v && v.length >= 5) || 'Username must be at least 5 characters',
+      v => (v && v.length <= 20) || 'Username must be less than 20 characters',
+    ],
     role: ['student', 'teacher'],
+    password: '',
+    passwordRules: [
+      v => !!v || 'password is required',
+      v => /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.* )(?=.*[^a-zA-Z0-9]).{8,}$/.test(v) || 'Your Password must include one lowercase character, one uppercase character, one number, and one special character',
+      v => (v && v.length >= 8) || 'Username must be at least 8 characters',
+      v => (v && v.length <= 50) || 'Username must be less than 50 characters',
+    ],
+    confirmedPassword: '',
   }),
 
   computed: {
@@ -121,7 +154,11 @@ export default {
       'registerRole',
       'registerErrors',
     ]),
+    passwordConfirmationRule() {
+      return () => (this.password === this.confirmedPassword) || 'Password must match';
+    },
   },
+
   methods: {
 
     // implémenter l'upload de l'img dans le store authentication !!
@@ -151,6 +188,11 @@ export default {
     ...mapActions('authentication', [
       'register',
     ]),
+    validate() {
+      if (this.$refs.form.validate()) {
+        this.register();
+      }
+    },
   },
 };
 </script>

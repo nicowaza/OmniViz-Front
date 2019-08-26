@@ -11,7 +11,7 @@
             <span>Participants</span>
             </v-btn>
           </template>
-          <v-list>
+          <v-list v-if="this.user.role === 'teacher'">
             <v-list-tile @click="filterTagsReset()">all</v-list-tile>
           </v-list>
           <v-list v-for="participant in participants" :key="participant.id">
@@ -69,6 +69,7 @@
 
 <script>
 import moment from 'moment';
+import { mapState } from 'vuex';
 import HTTP from '../http';
 
 export default {
@@ -93,6 +94,9 @@ export default {
   },
 
   computed: {
+    ...mapState('authentication', [
+      'user',
+    ]),
     tagsStyle() {
       return this.tags.map(tag => ({
         ...tag,
@@ -138,12 +142,14 @@ export default {
           } else if (data.status === 200) {
             console.log('data', data);
             const roomData = data;
-            console.log('roomData', roomData);
+            // stocke dans cette variable roomTags tous les tags récupérés en lien avec cette classe
+            const roomTags = roomData.content2;
+
+            // stocke dans des variable toutes les datas de la classe récupérer par la requête puis on les pousse dans un tableau (roomInfos)
             const {
               startClass, endClass, authorID, authorFirstname, authorLastname, authorUsername, title,
             } = roomData.content1[0];
-            console.log(startClass);
-            console.log(endClass);
+
             this.roomInfos.push({
               roomID,
               authorID,
@@ -154,16 +160,23 @@ export default {
               startClass,
               endClass,
             });
+
+            // calcule la durée du cours
             const classDuration = endClass - startClass;
             this.classDuration = classDuration;
 
-            this.tags = roomData.content2;
+            // condition qui détermine les tags à afficher suivant le role du user: le professeur (teacher) a accès à tous les tags de tous les participants à la classe (room). Un élève n'a accès qu'à ses données (tags) propres
+            if (this.user.role === 'teacher') {
+              this.tags = roomTags;
+              console.log('this tags teacher', this.tags);
+            } else if (this.user.role === 'student') {
+              this.tags = roomTags.filter(roomTag => roomTag.userID === this.user.userID);
+              console.log('userID', this.user.userID);
+              console.log('student tags', this.tags);
+            }
+
+            // tagsRef est le tableau de référence non mutable qui contient tous les tags de la room
             this.tagsRef = roomData.content2;
-
-            console.log('this tags before', this.tags);
-
-            // this.newTagArray();
-            // console.log('this tag after', this.tags);
           }
         })
         .catch(() => {
@@ -179,8 +192,16 @@ export default {
           if (err) {
             console.log(err);
           } else if (data.status === 200) {
-            console.log(data.results);
-            this.participants = data.results;
+            const participants = data.results;
+
+            // filtre l'affichage des participants à la classe en fonction du rôle du user: si le user est un professeur (teacher) tous les participants à la classe seront affichés dans la liste. Si le user est un élève (student), seul son nom sera affiché dans la liste
+            if (this.user.role === 'teacher') {
+              this.participants = participants;
+              console.log('techaer role this particpants', this.particiants);
+            } else if (this.user.role === 'student') {
+              this.participants = participants.filter(participant => participant.userID === this.user.userID);
+              console.log('array particpants filtered', this.participants);
+            }
           }
         })
         .catch(() => {
