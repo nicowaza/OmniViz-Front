@@ -7,8 +7,8 @@
             <v-btn
               color="#463e54"
               v-on="on"
-            ><v-icon left>expand_more</v-icon>
-            <span>Participants</span>
+            ><v-icon style="color: #f6f6e5" left>expand_more</v-icon>
+            <span style="color: #f6f6e5">Participants</span>
             </v-btn>
           </template>
           <v-list v-if="this.user.role === 'teacher'">
@@ -19,7 +19,10 @@
           </v-list>
         </v-menu>
       </div>
-      <div style="display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 80%;">
+      <div style="display: flex; justify-content: center; color: #f6f6e5">
+         <div style="padding: 0 9%; font-size: 30px; margin-top: 5vh;">{{ formattedTime }}</div>
+      </div>
+      <div style="display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 60%;">
         <div style="overflow-x: auto; text-align: center; width: 80%; position: relative; height: 275px">
           <div class="timeline">
             <transition name="fade">
@@ -29,7 +32,7 @@
                   <p>{{ this.activeIndexStyle[0].username }}</p>
                   <p style="padding: 0 10px 10px;">had a question</p>
                 </div>
-                <v-icon class="alignCancel" v-on:click="closeModal()">cancel</v-icon>
+                <v-icon class="alignCancel" @click="closeModal()">cancel</v-icon>
               </div>
               <div v-else-if="this.activeIndexStyle[0].backgroundColor === 'red'" key="red" :style="this.activeIndexStyle[0]">
                 <div>
@@ -37,7 +40,7 @@
                   <p>{{ this.activeIndexStyle[0].username }}</p>
                   <p style="padding: 0 10px 10px;">didn't understand</p>
                 </div>
-                <v-icon class="alignCancel" v-on:click="closeModal()">cancel</v-icon>
+                <v-icon class="alignCancel" @click="closeModal()">cancel</v-icon>
               </div>
               <div v-else-if="this.activeIndexStyle[0].backgroundColor === 'yellow'" key="yellow" :style="this.activeIndexStyle[0]">
                 <div>
@@ -45,7 +48,7 @@
                   <p>{{ this.activeIndexStyle[0].username }}</p>
                   <p style="padding: 0 10px 10px;">needs more infos</p>
                 </div>
-                <v-icon class="alignCancel" v-on:click="closeModal()">cancel</v-icon>
+                <v-icon class="alignCancel" @click="closeModal()">cancel</v-icon>
               </div>
               <div v-else-if="this.activeIndexStyle[0].backgroundColor === 'green'" key="green" :style="this.activeIndexStyle[0]">
                 <div>
@@ -53,13 +56,43 @@
                   <p>{{ this.activeIndexStyle[0].username }}</p>
                   <p style="padding: 0 10px 10px;">loves it !</p>
                 </div>
-                <v-icon class="alignCancel" v-on:click="closeModal()">cancel</v-icon>
+                <v-icon class="alignCancel" @click="closeModal()">cancel</v-icon>
               </div>
               <div v-else :style="this.activeIndexStyle[0]"></div>
             </transition>
-            <div v-for="(tag, index) in tagsStyle" :key="tag.id" :style="tag" v-on:click="showModal(index)"></div>
+            <div v-for="(tag, index) in tagsStyle" :key="tag.id" :style="tag" @click="showModal(index)"></div>
+            <v-progress-linear
+              height="15"
+              :value="slider"
+              striped
+              color="light-blue"
+              reactive
+            ></v-progress-linear>
           </div>
         </div>
+      </div>
+      <div d-flex justify-space-around style="margin: 30px 9%;">
+        <v-btn
+        class="success"
+        @click="start()"
+        :disabled="this.timerState === 'running'"
+        >
+        Play
+        </v-btn>
+        <v-btn
+        class="info"
+        @click="pause()"
+        :disabled="this.timerState === 'stopped' || this.timerState === 'paused'"
+        >
+        Pause
+        </v-btn>
+        <v-btn
+        class="error"
+        @click="stop()"
+        :disabled="this.timerState === 'stopped'"
+        >
+        Stop
+        </v-btn>
       </div>
     </div>
   </div>
@@ -80,6 +113,12 @@ export default {
       activeIndex: '',
       activeIndexStyle: [{}],
       participants: [],
+      timerState: 'stopped',
+      currentTimer: 0,
+      formattedTime: '00:00:00',
+      ticker: undefined,
+      sliderTicker: undefined,
+      slider: 0,
     };
   },
 
@@ -224,8 +263,57 @@ export default {
       this.tags = this.tags.filter(tag => tag.userID === id);
       console.log('new tags', this.tags);
     },
+
     filterTagsReset() {
       this.tags = this.tagsRef;
+    },
+
+    // démarre le timer et la progress bar
+    start() {
+      if (this.timerState !== 'running') {
+        this.tick();
+        this.sliderTick();
+        this.timerState = 'running';
+      }
+    },
+    // pause le timer et la progress bar
+    pause() {
+      window.clearInterval(this.ticker);
+      window.clearInterval(this.sliderTicker);
+      this.timerState = 'paused';
+    },
+    // reset le timer et la progress bar
+    stop() {
+      window.clearInterval(this.ticker);
+      window.clearInterval(this.sliderTicker);
+      this.currentTimer = 0;
+      this.slider = 0;
+      this.formattedTime = '00:00:00';
+      this.timerState = 'stopped';
+    },
+    // incrémente le timer toutes les secondes
+    tick() {
+      this.ticker = setInterval(() => {
+        this.currentTimer += 1;
+        this.formattedTime = this.formatTime(this.currentTimer);
+      }, 1000);
+      if (this.currentTimer === this.classDuration) {
+        this.pause();
+      }
+    },
+    // passe les secondes et les formatte
+    formatTime(seconds) {
+      const measuredTime = new Date(null);
+      measuredTime.setSeconds(seconds);
+      // formate les secondes en heures:minutes:secondes
+      const HMSTime = measuredTime.toISOString().substr(11, 8);
+      return HMSTime;
+    },
+    // incrémente la valeur de la progress bar
+    sliderTick() {
+      this.sliderTicker = setInterval(() => {
+        this.slider += (1 / 30);
+      }, 100);
     },
   },
 };
@@ -235,7 +323,6 @@ export default {
   .timeline {
       position: relative;
       top: 60%;
-      border: 1px solid #000;
       width: 5400px;
       margin: auto;
       margin-top: 1%;
