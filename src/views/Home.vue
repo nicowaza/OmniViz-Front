@@ -1,6 +1,9 @@
 <template>
-  <div class="home">
-    <!-- <Square/> -->
+  <div >
+    <div class="home">
+      <h1>Welcome to Omnilive</h1>
+    </div>
+
   </div>
 </template>
 
@@ -9,7 +12,7 @@
 // import HelloWorld from '@/components/HelloWorld.vue';
 // import Square from '../components/btn.vue'
 import {
-  mapActions, mapMutations, mapState, mapGetters,
+  mapActions, mapMutations, mapState,
 } from 'vuex';
 
 export default {
@@ -39,3 +42,17 @@ export default {
   },
 };
 </script>
+
+<style scoped lang="scss">
+  .home {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -222px;
+  }
+  h1 {
+    font-size: 50px;
+    color: map-get($colors, custom-ivory);
+  }
+</style>
