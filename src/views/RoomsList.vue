@@ -35,9 +35,9 @@
               >
                 <div style="display: flex; justify-content: flex-end;">
 
-                  <v-btn v-if="isValidTime(index)" class="elevation-24" id="Edit" ><v-icon style="border: purple; color: black">edit</v-icon></v-btn>
+                  <v-btn v-if="isBeforeTime(index) && user.role === 'teacher'" class="elevation-24" id="Edit" ><v-icon style="border: purple; color: black">edit</v-icon></v-btn>
 
-                  <v-btn class="elevation-24" id="Delete" ><v-icon style="color: black">delete</v-icon></v-btn>
+                  <v-btn v-if="isBeforeTime(index) && user.role === 'teacher'" class="elevation-24" id="Delete" ><v-icon style="color: black">delete</v-icon></v-btn>
 
                   <v-btn class="elevation-24" id="OpenCard" @click="toogleOpening()"><v-icon style="color: black">swap_vertical_circle</v-icon></v-btn>
                 </div>
@@ -208,6 +208,11 @@ export default {
       const currentDate = (Date.now() / 1000);
       console.log('date', currentDate);
       return currentDate > this.paginatedDatas[i].startClass && currentDate < this.paginatedDatas[i].endClass;
+    },
+
+    isBeforeTime(i) {
+      const currentDate = (Date.now() / 1000);
+      return currentDate < this.paginatedDatas[i].startClass;
     },
 
     nextPage() {

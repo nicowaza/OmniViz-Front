@@ -46,14 +46,13 @@ export default {
 
 <style scoped lang="scss">
   .home {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    margin-top: -50px;
-    margin-left: -222px;
+    display: flex;
+    height: 100%;
   }
   h1 {
-    font-size: 50px;
+    font-size: 305%;
     color: map-get($colors, custom-ivory);
+    margin: auto;
+    text-align: center;
   }
 </style>
