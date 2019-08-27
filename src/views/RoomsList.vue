@@ -35,7 +35,7 @@
               >
                 <div style="display: flex; justify-content: flex-end;">
 
-                  <v-btn class="elevation-24" id="Edit" ><v-icon style="border: purple; color: black">edit</v-icon></v-btn>
+                  <v-btn v-if="isValidTime(index)" class="elevation-24" id="Edit" ><v-icon style="border: purple; color: black">edit</v-icon></v-btn>
 
                   <v-btn class="elevation-24" id="Delete" ><v-icon style="color: black">delete</v-icon></v-btn>
 
