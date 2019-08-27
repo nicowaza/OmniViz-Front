@@ -13,7 +13,7 @@
           <v-text-field
           v-model="email"
           class="elevation-24"
-          label="Enter your email"
+          label="Enter your email*"
           :value="registerEmail"
           @input="setRegisterEmail"
           :rules="emailRules"
@@ -23,7 +23,7 @@
           <v-text-field
             v-model="username"
             class="elevation-24"
-            label="Enter a username"
+            label="Enter a username*"
             :value="registerUsername"
             @input="setRegisterUsername"
             :rules="usernameRules"
@@ -32,14 +32,14 @@
           <br>
           <v-text-field
             class="elevation-24"
-            label="Entre your firstname"
+            label="Enter your firstname"
             :value="registerFirstname"
             @input="setRegisterFirstname"
           ></v-text-field>
           <br>
           <v-text-field
             class="elevation-24"
-            label="Entre your lastname"
+            label="Enter your lastname"
             :value="registerLastname"
             @input="SetRegisterLastname"
           ></v-text-field>
@@ -54,7 +54,7 @@
           <v-select
             :items="role"
             class="elevation-24"
-            label="Enter your status"
+            label="Enter your status*"
             :value="registerRole"
             @input="setRegisterRole"
             :rules="[v => !!v || 'Role is required']"
@@ -77,7 +77,7 @@
           <v-text-field
             v-model="password"
             class="elevation-24"
-            label="Enter your password"
+            label="Enter your password*"
             type="password"
             :value="registerPassword"
             @input="setRegisterPassword"
@@ -87,7 +87,7 @@
           <br>
           <v-text-field
             class="elevation-24"
-            label="Confirm your password"
+            label="Confirm your password*"
             type="password"
             :value="registerConfirmedPassword"
             @input="setRegisterConfirmedPassword"
@@ -95,6 +95,8 @@
             :rules="[passwordConfirmationRule]"
             required
           ></v-text-field>
+          <br>
+          <small style="color: #f6f6e5;">*indicates required field</small>
           <br>
           <div class=center>
             <v-btn

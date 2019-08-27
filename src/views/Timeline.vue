@@ -20,10 +20,10 @@
         </v-menu>
       </div>
       <div style="display: flex; justify-content: center; color: #f6f6e5">
-         <div style="padding: 0 9%; font-size: 30px; margin-top: 5vh;">{{ formattedTime }}</div>
+        <div style="padding: 0 9%; font-size: 30px; margin-top: 5vh;">{{ formattedTime }}</div>
       </div>
-      <div style="display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 60%;">
-        <div style="overflow-x: auto; text-align: center; width: 80%; position: relative; height: 275px">
+      <div style="display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 40%;">
+        <div style="overflow-x: auto; text-align: center; width: 80%; position: relative; height: 225px">
           <div class="timeline">
             <transition name="fade">
               <div v-if="this.activeIndexStyle[0].backgroundColor === 'blue'" key="blue" :style="this.activeIndexStyle[0]">
@@ -71,23 +71,23 @@
           </div>
         </div>
       </div>
-      <div d-flex justify-space-around style="margin: 30px 9%;">
+      <div style="display: flex; justify-content: center; margin: 20px 9%;">
         <v-btn
-        class="success"
+        class="success btnrectangle"
         @click="start()"
         :disabled="this.timerState === 'running'"
         >
         Play
         </v-btn>
         <v-btn
-        class="info"
+        class="info  btnrectangle"
         @click="pause()"
         :disabled="this.timerState === 'stopped' || this.timerState === 'paused'"
         >
         Pause
         </v-btn>
         <v-btn
-        class="error"
+        class="error  btnrectangle"
         @click="stop()"
         :disabled="this.timerState === 'stopped'"
         >
@@ -320,9 +320,14 @@ export default {
 </script>
 
 <style>
+.btnrectangle {
+  min-width: 0;
+  width: 80px;
+  height: 30px;
+}
   .timeline {
       position: relative;
-      top: 60%;
+      top: 77%;
       width: 5400px;
       margin: auto;
       margin-top: 1%;
