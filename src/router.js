@@ -12,11 +12,8 @@ const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
-    // {
-    //   path: '/',
-    //   name: 'home',
-    //   component: Home,
-    // },
+
+    // si le front-end est servi dans le back-end faire attention que les routes ne matchent pas les routes présentes dans le back-end !!
     {
       path: '/home',
       name: 'home',
