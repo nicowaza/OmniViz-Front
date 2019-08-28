@@ -15,8 +15,6 @@
             @input="setLoginEmail"
             ></v-text-field>
           </v-card>
-
-          <br>
           <br>
           <v-card :elevation="24">
             <v-text-field

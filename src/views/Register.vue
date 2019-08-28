@@ -1,12 +1,13 @@
 <template>
   <v-container>
     <v-layout row wrap style= "height: auto;">
-      <v-flex style= "margin-top: 10vh; margin-bottom: 5vh;" xs8 offset-xs2>
+      <v-flex style= "margin-top: 14vh; margin-bottom: 5vh;" xs6 offset-xs3>
         <h1>Register</h1>
         <br>
         <v-form
         autocomplete="off"
-        ref="form"
+        ref="form1"
+        v-show="step === 1"
         v-model="valid"
         lazy-validation
         >
@@ -30,6 +31,17 @@
             required
           ></v-text-field>
           <br>
+          <br>
+          <div style="display: flex; justify-content: flex-end">
+             <v-btn dark @click.prevent="next1()">Next</v-btn>
+          </div>
+        </v-form>
+        <v-form
+          v-show="step === 2"
+          ref="form2"
+          v-model="valid"
+          lazy-validation
+        >
           <v-text-field
             class="elevation-24"
             label="Entre your firstname"
@@ -44,6 +56,18 @@
             @input="SetRegisterLastname"
           ></v-text-field>
           <br>
+          <br>
+          <div style="display: flex; justify-content: space-between">
+            <v-btn dark @click.prevent="prev()">Previous</v-btn>
+            <v-btn dark @click.prevent="next2()">Next</v-btn>
+          </div>
+        </v-form>
+        <v-form
+          v-show="step === 3"
+          ref="form3"
+          v-model="valid"
+          lazy-validation
+        >
           <v-text-field
             class="elevation-24"
             label="Enter your university"
@@ -60,19 +84,23 @@
             required
           ></v-select>
           <br>
-          <!-- <div>
-            <label for="file" class="label"></label>
-            <input
-            style="display: none;"
-            type="file"
-            ref="imageUpload"
-            accept="image/*"
-            @change="onFileSelected"
-            @input="setRegisterAvatar"
-            >
-          </div>
-          <v-btn @click="onChooseFile">Upload an image</v-btn> -->
           <br>
+          <div style="display: flex; justify-content: space-between">
+            <v-btn  dark @click.prevent="prev()"
+            >Previous</v-btn>
+            <v-btn
+              @click.prevent="next3()"
+              dark
+            >Next
+            </v-btn>
+          </div>
+        </v-form>
+        <v-form
+          v-show="step === 4"
+          ref="form4"
+          v-model="valid"
+          lazy-validation
+        >
           <v-text-field
             v-model="password"
             class="elevation-24"
@@ -95,9 +123,9 @@
             required
           ></v-text-field>
           <br>
-          <small style="color: #f6f6e5;">*indicates required field</small>
           <br>
-          <div class=center>
+          <div style="display: flex; justify-content: space-between">
+            <v-btn dark @click.prevent="prev()">Previous</v-btn>
             <v-btn
             dark
             :disabled="!valid"
@@ -106,6 +134,26 @@
             Register
             </v-btn>
           </div>
+        </v-form>
+
+          <!-- <div>
+            <label for="file" class="label"></label>
+            <input
+            style="display: none;"
+            type="file"
+            ref="imageUpload"
+            accept="image/*"
+            @change="onFileSelected"
+            @input="setRegisterAvatar"
+            >
+          </div>
+          <v-btn @click="onChooseFile">Upload an image</v-btn> -->
+          <!-- <br>
+
+          <br>
+          <small style="color: #f6f6e5;">*indicates required field</small>
+          <br> -->
+
         </v-form>
       </v-flex>
     </v-layout>
@@ -119,6 +167,7 @@ import { mapState, mapMutations, mapActions } from 'vuex';
 export default {
   name: 'register',
   data: () => ({
+    step: 1,
     selectedFile: null,
     valid: true,
     email: '',
@@ -190,8 +239,26 @@ export default {
     ...mapActions('authentication', [
       'register',
     ]),
+    prev() {
+      this.step--;
+    },
+    next1() {
+      if (this.$refs.form1.validate()) {
+        this.step++;
+      }
+    },
+    next2() {
+      if (this.$refs.form2.validate()) {
+        this.step++;
+      }
+    },
+    next3() {
+      if (this.$refs.form3.validate()) {
+        this.step++;
+      }
+    },
     validate() {
-      if (this.$refs.form.validate()) {
+      if (this.$refs.form4.validate()) {
         this.register();
       }
     },
