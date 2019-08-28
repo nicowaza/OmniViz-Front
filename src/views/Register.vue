@@ -1,12 +1,13 @@
 <template>
   <v-container>
     <v-layout row wrap style= "height: auto;">
-      <v-flex style= "margin-top: 10vh; margin-bottom: 5vh;" xs8 offset-xs2>
+      <v-flex style= "margin-top: 14vh; margin-bottom: 5vh;" xs8 offset-xs2>
         <h1>Register</h1>
         <br>
         <v-form
         autocomplete="off"
-        ref="form"
+        ref="form1"
+        v-show="step === 1"
         v-model="valid"
         lazy-validation
         >
@@ -30,6 +31,19 @@
             required
           ></v-text-field>
           <br>
+          <small style="color: #f6f6e5;">*indicates required field</small>
+          <br>
+          <br>
+          <div style="display: flex; justify-content: flex-end">
+             <v-btn class="btnStyle" @click.prevent="next1()">Next</v-btn>
+          </div>
+        </v-form>
+        <v-form
+          v-show="step === 2"
+          ref="form2"
+          v-model="valid"
+          lazy-validation
+        >
           <v-text-field
             class="elevation-24"
             label="Enter your firstname"
@@ -44,6 +58,20 @@
             @input="SetRegisterLastname"
           ></v-text-field>
           <br>
+          <small style="color: #f6f6e5;">*indicates required field</small>
+          <br>
+          <br>
+          <div style="display: flex; justify-content: space-between">
+            <v-btn class="btnStyle" @click.prevent="prev()">Previous</v-btn>
+            <v-btn class="btnStyle" @click.prevent="next2()">Next</v-btn>
+          </div>
+        </v-form>
+        <v-form
+          v-show="step === 3"
+          ref="form3"
+          v-model="valid"
+          lazy-validation
+        >
           <v-text-field
             class="elevation-24"
             label="Enter your university"
@@ -61,6 +89,7 @@
             required
           ></v-select>
           <br>
+          <small style="color: #f6f6e5;">*indicates required field</small>
           <!-- <div>
             <label for="file" class="label"></label>
             <input
@@ -74,6 +103,18 @@
           </div>
           <v-btn @click="onChooseFile">Upload an image</v-btn> -->
           <br>
+          <br>
+          <div style="display: flex; justify-content: space-between">
+            <v-btn class="btnStyle"  @click.prevent="prev()">Previous</v-btn>
+            <v-btn class="btnStyle" @click.prevent="next3()">Next</v-btn>
+          </div>
+        </v-form>
+        <v-form
+          v-show="step === 4"
+          ref="form4"
+          v-model="valid"
+          lazy-validation
+        >
           <v-text-field
             v-model="password"
             class="elevation-24"
@@ -98,14 +139,11 @@
           <br>
           <small style="color: #f6f6e5;">*indicates required field</small>
           <br>
-          <div class=center>
-            <v-btn
-            dark
-            :disabled="!valid"
-            @click="validate()">
-            <v-icon class="mr-2">fingerprint</v-icon>
-            Register
-            </v-btn>
+          <br>
+          <div style="display: flex; justify-content: space-between">
+            <v-btn class="btnStyle" @click.prevent="prev()">Previous</v-btn>
+            <v-btn class="btnStyle" :disabled="!valid" @click="validate()">
+            <v-icon class="mr-2">fingerprint</v-icon>Register</v-btn>
           </div>
         </v-form>
       </v-flex>
@@ -120,6 +158,7 @@ import { mapState, mapMutations, mapActions } from 'vuex';
 export default {
   name: 'register',
   data: () => ({
+    step: 1,
     selectedFile: null,
     role: ['student', 'teacher'],
     valid: true,
@@ -190,8 +229,26 @@ export default {
     ...mapActions('authentication', [
       'register',
     ]),
+    prev() {
+      this.step--;
+    },
+    next1() {
+      if (this.$refs.form1.validate()) {
+        this.step++;
+      }
+    },
+    next2() {
+      if (this.$refs.form2.validate()) {
+        this.step++;
+      }
+    },
+    next3() {
+      if (this.$refs.form3.validate()) {
+        this.step++;
+      }
+    },
     validate() {
-      if (this.$refs.form.validate()) {
+      if (this.$refs.form4.validate()) {
         this.register();
       }
     },
@@ -203,8 +260,12 @@ export default {
   h1 {
     @include formTitle();
   }
-  .theme--dark.v-btn:not(.v-btn--icon):not(.v-btn--flat) {
-  @include submitBtn()
+  .btnStyle {
+  @include submitBtn();
+  min-width: 0;
+  width: 105px;
+  padding: 0 5px;
+  margin: 6px 0;
   }
   .v-text-field {
     padding-left: 10px;

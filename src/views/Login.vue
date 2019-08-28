@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-layout row wrap style= "height: auto;">
-      <v-flex style= "margin-top: 14vh;" xs6 offset-xs3>
+      <v-flex style= "margin-top: 14vh;" xs8 offset-xs2>
         <h1>Login</h1>
         <br>
         <form action=""
@@ -15,7 +15,6 @@
             @input="setLoginEmail"
             ></v-text-field>
           </v-card>
-          <br>
           <br>
           <v-card :elevation="24">
             <v-text-field
