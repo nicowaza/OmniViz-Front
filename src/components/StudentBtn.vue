@@ -147,13 +147,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-  .btnRow1 {
-    // display: inline-block;
-  }
-  .btnRow2 {
-    // display: inline-block;
-  }
-
   .btnContainer {
     display: inline-block;
     text-align: center;
@@ -172,10 +165,7 @@ export default {
     color: white;
     text-shadow: 1px 1px 2px black;
   }
-  .btnGreen span{
-    color: rgb(51, 255, 0);
-    background-color: green;
-  }
+
   #btnRed {
     background-color: #c71f4c;
     -webkit-box-shadow:inset 2px -6px 15px #202520;

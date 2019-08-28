@@ -195,7 +195,7 @@ export default {
     },
 
     viewRoom(roomID) {
-      this.$router.push(`/rooms/${roomID}`);
+      this.$router.push(`/room/${roomID}`);
     },
 
     roomCreation(data) {

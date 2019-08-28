@@ -46,7 +46,7 @@ const router = new Router({
     },
 
     {
-      path: '/rooms/:roomID',
+      path: '/room/:roomID',
       name: 'Timeline',
       component: () => import('./views/Timeline.vue'),
       meta: { requiresAuth: true },
