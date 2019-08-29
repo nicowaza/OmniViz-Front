@@ -21,7 +21,12 @@ export default {
     fetchRooms({ commit }) {
       return HTTP().get('/rooms')
         .then(({ data }) => {
-          commit('setRooms', data.results);
+          if (data.status === 401) {
+            alert("You're session has expired. Please Login again");
+            router.push('/login');
+          } else {
+            commit('setRooms', data.results);
+          }
         });
     },
 
@@ -29,14 +34,24 @@ export default {
       return HTTP().get(`/rooms/${roomID}`)
         .then(({ data }) => {
           console.log('results', data.results);
-          commit('setRooms', data.results);
+          if (data.status === 401) {
+            alert("You're session has expired. Please Login again");
+            router.push('/login');
+          } else {
+            commit('setRooms', data.results);
+          }
         });
     },
     // liste les cours par date de début du cours(plus récents en premier)
     fetchRoomsByDate({ commit }) {
       return HTTP().get('/rooms/startDate')
         .then(({ data }) => {
-          commit('setRooms', data.results);
+          if (data.status === 401) {
+            alert("You're session has expired. Please Login again");
+            router.push('/login');
+          } else {
+            commit('setRooms', data.results);
+          }
         });
     },
 
@@ -44,7 +59,12 @@ export default {
     fetchRoomsOfTheDay({ commit }) {
       return HTTP().get('/rooms/classOfTheDay')
         .then(({ data }) => {
-          commit('setRooms', data.results);
+          if (data.status === 401) {
+            alert("You're session has expired. Please Login again");
+            router.push('/login');
+          } else {
+            commit('setRooms', data.results);
+          }
         });
     },
 
@@ -53,6 +73,10 @@ export default {
       console.log(`/rooms/myRooms/${userID}`);
       return HTTP().get(`/rooms/myRooms/${userID}`)
         .then(({ data }) => {
+          if (data.status === 401) {
+            alert("You're session has expired. Please Login again");
+            router.push('/login');
+          }
           commit('setRooms', data.results);
         });
     },

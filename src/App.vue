@@ -24,18 +24,18 @@ export default {
   },
 
   // call pour vérifier si une session est toujours ouverte pour l'utilsateur
-  beforeMount() {
-    isAuthenticated()
-      .then(({ data }) => {
-        console.log(data);
-        if (data.isAuthenticated === false) {
-          router.push('/login');
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  },
+  // beforeMount() {
+  //   isAuthenticated()
+  //     .then(({ data }) => {
+  //       console.log(data);
+  //       if (data.isAuthenticated === false) {
+  //         router.push('/login');
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // },
 
 };
 </script>
