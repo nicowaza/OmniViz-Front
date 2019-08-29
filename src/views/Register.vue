@@ -35,7 +35,7 @@
           <br>
           <br>
           <div style="display: flex; justify-content: flex-end">
-             <v-btn class="btnStyle" @click.prevent="next1()">Next</v-btn>
+             <v-btn id="btnStyle" @click.prevent="next1()">Next</v-btn>
           </div>
         </v-form>
         <v-form
@@ -62,8 +62,8 @@
           <br>
           <br>
           <div style="display: flex; justify-content: space-between">
-            <v-btn class="btnStyle" @click.prevent="prev()">Previous</v-btn>
-            <v-btn class="btnStyle" @click.prevent="next2()">Next</v-btn>
+            <v-btn id="btnStyle" @click.prevent="prev()">Previous</v-btn>
+            <v-btn id="btnStyle" @click.prevent="next2()">Next</v-btn>
           </div>
         </v-form>
         <v-form
@@ -105,8 +105,8 @@
           <br>
           <br>
           <div style="display: flex; justify-content: space-between">
-            <v-btn class="btnStyle"  @click.prevent="prev()">Previous</v-btn>
-            <v-btn class="btnStyle" @click.prevent="next3()">Next</v-btn>
+            <v-btn id="btnStyle"  @click.prevent="prev()">Previous</v-btn>
+            <v-btn id="btnStyle" @click.prevent="next3()">Next</v-btn>
           </div>
         </v-form>
         <v-form
@@ -141,8 +141,8 @@
           <br>
           <br>
           <div style="display: flex; justify-content: space-between">
-            <v-btn class="btnStyle" @click.prevent="prev()">Previous</v-btn>
-            <v-btn class="btnStyle" :disabled="!valid" @click="validate()">
+            <v-btn id="btnStyle" @click.prevent="prev()">Previous</v-btn>
+            <v-btn id="btnStyle" :disabled="!valid" @click="validate()">
             <v-icon class="mr-2">fingerprint</v-icon>Register</v-btn>
           </div>
         </v-form>
@@ -260,12 +260,13 @@ export default {
   h1 {
     @include formTitle();
   }
-  .btnStyle {
+  #btnStyle {
   @include submitBtn();
   min-width: 0;
   width: 105px;
   padding: 0 5px;
   margin: 6px 0;
+  font-size: 12px;
   }
   .v-text-field {
     padding-left: 10px;
