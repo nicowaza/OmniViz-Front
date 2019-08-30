@@ -1,5 +1,11 @@
 <template>
   <div>
+    <alert-popup v-show="this.registerConfirm">
+      <div slot="alert">{{ registerConfirm }} </div>
+      <!-- <div slot="alert-controls">
+        <v-btn @click="okModal()">ok</v-btn>
+      </div> -->
+    </alert-popup>
     <v-layout row wrap style= "height: auto;">
       <v-flex style= "margin-top: 14vh;" xs8 offset-xs2>
         <h1>Login</h1>
@@ -46,15 +52,20 @@
 <script>
 
 import { mapState, mapMutations, mapActions } from 'vuex';
+import Alert from '../components/AlertPopUp.vue';
 // import '../../public/style.scss';
 
 export default {
   name: 'login',
+  components: {
+    'alert-popup': Alert,
+  },
   computed: {
     ...mapState('authentication', [
       'loginEmail',
       'loginPassword',
       'loginError',
+      'registerConfirm',
     ]),
   },
 

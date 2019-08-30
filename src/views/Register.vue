@@ -153,6 +153,8 @@
 <script>
 
 import { mapState, mapMutations, mapActions } from 'vuex';
+// import Alert from '../components/AlertPopUp.vue';
+import router from '../router';
 
 export default {
   name: 'register',
@@ -254,6 +256,7 @@ export default {
     },
   },
 };
+
 </script>
 
 <style scoped lang="scss">

@@ -3,7 +3,6 @@
     <div class="home">
       <h1>Welcome to Omnilive</h1>
     </div>
-
   </div>
 </template>
 
@@ -17,8 +16,9 @@ import {
 
 export default {
   components: {
-    // Square,
+
   },
+
   name: 'home',
   // components: {
   //   HelloWorld,

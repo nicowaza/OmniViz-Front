@@ -1,9 +1,12 @@
 <template>
-  <div class="popUp">
-    <slot name="username"></slot>
-    <slot name="message"></slot>
-    <v-btn>Close</v-btn>
+<div>
+   <div class="popUp">
+    <slot name="alert"></slot>
   </div>
+  <div>
+    <slot name="alert-controls"></slot>
+  </div>
+</div>
 </template>
 
 <script>
@@ -19,11 +22,17 @@ export default {
 <style>
 .popUp {
   position: absolute;
-  top: 35%;
-  left: 17%;
-  background-color: rgba(169, 169, 169);
-  height: 150px;
-  width: 200px;
+  top: 100px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: auto;
+  background-color: rgba(36, 148, 54, 0.972);
+   -webkit-box-shadow: 3px 4px 7px #202520;
+   -moz-box-shadow:    3px 4px 7px #202520;
+   box-shadow:         3px 4px 7px #202520;
+  height: 50px;
+  width: 300px;
   text-align: center;
+  border-radius: 5px
 }
 </style>

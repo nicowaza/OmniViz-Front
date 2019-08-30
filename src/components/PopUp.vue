@@ -1,22 +1,21 @@
 <template>
-<div style="position: absolute; width: 100%; height: 100%; background:rgba(160, 152, 152, 0.5); left: 0; bottom: 0; z-index: 10">
-  <div class="popUp">
-    <div class="confirmMessage">
-      <slot name="confirmMessage"></slot>
-    </div>
-    <div class="alert-controls">
-      <slot name="alert-controls"></slot>
+  <div style="position: absolute; width: 100%; height: 100%; background:rgba(160, 152, 152, 0.5); left: 0; bottom: 0; z-index: 10">
+    <div class="popUp">
+      <div class="confirmMessage">
+        <slot name="confirmMessage"></slot>
+      </div>
+      <div class="alert-controls">
+        <slot name="alert-controls"></slot>
+      </div>
     </div>
   </div>
-</div>
-
 </template>
 
 <script>
 
 
 export default {
-  name: 'alert-popup',
+  name: 'confirm-popup',
 };
 
 
