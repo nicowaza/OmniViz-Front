@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: 'alert-popup',
+  name: 'confirm-popup',
 };
 </script>
 

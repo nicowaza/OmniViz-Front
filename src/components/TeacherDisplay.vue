@@ -1,14 +1,14 @@
 
 <template>
   <div>
-    <transition name="slide-fade">
-      <alert-popup v-if="this.confirm">
+    <transition name="fade">
+      <confirm-popup v-if="this.confirm">
         <div slot="confirmMessage">{{ confirm }} </div>
         <div slot="alert-controls">
           <v-btn class="v-btn v-btn--flat v-btn--text theme--light v-size--default green--text text--darken-1" @click="closeConfirmModal()">non</v-btn>
           <v-btn class="v-btn v-btn--flat v-btn--text theme--light v-size--default green--text text--darken-1" @click="closeRoom()">oui</v-btn>
         </div>
-      </alert-popup>
+      </confirm-popup>
     </transition>
     <div id="1s">
       <v-container style="display: flex; justify-content: space-around; color: #eaeada">
@@ -82,7 +82,7 @@ import PopUpVue from './PopUp.vue';
 export default {
   name: 'TeacherDisplay',
   components: {
-    'alert-popup': PopUpVue,
+    'confirm-popup': PopUpVue,
   },
 
   data() {
@@ -355,10 +355,10 @@ h1 {
 #audio {
   display: none;
 }
-.slide-fade-enter-active, .fade-leave-active {
+.fade-enter-active, .fade-leave-active {
 transition: opacity 1s;
 }
-.slide-fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
 opacity: 0;
 }
 </style>
