@@ -1,6 +1,11 @@
 <template>
   <div id="app">
     <v-app >
+       <transition name="fade">
+        <alert-popup v-show="this.registerConfirm">
+          <div slot="alert">{{ registerConfirm }} </div>
+        </alert-popup>
+       </transition>
       <HeaderBar/>
         <div class="pa-0 contentStyle">
           <router-view class="containerMain"/>
@@ -12,17 +17,20 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import router from './router';
 import HeaderBar from './components/Header.vue';
 import BottomNav from './components/BottomNav.vue';
 import isAuthenticated from './helpers/Auth';
+import PopUp from './components/PopUp.vue';
+
 
 export default {
   components: {
     HeaderBar,
     BottomNav,
+    'alert-popup': PopUp,
   },
-
   // call pour vérifier si une session est toujours ouverte pour l'utilsateur
   beforeMount() {
     isAuthenticated()
@@ -37,10 +45,19 @@ export default {
       });
   },
 
+  computed: {
+    ...mapState('authentication', [
+      'registerConfirm',
+    ]),
+    ...mapState('rooms', [
+      'registerConfirm',
+    ]),
+  },
 };
 </script>
 
 <style lang="scss">
+
 #app {
   font-family: 'Catamaran', sans-serif;
 }
@@ -54,6 +71,12 @@ export default {
   width: 100vw;
   margin: auto;
   padding-top: 64px;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 
 @media (min-width: 600px) {

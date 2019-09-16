@@ -19,6 +19,7 @@ export default {
     registerUniversity: null,
     registerRole: null,
     registerErrors: null,
+    registerConfirm: null,
     loginEmail: null,
     loginPassword: null,
     loginError: null,
@@ -33,6 +34,9 @@ export default {
     },
     setRegisterErrors(state, error) {
       state.registerErrors = error;
+    },
+    setRegisterConfirm(state, confirm) {
+      state.registerConfirm = confirm;
     },
     setRegisterEmail(state, email) {
       state.registerEmail = email;
@@ -118,8 +122,14 @@ export default {
       })
         .then(({ data }) => {
           if (data.status === 200 && data.success) {
-            alert('user created');
-            console.log(data);
+            console.log('data data', data);
+            const confirmMessage = data.success;
+            commit('setRegisterConfirm', confirmMessage);
+            console.log('confirmMessage', confirmMessage);
+            router.push('/login');
+            setTimeout(() => {
+              commit('setRegisterConfirm', null);
+            }, 3000);
             router.push('/login');
           } else if (data.status === 400) {
             const errorData = data.errors;

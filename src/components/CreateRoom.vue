@@ -9,11 +9,11 @@
           <span class="headline">Create your class</span>
         </v-card-title>
         <v-card-text>
-          <v-form enctype="mutlipart/form-data">
+          <v-form enctype="mutlipart/form-data" ref="form" v-model="valid">
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field v-model="courseName" label="Name of the Course*" required></v-text-field>
+                  <v-text-field v-model="courseName" label="Name of the Course*" required :rules="courseNameRules"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
                   <v-textarea v-model="description" auto-grow box label="Description"></v-textarea>
@@ -35,17 +35,15 @@
                     ref="dialog1"
                     v-model="modal1"
                     :return-value.sync="startDate"
-                    persistent
-                    lazy
                     full-width
                     width="290px"
                   >
                     <template v-slot:activator="{ on }">
                       <v-text-field
                         v-model="startDate"
+                        :rules="startDateRules"
                         label="Picker in dialog"
                         prepend-icon="event"
-                        readonly
                         v-on="on"
                       ></v-text-field>
                     </template>
@@ -60,8 +58,6 @@
                     ref="dialog2"
                     v-model="modal2"
                     :return-value.sync="startTime"
-                    persistent
-                    lazy
                     full-width
                     width="290px"
                   >
@@ -69,8 +65,8 @@
                       <v-text-field
                         v-model="startTime"
                         label="Picker in dialog"
+                        :rules="startTimeRules"
                         prepend-icon="access_time"
-                        readonly
                         v-on="on"
                       ></v-text-field>
                     </template>
@@ -93,8 +89,6 @@
                     ref="dialog3"
                     v-model="modal3"
                     :return-value.sync="endDate"
-                    persistent
-                    lazy
                     full-width
                     width="290px"
                   >
@@ -102,8 +96,8 @@
                       <v-text-field
                         v-model="endDate"
                         label="Picker in dialog"
+                        :rules="endDateRules"
                         prepend-icon="event"
-                        readonly
                         v-on="on"
                       ></v-text-field>
                     </template>
@@ -118,8 +112,6 @@
                     ref="dialog4"
                     v-model="modal4"
                     :return-value.sync="endTime"
-                    persistent
-                    lazy
                     full-width
                     width="290px"
                   >
@@ -127,8 +119,8 @@
                       <v-text-field
                         v-model="endTime"
                         label="Picker in dialog"
+                        :rules="endTimeRules"
                         prepend-icon="access_time"
-                        readonly
                         v-on="on"
                       ></v-text-field>
                     </template>
@@ -174,6 +166,7 @@ import HTTP from '../http';
 
 export default {
   data: () => ({
+    valid: true,
     dialog: false,
     dialog1: false,
     dialog2: false,
@@ -193,6 +186,21 @@ export default {
     Error: '',
     createSuccess: '',
     selectedFile: null,
+    courseNameRules: [
+      v => !!v || 'Title is required',
+    ],
+    startDateRules: [
+      v => !!v || 'A start date is required',
+    ],
+    startTimeRules: [
+      v => !!v || 'A start time is required',
+    ],
+    endDateRules: [
+      v => !!v || 'An end date is required',
+    ],
+    endTimeRules: [
+      v => !!v || 'An end time is required',
+    ],
   }),
 
   computed: {
@@ -211,27 +219,20 @@ export default {
       'socket_connect',
       'socket_disconnect',
     ]),
-
+    ...mapState('rooms', [
+      'room',
+    ]),
+    ...mapMutations('rooms', [
+      'setRegisterConfirm',
+    ]),
   },
 
   methods: {
-    // onChooseFile() {
-    //   this.$refs.imageUpload.click();
-    // },
-    // onFileSelected(event) {
-    //   const { files } = event.target;
-    //   const filename = files[0].name;
+    ...mapActions('rooms', [
+      'createRooms',
+    ]),
 
-    //   this.selectedFile = event.target.files[0];
-    //   console.log('files', files);
-    //   console.log('filename', filename);
-    // },
     submit(isLoggedIn) {
-    //   console.log('selectedFile', this.selectedFile);
-    //   const formData = new FormData();
-    //   formData.append('file', this.selectedFile);
-    //   console.log('formData', formData);
-
       const startClass = moment(this.startDate + ' ' + this.startTime).format('X'); // moment().format(X) => transforme la date en secondes. Utiliser x pour la date en millisecondes
       const endClass = moment(this.endDate + ' ' + this.endTime).format('X');
       const timestamp = (Date.now() / 1000); // diviser par 1000 pour avoir la date en secondes (Date.now() la donne en millisecondes).
@@ -240,37 +241,17 @@ export default {
         this.Error = "l'horaire de fin du cours est antérieur au début du cours";
       } else if (startClass <= timestamp) {
         this.Error = 'la date de début de cours est déjà passée';
-      } else if (isLoggedIn) {
-        console.log('date', timestamp);
-        HTTP().post('/rooms', {
-          authorID: this.user.userID,
-          authorLastname: this.user.lastname,
-          authorFirstname: this.user.firstname,
-          authorUsername: this.user.username,
-          title: this.courseName,
-          description: this.description,
-          avatar: this.avatar,
-          startClass,
-          endClass,
-        })
-          .then(({ data }) => {
-            if (data.status === 200 && data.success) {
-              alert('class created');
-              // this.createSuccess = 'Votre cours a bien été crée';
-              console.log(data);
-            } else if (data.status === 400) {
-              const errorData = data.errors;
-              const errorDataMsg = errorData.map((e) => {
-                return e.msg;
-              });
-              this.Error = errorDataMsg;
-            }
-          })
-          .catch(() => {
-            // ne marche pas...les erreurs sont attrapées dans le else if précédent...to fix
-
-          });
-
+      } else if (isLoggedIn && this.$refs.form.validate()) {
+        const authorID = this.user.userID;
+        const authorLastname = this.user.lastname;
+        const authorFirstname = this.user.firstname;
+        const authorUsername = this.user.username;
+        const title = this.courseName;
+        const description = this.description;
+        const avatar = this.avatar;
+        this.createRooms({
+          startClass, endClass, authorID, authorLastname, authorFirstname, authorUsername, title, description, avatar,
+        });
         this.$socket.open();
         console.log('opening socket');
         this.dialog = false;
@@ -283,7 +264,7 @@ export default {
           endClass,
         });
 
-        this.$router.push('/rommsList');
+        this.$router.push('/roomsList');
       } else console.log('unauthorized');
       this.$router.push('/about');
     },

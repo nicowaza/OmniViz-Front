@@ -1,23 +1,18 @@
 // import router from '../router';
+import { mapState } from 'vuex';
 import HTTP from '../http';
 import router from '../router';
+
 
 export default {
   namespaced: true,
   state: {
     rooms: [],
     tags: [],
+    registerConfirm: null,
   },
 
-  // sockets: {
-  //   roomCreation(data, { commit }) {
-  //     console.log(data);
-  //     commit('setRooms', data);
-  //   },
-  // },
-
   actions: {
-
     fetchRooms({ commit }) {
       return HTTP().get('/rooms')
         .then(({ data }) => {
@@ -57,6 +52,41 @@ export default {
         });
     },
 
+    createRooms({ commit }, roomData) {
+      console.log('room data', roomData);
+      return HTTP().post('/rooms', {
+        authorID: roomData.authorID,
+        authorLastname: roomData.authorLastname,
+        authorFirstname: roomData.authorFirstname,
+        authorUsername: roomData.authorUsername,
+        title: roomData.title,
+        description: roomData.description,
+        avatar: roomData.avatar,
+        startClass: roomData.startClass,
+        endClass: roomData.endClass,
+      })
+        .then(({ data }) => {
+          if (data.status === 200 && data.success) {
+            const confirmMessage = data.success;
+            commit('setRegisterConfirm', confirmMessage);
+            console.log('confirmMessage', confirmMessage);
+            setTimeout(() => {
+              commit('setRegisterConfirm', null);
+            }, 3000);
+          } else if (data.status === 400) {
+            const errorData = data.errors;
+            const errorDataMsg = errorData.map((e) => {
+              return e.msg;
+            });
+            this.Error = errorDataMsg;
+          }
+        })
+        .catch(() => {
+          // ne marche pas...les erreurs sont attrapées dans le else if précédent...to fix
+
+        });
+    },
+
     socket_event({ commit }, data) {
       commit('SOCKET_EVENT', data);
     },
@@ -79,6 +109,9 @@ export default {
     },
     setRooms(state, rooms) {
       state.rooms = rooms;
+    },
+    setRegisterConfirm(state, message) {
+      state.registerConfirm = message;
     },
     // setProjectTitle(state, { project, title }) {
     //   project.title = title;
