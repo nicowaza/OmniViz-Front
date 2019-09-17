@@ -195,6 +195,7 @@ export default {
       'registerUniversity',
       'registerRole',
       'registerErrors',
+      'registerConfirm',
     ]),
     passwordConfirmationRule() {
       return () => (this.password === this.confirmedPassword) || 'Passwords must match';

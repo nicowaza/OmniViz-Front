@@ -1,12 +1,10 @@
 <template>
-  <div style="position: absolute; width: 100%; height: 100%; background:rgba(160, 152, 152, 0.5); left: 0; bottom: 0; z-index: 10">
+  <div>
     <div class="popUp">
-      <div class="confirmMessage">
-        <slot name="confirmMessage"></slot>
-      </div>
-      <div class="alert-controls">
-        <slot name="alert-controls"></slot>
-      </div>
+      <slot name="alert"></slot>
+    </div>
+    <div>
+      <slot name="alert-controls"></slot>
     </div>
   </div>
 </template>
@@ -20,19 +18,18 @@ export default {
 <style>
 .popUp {
   position: absolute;
-  top: 40%;
+  top: 100px;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: rgb(246, 246, 223);
-  height: 100px;
-  width: 220px;
+  margin: auto;
+  background-color: rgba(36, 148, 54, 0.972);
+  -webkit-box-shadow: 3px 4px 7px #202520;
+  -moz-box-shadow:    3px 4px 7px #202520;
+  box-shadow:         3px 4px 7px #202520;
+  height: 50px;
+  width: 300px;
   text-align: center;
-  color: black;
-  -webkit-box-shadow: 0px 0px 20px 0px #202520;
-  -moz-box-shadow:    0px 0px 20px 0px #202520;
-  box-shadow: 0px 0px 20px 0px #202520;
-  border-radius: 4px;
-  /* background-color: rgba(160, 152, 152, 0.5) */
+  border-radius: 5pxa(160, 152, 152, 0.5)
 }
 .confirmMessage {
   padding-top: 5px;

@@ -1,10 +1,7 @@
 <template>
   <div>
     <div class="popUp">
-      <slot name="alert"></slot>
-    </div>
-    <div>
-      <slot name="alert-controls"></slot>
+      <slot style= "margin: 15px auto;" name="alert"></slot>
     </div>
   </div>
 </template>
