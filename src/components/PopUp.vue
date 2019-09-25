@@ -1,10 +1,7 @@
 <template>
 <div>
-   <div class="popUp">
-    <slot name="alert"></slot>
-  </div>
-  <div>
-    <slot name="alert-controls"></slot>
+  <div class="popUp">
+    <slot style= "margin: 15px auto;" name="alert"></slot>
   </div>
 </div>
 
@@ -14,7 +11,7 @@
 
 
 export default {
-  name: 'alert-popup',
+  name: 'Popup',
 };
 
 
@@ -22,7 +19,8 @@ export default {
 
 <style>
 .popUp {
-  top: 100px;
+  position: absolute;
+  top: 200px;
   left: 50%;
   transform: translate(-50%, -50%);
   margin: auto;
@@ -33,7 +31,7 @@ export default {
   height: 50px;
   width: 300px;
   text-align: center;
-  border-radius: 5pxa(160, 152, 152, 0.5)
+  border-radius: 5px;
 }
 .confirmMessage {
   padding-top: 5px;

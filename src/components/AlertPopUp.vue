@@ -1,31 +1,40 @@
 <template>
-  <div>
-    <div class="popUp">
-      <slot style= "margin: 15px auto;" name="alert"></slot>
+  <div style="position: absolute; width: 100%; height: 100%; background:rgba(160, 152, 152, 0.5); left: 0; bottom: 0; z-index: 10">
+    <div class="alertPopUp">
+      <div class="confirmMessage">
+        <slot name="confirmMessage"></slot>
+      </div>
+      <div class="alert-controls">
+        <slot name="alert-controls"></slot>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'alert-popup',
+  name: 'alert',
 };
 </script>
 
 <style>
-.popUp {
+.alertPopUp {
   position: absolute;
-  top: 100px;
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
-  margin: auto;
-  background-color: rgba(36, 148, 54, 0.972);
-   -webkit-box-shadow: 3px 4px 7px #202520;
-   -moz-box-shadow:    3px 4px 7px #202520;
-   box-shadow:         3px 4px 7px #202520;
-  height: 50px;
-  width: 300px;
+  background-color: rgb(246, 246, 223);
+  height: 100px;
+  width: 220px;
   text-align: center;
-  border-radius: 5px
+  color: black;
+  -webkit-box-shadow: 0px 0px 20px 0px #202520;
+  -moz-box-shadow:    0px 0px 20px 0px #202520;
+  box-shadow: 0px 0px 20px 0px #202520;
+  border-radius: 4px;
+  /* background-color: rgba(160, 152, 152, 0.5) */
+}
+.confirmMessage {
+  padding-top: 5px;
 }
 </style>

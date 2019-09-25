@@ -1,11 +1,11 @@
 <template>
   <div id="app">
     <v-app >
-       <transition name="fade">
+      <transition name="fade">
         <alert-popup v-show="this.registerConfirm">
           <div slot="alert">{{ registerConfirm }} </div>
         </alert-popup>
-       </transition>
+      </transition>
       <HeaderBar/>
         <div class="pa-0 contentStyle">
           <router-view class="containerMain"/>

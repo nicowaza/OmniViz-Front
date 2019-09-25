@@ -133,8 +133,9 @@ export default {
 
     closeRoom(data) {
       console.log('classe fermée :', data);
-      const closedBy = data;
-      alert(`Cette classe a été fermée par ${closedBy}`);
+      const { userLastname } = data;
+      const { userFirstname } = data;
+      alert(`Cette classe a été fermée par ${userFirstname} ${userLastname} `);
       this.$socket.close();
 
       router.push('/roomsList');

@@ -126,7 +126,6 @@ export default {
             const confirmMessage = data.success;
             commit('setRegisterConfirm', confirmMessage);
             console.log('confirmMessage', confirmMessage);
-            router.push('/login');
             setTimeout(() => {
               commit('setRegisterConfirm', null);
             }, 3000);

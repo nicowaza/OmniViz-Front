@@ -23,7 +23,7 @@
          <div style="padding: 0 9%; font-size: 30px; margin-top: 5vh;">{{ formattedTime }}</div>
       </div>
       <div style="display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 40%;">
-        <div style="overflow-x: auto; text-align: center; width: 80%; position: relative; height: 225px">
+        <div style="overflow-x: auto; text-align: center; width: 80%; position: relative; height: 400px">
           <div class="timeline">
             <transition name="fade">
               <div v-if="this.activeIndexStyle[0].backgroundColor === 'blue'" key="blue" :style="this.activeIndexStyle[0]">
@@ -352,27 +352,27 @@ export default {
   width: 80px;
   height: 30px;
 }
-  .timeline {
-      position: relative;
-      top: 77%;
-      /* border: 1px solid #000; */
-      width: 5400px;
-      margin: auto;
-      margin-top: 1%;
-      margin-bottom: 5%;
-  }
-  .alignCancel {
-    padding: 0 5px 25px 0;
-    cursor: pointer;
-    color: black
-  }
-  .fade-enter-active, .fade-leave-active {
-  transition: opacity 1s;
-  }
-  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
-  }
-  p{
-    margin-bottom: 0;
-  }
+.timeline {
+    position: relative;
+    top: 77%;
+    /* border: 1px solid #000; */
+    width: 5400px;
+    margin: auto;
+    margin-top: 1%;
+    margin-bottom: 5%;
+}
+.alignCancel {
+  padding: 0 5px 25px 0;
+  cursor: pointer;
+  color: black
+}
+.fade-enter-active, .fade-leave-active {
+transition: opacity 1s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+opacity: 0;
+}
+p{
+  margin-bottom: 0;
+}
 </style>

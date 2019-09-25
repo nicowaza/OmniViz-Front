@@ -49,12 +49,12 @@
 <script>
 
 import { mapState, mapMutations, mapActions } from 'vuex';
-import Alert from '../components/AlertPopUp.vue';
+import PopUp from '../components/PopUp.vue';
 
 export default {
   name: 'login',
   components: {
-    'alert-popup': Alert,
+    'alert-popup': PopUp,
   },
   computed: {
     ...mapState('authentication', [
