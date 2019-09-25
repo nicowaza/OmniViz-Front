@@ -2,13 +2,13 @@
 <template>
   <div>
     <transition name="fade">
-      <confirm-popup v-if="this.confirm">
+      <alert v-if="this.confirm">
         <div slot="confirmMessage">{{ confirm }} </div>
         <div slot="alert-controls">
           <v-btn class="v-btn v-btn--flat v-btn--text theme--light v-size--default green--text text--darken-1" @click="closeConfirmModal()">non</v-btn>
           <v-btn class="v-btn v-btn--flat v-btn--text theme--light v-size--default green--text text--darken-1" @click="closeRoom()">oui</v-btn>
         </div>
-      </confirm-popup>
+      </alert>
     </transition>
     <div id="1s">
       <v-container style="display: flex; justify-content: space-around; color: #eaeada">
@@ -76,13 +76,13 @@ import {
 import moment from 'moment';
 import router from '../router';
 import HTTP from '../http';
-import PopUpVue from './PopUp.vue';
+import AlertPopUpVue from './AlertPopUp.vue';
 
 
 export default {
   name: 'TeacherDisplay',
   components: {
-    'confirm-popup': PopUpVue,
+    'alert': AlertPopUpVue,
   },
 
   data() {
