@@ -118,8 +118,10 @@ export default {
 
     closeRoom(data) {
       console.log('classe fermée :', data);
+      const { userLastname } = data;
+      const { userFirstname } = data;
+      alert(`Cette classe a été fermée par ${userFirstname} ${userLastname} `);
       this.$socket.close();
-      alert(`Cette classe a été fermée par ${this.teacher.username}`);
       router.push('/roomsList');
     },
   },

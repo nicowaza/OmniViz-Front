@@ -233,11 +233,14 @@ export default {
       this.confirm = '';
     },
 
-    closeRoom(data) {
+    closeRoom() {
       const id = this.$store.state.route.params.roomID;
       const currentTime = (Date.now()) / 1000;
-      this.$socket.emit('closeRoom', console.log('fermeture'), {
-        data,
+      const userLastname = this.user.lastname;
+      const userFirstname = this.user.firstname;
+      this.$socket.emit('closeRoom', {
+        userLastname,
+        userFirstname,
       });
       return HTTP().put(`/rooms/${id}`, {
         endClass: currentTime,
